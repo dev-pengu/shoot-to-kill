@@ -13,8 +13,8 @@ using flixel.util.FlxSpriteUtil;
 class Hud extends FlxTypedGroup<FlxSprite>
 {
 	// var background:FlxSprite;
-	var healthText:FlxText;
-	var healthBar:FlxBar;
+	private var healthText:FlxText;
+	private var healthBar:FlxBar;
 
 	public function new(maxHealth:Int, managedEntity:FlxObject)
 	{

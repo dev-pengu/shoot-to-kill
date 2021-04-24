@@ -1,12 +1,10 @@
 package actors.enemies.fsm;
 
-import flixel.FlxObject;
-
 class EnemyState implements State
 {
-	private var managedEntity:FlxObject;
+	private var managedEntity:Enemy;
 
-	public function new(entity:FlxObject)
+	public function new(entity:Enemy)
 	{
 		this.managedEntity = entity;
 	}
