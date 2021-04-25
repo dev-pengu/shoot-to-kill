@@ -40,11 +40,16 @@ class Player extends FlxSprite {
     private var input:Input;
     private var state:State;
     private var states:Vector<State> = new Vector<State>(6);
+    private var playerHud:Hud;
+    private var maxHealth:Float = 100;
 
     public function new(?X:Float=0, ?Y:Float=0) {
         super(X, Y);
         acceleration.y = GRAVITY;
         maxVelocity.set(MAX_RUN_SPEED, MAX_Y_SPEED);
+
+		this.health = maxHealth;
+        playerHud = new Hud(maxHealth, this);
 
 		loadGraphic(AssetPaths.Outlaw_sprite_sheet__png, true, 48, 48);
         setGraphicSize(96, 96);

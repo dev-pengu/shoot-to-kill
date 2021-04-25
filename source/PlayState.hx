@@ -35,6 +35,10 @@ class PlayState extends FlxState
 	{
 		super.update(elapsed);
 		FlxG.collide(player, groundGroup);
+
+		if (FlxG.keys.justPressed.F) {
+			player.hurt(10);
+		}
 	}
 
 	private function instantiateEntities():Void {
