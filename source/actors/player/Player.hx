@@ -39,7 +39,7 @@ class Player extends FlxSprite {
 
     private var input:Input;
     private var state:State;
-    private var states:Vector<State> = new Vector<State>(5);
+    private var states:Vector<State> = new Vector<State>(6);
 
     public function new(?X:Float=0, ?Y:Float=0) {
         super(X, Y);
@@ -89,6 +89,7 @@ class Player extends FlxSprite {
 		input.downPressed = FlxG.keys.pressed.S;
 		input.jumpPressed = FlxG.keys.pressed.SPACE;
 
+        input.leftJustReleased = FlxG.keys.justReleased.A;
 		input.rightJustReleased = FlxG.keys.justReleased.D;
 		input.upJustReleased = FlxG.keys.justReleased.W;
 		input.downJustReleased = FlxG.keys.justReleased.S;
