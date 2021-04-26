@@ -1,5 +1,6 @@
 package actors.player;
 
+import actors.enemies.Enemy;
 import actors.player.fsm.PlayerState;
 import actors.player.fsm.states.CrouchState;
 import actors.player.fsm.states.FallState;
@@ -59,8 +60,8 @@ class Player extends FlxSprite {
         height = HIT_BOX_HEIGHT;
 
         animation.add(STAND_ANIMATION, [0], 1, false);
-        animation.add(RUN_ANIMATION, [1, 2, 3, 1, 4, 5], 10);
-        animation.add(START_CROUCH_ANIMATION, [7, 8], 8, false);
+        animation.add(RUN_ANIMATION, [1, 2, 3, 1, 4, 5], 8);
+        animation.add(START_CROUCH_ANIMATION, [7, 8], 6, false);
         animation.add(CROUCH_ANIMATION, [8], 1, false);
         animation.add(CROUCH_MOVE_ANIMATION, [8, 9], 2, false);
         animation.add(JUMP_ANIMATION, [10, 11], 8, false);
@@ -75,7 +76,9 @@ class Player extends FlxSprite {
 
 		touching = FlxObject.DOWN;
 		input = new Input();
-        
+
+        Enemy.addTarget(this);
+
         state = states[PlayerStates.STANDING.getIndex()];
         state.transitionIn();
     }

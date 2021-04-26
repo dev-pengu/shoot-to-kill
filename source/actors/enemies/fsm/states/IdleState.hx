@@ -10,10 +10,18 @@ class IdleState extends EnemyState {
 	public function new(entity:Enemy)
 	{
 		super(entity);
-		idleTimer = FlxG.random.float(0.5, 1);
+		idleTimer = FlxG.random.float(1, 1.5);
 	}
 
 	override public function getNextState():Int {
+		for (i in 0...Enemy.TARGETS.length)
+		{
+			if (this.managedEntity.checkAggro(Enemy.TARGETS[i]))
+			{
+				return EnemyStates.ATTACK.getIndex();
+			}
+		}
+		
 		if (idleTimer < 0) {
 			return EnemyStates.WALK.getIndex();
 		}
@@ -22,10 +30,10 @@ class IdleState extends EnemyState {
 	}
 
 	override public function transitionIn():Void {
-		idleTimer = FlxG.random.float(0.5, 1);
+		idleTimer = FlxG.random.float(1, 1.5);
 		this.managedEntity.drag.x = Enemy.DECELERATION;
 
-		if (this.managedEntity.animation.finished) {
+		if (this.managedEntity.animation.finished || this.managedEntity.animation.name == Enemy.WALK_ANIMATION) {
 			this.managedEntity.animation.play(Enemy.IDLE_ANIMATION);
 		}
 	}
