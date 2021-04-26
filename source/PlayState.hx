@@ -1,5 +1,6 @@
 package;
 
+import items.Bullet;
 import flixel.tile.FlxTilemap;
 import flixel.addons.editors.ogmo.FlxOgmo3Loader;
 import actors.enemies.RangedVillager;
@@ -35,6 +36,7 @@ class PlayState extends FlxState
 		super.update(elapsed);
 		FlxG.collide(player, map);
 		FlxG.collide(enemies, map);
+		FlxG.overlap(player, RangedVillager.BULLETS, Bullet.doDamage);
 
 		if (FlxG.keys.justPressed.F) {
 			player.hurt(10);

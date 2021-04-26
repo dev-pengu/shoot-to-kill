@@ -1,6 +1,7 @@
 package actors.enemies;
 
-import actors.enemies.fsm.states.AttackState;
+
+import haxe.Exception;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.util.FlxColor;
 import flixel.ui.FlxBar;
@@ -15,6 +16,8 @@ import actors.enemies.fsm.EnemyStates;
 import actors.enemies.fsm.State;
 import actors.enemies.fsm.states.IdleState;
 import actors.enemies.fsm.states.WalkState;
+import actors.enemies.fsm.states.RangedAttackState;
+import actors.enemies.fsm.states.MeleeAttackState;
 
 class Enemy extends FlxSprite
 {
@@ -26,6 +29,7 @@ class Enemy extends FlxSprite
 	public static var OFFSET_Y(default, never):Int = 12;
 	public static var WIDTH(default, never):Int = 20;
 	public static var HEIGHT(default, never):Int = 60;
+	public static var SPRITE_SIZE(default, never):Int = 48;
 	public static var TARGETS(default, null):Array<FlxObject> = new Array<FlxObject>();
 
 	public static var IDLE_ANIMATION(default, never):String = "idle";
@@ -42,8 +46,9 @@ class Enemy extends FlxSprite
 	private var reloadTime:Float;
 	private var rounds:Int;
 	private var targetPosition:FlxPoint;
+	private var attackRange:Float;
 
-	public function new(?X:Float = 0, ?Y:Float = 0, ?maxHealth:Float=100, graphic:FlxGraphicAsset)
+	public function new(?X:Float = 0, ?Y:Float = 0, ?maxHealth:Float=100, graphic:FlxGraphicAsset, attackRange:Float, attackSpeed:Float, aggroRange:Float, ?rounds:Int = 0, ?reloadTime:Float = 0)
 	{
 		super(X, Y);
 		acceleration.y = GRAVITY;
@@ -51,12 +56,17 @@ class Enemy extends FlxSprite
 
 		this.maxHealth = maxHealth;
 		this.health = maxHealth;
+		this.attackRange = attackRange;
+		this.attackSpeed = attackSpeed;
+		this.aggroRange = aggroRange;
+		this.rounds = rounds;
+		this.reloadTime = reloadTime;
 		healthBar = new FlxBar(X, Y - 20, FlxBarFillDirection.LEFT_TO_RIGHT, Math.floor(maxHealth / 2), 10, this, "health", 0, maxHealth);
 		healthBar.createColoredFilledBar(FlxColor.RED);
 		FlxG.state.add(this.healthBar);
 
-		loadGraphic(graphic, true, 48, 48);
-		setGraphicSize(96, 96);
+		loadGraphic(graphic, true, SPRITE_SIZE, SPRITE_SIZE);
+		setGraphicSize(SPRITE_SIZE * 2, SPRITE_SIZE * 2);
 		updateHitbox();
 		offset.set(OFFSET_X, OFFSET_Y);
 		width = WIDTH;
@@ -66,7 +76,7 @@ class Enemy extends FlxSprite
 
 		states[EnemyStates.IDLE.getIndex()] = new IdleState(this);
 		states[EnemyStates.WALK.getIndex()] = new WalkState(this);
-		states[EnemyStates.ATTACK.getIndex()] = new AttackState(this);
+		states[EnemyStates.ATTACK.getIndex()] = attackRange > 50 ? new RangedAttackState(this) : new MeleeAttackState(this);
 
 		state = states[EnemyStates.IDLE.getIndex()];
 		state.transitionIn();
@@ -123,4 +133,6 @@ class Enemy extends FlxSprite
 	public static function addTarget(object:FlxObject):Void {
 		TARGETS.push(object);
 	}
+
+	public function attack():Void { throw new Exception("attack function not implemented");}
 }

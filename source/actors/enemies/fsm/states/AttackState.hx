@@ -5,13 +5,12 @@ import flixel.math.FlxPoint;
 
 class AttackState extends EnemyState {
 
-    private var shotsToReload:Int;
     private var attackTimer:Float;
-    private var reloadTimer:Float;
 
 	public function new(entity:Enemy)
 	{
 		super(entity);
+        attackTimer = 0;
 	}
 
     override public function getNextState():Int {
@@ -32,12 +31,10 @@ class AttackState extends EnemyState {
     }
 
     override public function transitionIn():Void {
-        attackTimer = 0;
-        shotsToReload = this.managedEntity.getRounds();
         this.managedEntity.drag.x = Enemy.DECELERATION;
 
         if (this.managedEntity.animation.finished || this.managedEntity.animation.name == Enemy.WALK_ANIMATION) {
-            this.managedEntity.animation.play(Enemy.ATTACK_ANIMATION);
+            this.managedEntity.animation.play(Enemy.IDLE_ANIMATION);
         }
     }
 
@@ -48,9 +45,5 @@ class AttackState extends EnemyState {
     override public function update(elapsed:Float) {
 		this.managedEntity.facing = this.managedEntity.getTargetPosition().x > this.managedEntity.x ? FlxObject.RIGHT : FlxObject.LEFT;
 		this.managedEntity.flipX = this.managedEntity.facing == FlxObject.RIGHT;
-		if (this.managedEntity.animation.finished && this.managedEntity.animation.name != Enemy.ATTACK_ANIMATION)
-		{
-			this.managedEntity.animation.play(Enemy.ATTACK_ANIMATION);
-		}
     }
 }

@@ -1,5 +1,7 @@
 package actors.player;
 
+import items.Bullet;
+import flixel.group.FlxGroup.FlxTypedGroup;
 import actors.enemies.Enemy;
 import actors.player.fsm.PlayerState;
 import actors.player.fsm.states.CrouchState;

@@ -11,13 +11,9 @@ class Bullet extends FlxSprite {
 	private var range:Float;
 	private var damage:Float;
 	
-	public function new(?X:Float=0, ?Y:Float=0, speed:Float, direction:Int, range:Float, damage:Float):Void {
+	public function new(?X:Float=0, ?Y:Float=0):Void {
 		super(X,Y);
 		makeGraphic(7,7);
-		this.speed = speed;
-		this.direction = direction;
-		this.range = range;
-		this.damage = damage;
 		this.spawnPoint = FlxPoint.weak(X, Y);
 	}
 	
@@ -37,6 +33,14 @@ class Bullet extends FlxSprite {
 		if (direction != 0) {
 			velocity.set(speed * direction, 0);
 		}
+	}
+
+	public function setParams(speed:Float, direction:Int, range:Float, damage:Float):Void {
+		this.speed = speed;
+		this.direction = direction;
+		this.range = range;
+		this.damage = damage;
+		this.spawnPoint.set(this.x, this.y);
 	}
 	
 	public static function doDamage(object:FlxObject, bullet:Bullet) {
