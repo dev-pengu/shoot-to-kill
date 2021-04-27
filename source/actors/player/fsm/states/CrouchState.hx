@@ -1,6 +1,7 @@
 package actors.player.fsm.states;
 
 import flixel.FlxObject;
+import flixel.math.FlxPoint;
 
 class CrouchState extends PlayerState {
 	private var movementDirection:Int;
@@ -22,10 +23,12 @@ class CrouchState extends PlayerState {
 		}
 
 
-        if (!input.downPressed) {
+        if (!input.downPressed && Player.OBSTRUCTIONS.ray(this.managedPlayer.getPosition(), FlxPoint.weak(this.managedPlayer.x, this.managedPlayer.y - 35))) {
             return PlayerStates.STANDING.getIndex();
 		} else {
-			this.managedPlayer.facing = movementDirection == -1 ? FlxObject.LEFT : FlxObject.RIGHT;
+			if (movementDirection != 0) {
+				this.managedPlayer.facing = movementDirection == -1 ? FlxObject.LEFT : FlxObject.RIGHT;
+			}
 			this.managedPlayer.flipX = this.managedPlayer.facing == FlxObject.LEFT;
 		}
 
