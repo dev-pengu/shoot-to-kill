@@ -67,7 +67,7 @@ class Enemy extends FlxSprite
 		}
 
 		healthBar = new FlxBar(X, Y - 20, FlxBarFillDirection.LEFT_TO_RIGHT, Math.floor(stats.maxHealth / 2), 10, this, "health", 0, stats.maxHealth);
-		healthBar.createColoredFilledBar(FlxColor.RED);
+		healthBar.createFilledBar(FlxColor.BLACK, FlxColor.RED, true);
 		healthBar.trackParent(HEALTH_BAR_OFFSET_X, HEALTH_BAR_OFFSET_Y);
 		FlxG.state.add(this.healthBar);
 

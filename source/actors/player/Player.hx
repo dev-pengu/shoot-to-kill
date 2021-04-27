@@ -86,9 +86,9 @@ class Player extends FlxSprite {
         animation.add(CROUCH_MOVE_ANIMATION, [8, 9], 2, false);
         animation.add(JUMP_ANIMATION, [10, 11], 8, false);
         animation.add(FALL_ANIMATION, [12, 13, 14], 6, false);
-        animation.add(ATTACK_ANIMATION, [0, 15, 16, 17, 18], 6, false);
-        animation.add(IDLE_RELOAD_ANIMATION, [0], 1, false);
-        animation.add(WALK_RELOAD_ANIMATION, [1, 2, 3, 1, 4, 5], 8);
+        animation.add(ATTACK_ANIMATION, [0, 15, 16, 17, 18], 10, false);
+        animation.add(IDLE_RELOAD_ANIMATION, [19], 1, false);
+        animation.add(WALK_RELOAD_ANIMATION, [20, 21, 22, 23, 24, 25], 8);
 
 
         states[PlayerStates.STANDING.getIndex()] = new StandState(this);
