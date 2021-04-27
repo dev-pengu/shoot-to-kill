@@ -37,17 +37,15 @@ class PlayState extends FlxState
 		FlxG.collide(player, map);
 		FlxG.collide(enemies, map);
 		FlxG.overlap(player, RangedVillager.BULLETS, Bullet.doDamage);
-
-		if (FlxG.keys.justPressed.F) {
-			player.roundsLeft -= 1;
-		}
+		FlxG.overlap(enemies, Player.BULLETS, Bullet.doDamage);
 	}
 
 	private function addAll():Void {
 		add(player);
 		add(enemies);
 		add(map);
-		RangedVillager.addBullets();
+		add(RangedVillager.BULLETS);
+		add(Player.BULLETS);
 	}
 
 	private function setUpLevel():Void {

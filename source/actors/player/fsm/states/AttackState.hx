@@ -1,5 +1,7 @@
 package actors.player.fsm.states;
 
+import flixel.FlxObject;
+
 class AttackState extends PlayerState {
 
     private var attackTimer:Float;
@@ -12,11 +14,11 @@ class AttackState extends PlayerState {
 
     // The player will not be able to cancel their attack once it has started
     override public function handleInput(input:Input):Int {
-        if (input.attackPressed) {
+        if (input.attackPressed && this.managedPlayer.roundsLeft > 0) {
             return PlayerStates.NO_CHANGE.getIndex();
         }
 
-        if (input.reloadJustPressed || this.managedPlayer.roundsLeft == 0) {
+        if (((input.reloadJustPressed && this.managedPlayer.roundsLeft < this.managedPlayer.rounds) || this.managedPlayer.roundsLeft == 0) && this.managedPlayer.animation.finished) {
             return PlayerStates.RELOADING.getIndex();
         }
 
@@ -41,6 +43,7 @@ class AttackState extends PlayerState {
     override public function update(elapsed:Float):Void {
         if (this.managedPlayer.roundsLeft > 0) {
             if (attackTimer <= 0) {
+				this.managedPlayer.flipX = this.managedPlayer.facing == FlxObject.LEFT;
                 this.managedPlayer.animation.play(Player.ATTACK_ANIMATION);
                 this.managedPlayer.attack();
 

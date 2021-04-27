@@ -10,6 +10,14 @@ class RunState extends PlayerState {
     }
 
     override public function handleInput(input:Input):Int {
+        if (input.attackJustPressed) {
+            return PlayerStates.ATTACKING.getIndex();
+        }
+
+		if ((input.reloadJustPressed && this.managedPlayer.roundsLeft < this.managedPlayer.rounds)) {
+            return PlayerStates.RELOADING.getIndex();
+        }
+
         if (input.jumpJustPressed) {
             return PlayerStates.JUMPING.getIndex();
         }
@@ -30,9 +38,7 @@ class RunState extends PlayerState {
 		{
             managedPlayer.animation.play(Player.STAND_ANIMATION);
 			return PlayerStates.STANDING.getIndex();
-		} else if (input.attackJustPressed) {
-            return PlayerStates.ATTACKING.getIndex();
-        } else {
+		} else {
             this.managedPlayer.facing = movementDirection == -1 ? FlxObject.LEFT : FlxObject.RIGHT;
             this.managedPlayer.flipX = this.managedPlayer.facing ==  FlxObject.LEFT;
         }
