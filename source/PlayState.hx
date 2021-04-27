@@ -1,5 +1,6 @@
 package;
 
+import ui.PauseMenuState;
 import items.Bullet;
 import flixel.tile.FlxTilemap;
 import flixel.addons.editors.ogmo.FlxOgmo3Loader;
@@ -21,6 +22,8 @@ class PlayState extends FlxState
 	private var levelLoader:FlxOgmo3Loader;
 	private var map:FlxTilemap;
 
+	private var pauseMenuSubState:PauseMenuState;
+
 	override public function create()
 	{
 		enemies = new FlxTypedGroup<Enemy>();
@@ -29,6 +32,10 @@ class PlayState extends FlxState
 
 		FlxG.camera.follow(player, FlxCameraFollowStyle.PLATFORMER, 1);
 		super.create();
+
+		destroySubStates = false;
+		pauseMenuSubState = new PauseMenuState(FlxColor.fromRGB(0,0,0,185));
+		pauseMenuSubState.isPersistent = true;
 	}
 
 	override public function update(elapsed:Float)
@@ -38,6 +45,10 @@ class PlayState extends FlxState
 		FlxG.collide(enemies, map);
 		FlxG.overlap(player, RangedVillager.BULLETS, Bullet.doDamage);
 		FlxG.overlap(enemies, Player.BULLETS, Bullet.doDamage);
+
+		if (FlxG.keys.justPressed.ESCAPE) {
+			openSubState(pauseMenuSubState);
+		}
 	}
 
 	private function addAll():Void {
@@ -69,5 +80,12 @@ class PlayState extends FlxState
 		} else if (entityData.name == "ranged-villager") {
 			enemies.add(new RangedVillager(entityData.x - entityData.originX, entityData.y - entityData.originY, player));
 		}
+	}
+
+	override public function destroy():Void {
+		super.destroy();
+
+		pauseMenuSubState.destroy();
+		pauseMenuSubState = null;
 	}
 }
