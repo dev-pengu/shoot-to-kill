@@ -60,7 +60,7 @@ class PlayState extends FlxState
 		map.setTileProperties(1, FlxObject.ANY);
 
 		levelLoader.loadEntities(placeEntities, "entities");
-		Enemy.OBSTRUCTIONS = map;
+		Player.OBSTRUCTIONS = Enemy.OBSTRUCTIONS = map;
 	}
 
 	private function placeEntities(entityData:EntityData):Void {

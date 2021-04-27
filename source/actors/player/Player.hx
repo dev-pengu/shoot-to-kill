@@ -17,6 +17,7 @@ import flixel.FlxSprite;
 import flixel.FlxObject;
 import actors.player.Input;
 import actors.player.fsm.State;
+import flixel.tile.FlxTilemap;
 
 class Player extends FlxSprite {
 	public static var HIT_BOX_WIDTH(default, never):Int = 20;
@@ -25,6 +26,7 @@ class Player extends FlxSprite {
 	public static var CROUCH_HEIGHT(default, never):Float = 32;
     public static var OFFSET_X(default, never):Int = 14;
     public static var OFFSET_Y(default, never):Int = 12;
+	public static var OBSTRUCTIONS(default, default):FlxTilemap;
 
     public static var MAX_RUN_SPEED(default, never):Float = 150;
     public static var MAX_Y_SPEED(default, never):Float = 300;
