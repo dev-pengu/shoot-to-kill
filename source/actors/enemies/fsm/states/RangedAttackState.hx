@@ -19,7 +19,7 @@ class RangedAttackState extends AttackState {
 			if (attackTimer <= 0) {
 				this.managedEntity.animation.play(Enemy.ATTACK_ANIMATION);
                 this.managedEntity.attack();
-                shotsToReload -= 1;
+                shotsToReload--;
                 if (shotsToReload == 0) {
                     isReloading = true;
                     reloadTimer = this.managedEntity.stats.reloadTime;

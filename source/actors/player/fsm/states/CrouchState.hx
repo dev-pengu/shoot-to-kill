@@ -32,7 +32,7 @@ class CrouchState extends PlayerState {
         return super.handleInput(input);
     }
 
-    override public function update():Void {
+	override public function update(elapsed:Float):Void {
 		this.managedPlayer.velocity.x = Player.CROUCH_SPEED * movementDirection;
 		if (movementDirection == 0)
 		{

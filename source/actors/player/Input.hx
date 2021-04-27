@@ -1,7 +1,7 @@
 package actors.player;
 
 class Input {
-
+	// movement inputs
     public var rightJustPressed:Bool = false;
     public var leftJustPressed:Bool = false;
     public var downJustPressed:Bool = false;
@@ -19,6 +19,13 @@ class Input {
 	public var downJustReleased:Bool = false;
 	public var upJustReleased:Bool = false;
 	public var jumpJustReleased:Bool = false;
+
+	// attacking inputs
+	public var attackJustPressed:Bool = false;
+	public var attackPressed:Bool = false;
+	public var attackJustReleased:Bool = false;
+
+	public var reloadJustPressed:Bool = false;
 
     public function new() {}
 }

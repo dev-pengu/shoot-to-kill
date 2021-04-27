@@ -30,7 +30,9 @@ class RunState extends PlayerState {
 		{
             managedPlayer.animation.play(Player.STAND_ANIMATION);
 			return PlayerStates.STANDING.getIndex();
-		} else {
+		} else if (input.attackJustPressed) {
+            return PlayerStates.ATTACKING.getIndex();
+        } else {
             this.managedPlayer.facing = movementDirection == -1 ? FlxObject.LEFT : FlxObject.RIGHT;
             this.managedPlayer.flipX = this.managedPlayer.facing ==  FlxObject.LEFT;
         }
@@ -43,7 +45,7 @@ class RunState extends PlayerState {
         return super.handleInput(input);
     }
 
-    override public function update():Void {
+	override public function update(elapsed:Float):Void {
         this.managedPlayer.velocity.x = Player.MAX_RUN_SPEED * movementDirection;
     }
 

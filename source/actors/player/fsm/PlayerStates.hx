@@ -7,4 +7,6 @@ enum PlayerStates {
     JUMPING;
     CROUCHING;
     FALLING;
+    ATTACKING;
+    RELOADING;
 }

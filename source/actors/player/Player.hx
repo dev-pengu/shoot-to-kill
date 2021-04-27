@@ -1,9 +1,10 @@
 package actors.player;
 
+import actors.player.fsm.states.ReloadState;
+import actors.player.fsm.states.AttackState;
 import items.Bullet;
 import flixel.group.FlxGroup.FlxTypedGroup;
-import actors.enemies.Enemy;
-import actors.player.fsm.PlayerState;
+import ui.Hud;
 import actors.player.fsm.states.CrouchState;
 import actors.player.fsm.states.FallState;
 import actors.player.fsm.states.JumpState;
@@ -20,6 +21,7 @@ import actors.player.fsm.State;
 class Player extends FlxSprite {
 	public static var HIT_BOX_WIDTH(default, never):Int = 20;
 	public static var HIT_BOX_HEIGHT(default, never):Int = 60;
+    public static var SPRITE_SIZE(default, never):Int = 48;
 	public static var CROUCH_HEIGHT(default, never):Float = 32;
     public static var OFFSET_X(default, never):Int = 14;
     public static var OFFSET_Y(default, never):Int = 12;
@@ -36,15 +38,30 @@ class Player extends FlxSprite {
     public static var CROUCH_MOVE_ANIMATION(default, never):String = "crouchMove";
     public static var JUMP_ANIMATION(default, never):String = "jump";
     public static var FALL_ANIMATION(default, never):String = "fall";
+    public static var ATTACK_ANIMATION(default, never):String = "attack";
+    public static var RELOAD_ANIMATION(default, never):String = "reload";
 
     public static var JUMP_VELOCITY(default, never):Float = -200;
     public static var GRAVITY(default, never):Float = 400;
 
+	public static var BULLETS(default, null):FlxTypedGroup<Bullet> = new FlxTypedGroup<Bullet>();
+	public static var BULLET_SPAWN_OFFSET_X(default, never):Float = 35;
+	public static var BULLET_SPAWN_OFFSET_Y(default, never):Float = 14;
+	public static var BULLET_SPEED(default, never):Float = 100;
+
     private var input:Input;
     private var state:State;
-    private var states:Vector<State> = new Vector<State>(6);
+    private var states:Vector<State> = new Vector<State>(8);
     private var playerHud:Hud;
-    private var maxHealth:Float = 100;
+
+    @:isVar public var maxHealth(get, null):Float = 100;
+    @:isVar public var rounds(get, null):Int = 4;
+    @:isVar public var roundsLeft(get, set):Int;
+    @:isVar public var reloadTime(get, null):Float = 3;
+    @:isVar public var attackSpeed(get, null):Float = 0.5;
+    @:isVar public var attackDamage(get, null):Float = 10;
+    @:isVar public var baseRange(get, null):Float = 400;
+    @:isVar public var critChance(get, set):Float = 0;
 
     public function new(?X:Float=0, ?Y:Float=0) {
         super(X, Y);
@@ -75,6 +92,8 @@ class Player extends FlxSprite {
         states[PlayerStates.JUMPING.getIndex()] = new JumpState(this);
         states[PlayerStates.FALLING.getIndex()] = new FallState(this);
         states[PlayerStates.CROUCHING.getIndex()] = new CrouchState(this);
+        states[PlayerStates.ATTACKING.getIndex()] = new AttackState(this);
+        states[PlayerStates.RELOADING.getIndex()] = new ReloadState(this);
 
 		touching = FlxObject.DOWN;
 		input = new Input();
@@ -102,6 +121,12 @@ class Player extends FlxSprite {
 		input.upJustReleased = FlxG.keys.justReleased.W;
 		input.downJustReleased = FlxG.keys.justReleased.S;
 		input.jumpJustReleased = FlxG.keys.justReleased.SPACE;
+
+        input.attackJustPressed = FlxG.mouse.justPressed;
+        input.attackPressed = FlxG.mouse.pressed;
+        input.attackJustReleased = FlxG.mouse.justReleased;
+
+        input.reloadJustPressed = FlxG.keys.justPressed.R;
     }
 
     private function applyInputAndTransition() {
@@ -119,8 +144,39 @@ class Player extends FlxSprite {
     override public function update(elapsed:Float) {
         updateInput();
         applyInputAndTransition();
-        state.update();
+        state.update(elapsed);
 
         super.update(elapsed);
     }
+
+    public function attack():Void {
+        var bullet:Bullet = BULLETS.recycle(Bullet);
+        if (this.facing == FlxObject.RIGHT) {
+            bullet.setPosition(this.x + SPRITE_SIZE + BULLET_SPAWN_OFFSET_X, this.y + BULLET_SPAWN_OFFSET_Y);
+            bullet.setParams(BULLET_SPEED, 1, baseRange, (isAttackCrit() ? attackDamage * 1.75 : attackDamage));
+        } else {
+            bullet.setPosition(this.x - BULLET_SPAWN_OFFSET_X, this.y + BULLET_SPAWN_OFFSET_Y);
+			bullet.setParams(BULLET_SPEED, -1, baseRange, (isAttackCrit() ? attackDamage * 1.75 : attackDamage));
+        }
+        bullet.fire();
+        roundsLeft--;
+    }
+
+    private function isAttackCrit():Bool {
+        if (roundsLeft == 1) {
+            return true;
+        }
+        return FlxG.random.float(0,1, [0]) <= critChance;
+    }
+
+    function get_maxHealth() return maxHealth;
+    function get_rounds() return rounds;
+    function get_roundsLeft() return roundsLeft;
+    function set_roundsLeft(value:Int) return this.roundsLeft = value;
+    function get_reloadTime() return reloadTime;
+    function get_attackSpeed() return attackSpeed;
+    function get_attackDamage() return attackDamage;
+    function get_baseRange() return baseRange;
+    function get_critChance() return critChance;
+    function set_critChance(value:Float) return this.critChance = value;
 }

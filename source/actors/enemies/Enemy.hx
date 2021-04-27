@@ -33,6 +33,9 @@ class Enemy extends FlxSprite
 	public static var WIDTH(default, never):Int = 20;
 	public static var HEIGHT(default, never):Int = 60;
 	public static var SPRITE_SIZE(default, never):Int = 48;
+	public static var HEALTH_BAR_OFFSET_X(default, never):Int = 0;
+	public static var HEALTH_BAR_OFFSET_Y(default, never):Int = -20;
+
 	public static var TARGETS(default, null):Array<FlxObject> = new Array<FlxObject>();
 
 	public static var IDLE_ANIMATION(default, never):String = "idle";
@@ -65,6 +68,7 @@ class Enemy extends FlxSprite
 
 		healthBar = new FlxBar(X, Y - 20, FlxBarFillDirection.LEFT_TO_RIGHT, Math.floor(stats.maxHealth / 2), 10, this, "health", 0, stats.maxHealth);
 		healthBar.createColoredFilledBar(FlxColor.RED);
+		healthBar.trackParent(HEALTH_BAR_OFFSET_X, HEALTH_BAR_OFFSET_Y);
 		FlxG.state.add(this.healthBar);
 
 		loadGraphic(graphic, true, SPRITE_SIZE, SPRITE_SIZE);
@@ -106,8 +110,6 @@ class Enemy extends FlxSprite
     {
         handleStateTransitions();
         state.update(elapsed);
-		healthBar.x = this.x;
-		healthBar.y = this.y - 20;
         super.update(elapsed);
     }
 

@@ -39,7 +39,7 @@ class PlayState extends FlxState
 		FlxG.overlap(player, RangedVillager.BULLETS, Bullet.doDamage);
 
 		if (FlxG.keys.justPressed.F) {
-			player.hurt(10);
+			player.roundsLeft -= 1;
 		}
 	}
 
