@@ -1,5 +1,8 @@
 package actors.player;
 
+import items.Bullet;
+import flixel.group.FlxGroup.FlxTypedGroup;
+import actors.enemies.Enemy;
 import actors.player.fsm.PlayerState;
 import actors.player.fsm.states.CrouchState;
 import actors.player.fsm.states.FallState;
@@ -40,11 +43,16 @@ class Player extends FlxSprite {
     private var input:Input;
     private var state:State;
     private var states:Vector<State> = new Vector<State>(6);
+    private var playerHud:Hud;
+    private var maxHealth:Float = 100;
 
     public function new(?X:Float=0, ?Y:Float=0) {
         super(X, Y);
         acceleration.y = GRAVITY;
         maxVelocity.set(MAX_RUN_SPEED, MAX_Y_SPEED);
+
+		this.health = maxHealth;
+        playerHud = new Hud(maxHealth, this);
 
 		loadGraphic(AssetPaths.Outlaw_sprite_sheet__png, true, 48, 48);
         setGraphicSize(96, 96);
@@ -54,8 +62,8 @@ class Player extends FlxSprite {
         height = HIT_BOX_HEIGHT;
 
         animation.add(STAND_ANIMATION, [0], 1, false);
-        animation.add(RUN_ANIMATION, [1, 2, 3, 1, 4, 5], 10);
-        animation.add(START_CROUCH_ANIMATION, [7, 8], 8, false);
+        animation.add(RUN_ANIMATION, [1, 2, 3, 1, 4, 5], 8);
+        animation.add(START_CROUCH_ANIMATION, [7, 8], 6, false);
         animation.add(CROUCH_ANIMATION, [8], 1, false);
         animation.add(CROUCH_MOVE_ANIMATION, [8, 9], 2, false);
         animation.add(JUMP_ANIMATION, [10, 11], 8, false);
@@ -70,7 +78,7 @@ class Player extends FlxSprite {
 
 		touching = FlxObject.DOWN;
 		input = new Input();
-        
+
         state = states[PlayerStates.STANDING.getIndex()];
         state.transitionIn();
     }
