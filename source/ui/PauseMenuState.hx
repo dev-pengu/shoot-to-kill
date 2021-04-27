@@ -18,11 +18,11 @@ class PauseMenuState extends FlxSubState {
         closeBtn = new FlxButton(FlxG.width * 0.5 - 40, FlxG.height * 0.5, "Close", close);
         add(closeBtn);
 
-        restartBtn = new FlxButton(closeBtn.x, closeBtn.y + 40, "Restart Level", restartLevel);
-        add(restartBtn);
+        //restartBtn = new FlxButton(closeBtn.x, closeBtn.y + 40, "Restart Level", restartLevel);
+        //add(restartBtn);
 
-		exitBtn = new FlxButton(restartBtn.x, restartBtn.y + 40, "Exit Game", exitToMainMenu);
-        add(exitBtn);
+		//exitBtn = new FlxButton(restartBtn.x, restartBtn.y + 40, "Exit To Menu", exitToMainMenu);
+        //add(exitBtn);
     }
 
     override public function update(elapsed:Float):Void {
