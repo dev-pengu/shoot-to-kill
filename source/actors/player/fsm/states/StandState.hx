@@ -9,6 +9,14 @@ class StandState extends PlayerState {
     }
 
     override public function handleInput(input:Input):Int {
+        if (input.attackJustPressed) {
+            return PlayerStates.ATTACKING.getIndex();
+        }
+
+		if ((input.reloadJustPressed && this.managedPlayer.roundsLeft < this.managedPlayer.rounds)) {
+            return PlayerStates.RELOADING.getIndex();
+        }
+
         if (input.jumpJustPressed) {
             return PlayerStates.JUMPING.getIndex();
         }
@@ -29,7 +37,7 @@ class StandState extends PlayerState {
         return super.handleInput(input);
     }
 
-    override public function update():Void {
+	override public function update(elapsed:Float):Void {
         if (this.managedPlayer.animation.finished && this.managedPlayer.animation.name != Player.STAND_ANIMATION) {
             this.managedPlayer.animation.play(Player.STAND_ANIMATION);
         }

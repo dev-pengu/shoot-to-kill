@@ -25,7 +25,7 @@ class AirState extends PlayerState {
         return super.handleInput(input);
     }
 
-    override public function update():Void {
+	override public function update(elapsed:Float):Void {
         this.managedPlayer.velocity.x = Player.MAX_RUN_SPEED * movementDirection;
     }
 }

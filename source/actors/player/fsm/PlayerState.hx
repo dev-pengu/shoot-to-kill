@@ -14,7 +14,7 @@ class PlayerState implements State {
         return PlayerStates.NO_CHANGE.getIndex();
     }
 
-    public function update():Void {}
+    public function update(elapsed:Float):Void {}
     public function transitionIn():Void {}
     public function transitionOut():Void {}
 }
