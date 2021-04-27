@@ -10,7 +10,7 @@ class RangedAttackState extends AttackState {
 	{
 		super(entity);
         isReloading = false;
-        shotsToReload = this.managedEntity.getRounds();
+        shotsToReload = this.managedEntity.stats.rounds;
 	}
 
     override public function update(elapsed:Float):Void {
@@ -22,17 +22,17 @@ class RangedAttackState extends AttackState {
                 shotsToReload -= 1;
                 if (shotsToReload == 0) {
                     isReloading = true;
-                    reloadTimer = this.managedEntity.getReloadTime();
+                    reloadTimer = this.managedEntity.stats.reloadTime;
                 }
 
-                attackTimer = (60 / this.managedEntity.getAttackSpeed()) / 60;
+                attackTimer = (60 / this.managedEntity.stats.attackSpeed) / 60;
             } else {
                 attackTimer -= elapsed;
             }
         } else {
             if (reloadTimer <= 0) {
                 isReloading = false;
-				shotsToReload = this.managedEntity.getRounds();
+				shotsToReload = this.managedEntity.stats.rounds;
             } else {
                 reloadTimer -= elapsed;
             }

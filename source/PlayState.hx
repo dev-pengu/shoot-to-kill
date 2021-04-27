@@ -47,6 +47,7 @@ class PlayState extends FlxState
 		add(player);
 		add(enemies);
 		add(map);
+		RangedVillager.addBullets();
 	}
 
 	private function setUpLevel():Void {
@@ -68,7 +69,7 @@ class PlayState extends FlxState
 		if (entityData.name == "player") {
 			player = new Player(entityData.x - entityData.originX, entityData.y - entityData.originY);
 		} else if (entityData.name == "ranged-villager") {
-			enemies.add(new RangedVillager(entityData.x - entityData.originX, entityData.y - entityData.originY));
+			enemies.add(new RangedVillager(entityData.x - entityData.originX, entityData.y - entityData.originY, player));
 		}
 	}
 }

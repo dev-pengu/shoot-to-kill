@@ -79,8 +79,6 @@ class Player extends FlxSprite {
 		touching = FlxObject.DOWN;
 		input = new Input();
 
-        Enemy.addTarget(this);
-
         state = states[PlayerStates.STANDING.getIndex()];
         state.transitionIn();
     }

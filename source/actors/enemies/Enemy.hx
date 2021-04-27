@@ -1,6 +1,8 @@
 package actors.enemies;
 
 
+import actors.enemies.stats.StatFactory;
+import actors.player.Player;
 import haxe.Exception;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.util.FlxColor;
@@ -18,6 +20,7 @@ import actors.enemies.fsm.states.IdleState;
 import actors.enemies.fsm.states.WalkState;
 import actors.enemies.fsm.states.RangedAttackState;
 import actors.enemies.fsm.states.MeleeAttackState;
+import actors.enemies.stats.EnemyStats;
 
 class Enemy extends FlxSprite
 {
@@ -40,28 +43,27 @@ class Enemy extends FlxSprite
 	private var state:State;
 	private var states:Vector<State> = new Vector<State>(4);
 	private var healthBar:FlxBar;
-	private var maxHealth:Float;
-	private var aggroRange:Float;
-	private var attackSpeed:Float;
-	private var reloadTime:Float;
-	private var rounds:Int;
-	private var targetPosition:FlxPoint;
-	private var attackRange:Float;
 
-	public function new(?X:Float = 0, ?Y:Float = 0, ?maxHealth:Float=100, graphic:FlxGraphicAsset, attackRange:Float, attackSpeed:Float, aggroRange:Float, ?rounds:Int = 0, ?reloadTime:Float = 0)
+	@:isVar public var stats(get, null):EnemyStats;
+	@:isVar public var targetPosition(get, null):FlxPoint;
+
+	function get_stats() return stats;
+	function get_targetPosition() return targetPosition;
+
+	public function new(?X:Float = 0, ?Y:Float = 0,  graphic:FlxGraphicAsset, player:Player, statsString:String)
 	{
 		super(X, Y);
 		acceleration.y = GRAVITY;
 		maxVelocity.set(SPEED, 0);
 
-		this.maxHealth = maxHealth;
-		this.health = maxHealth;
-		this.attackRange = attackRange;
-		this.attackSpeed = attackSpeed;
-		this.aggroRange = aggroRange;
-		this.rounds = rounds;
-		this.reloadTime = reloadTime;
-		healthBar = new FlxBar(X, Y - 20, FlxBarFillDirection.LEFT_TO_RIGHT, Math.floor(maxHealth / 2), 10, this, "health", 0, maxHealth);
+		this.stats = StatFactory.getStats(statsString);
+		this.health = stats.maxHealth;
+
+		if (!TARGETS.contains(player)) {
+			TARGETS.push(player);
+		}
+
+		healthBar = new FlxBar(X, Y - 20, FlxBarFillDirection.LEFT_TO_RIGHT, Math.floor(stats.maxHealth / 2), 10, this, "health", 0, stats.maxHealth);
 		healthBar.createColoredFilledBar(FlxColor.RED);
 		FlxG.state.add(this.healthBar);
 
@@ -73,10 +75,12 @@ class Enemy extends FlxSprite
 		height = HEIGHT;
 
 		touching = FlxObject.DOWN;
+	}
 
+	private function initStates():Void {
 		states[EnemyStates.IDLE.getIndex()] = new IdleState(this);
 		states[EnemyStates.WALK.getIndex()] = new WalkState(this);
-		states[EnemyStates.ATTACK.getIndex()] = attackRange > 50 ? new RangedAttackState(this) : new MeleeAttackState(this);
+		states[EnemyStates.ATTACK.getIndex()] = stats.attackRange > 50 ? new RangedAttackState(this) : new MeleeAttackState(this);
 
 		state = states[EnemyStates.IDLE.getIndex()];
 		state.transitionIn();
@@ -112,11 +116,16 @@ class Enemy extends FlxSprite
 		super.hurt(damage);
 	}
 
+	override public function kill() {
+		super.kill();
+		healthBar.kill();
+	}
+
 	public function checkAggro(target:FlxObject):Bool {
 		var targetMid:FlxPoint = target.getMidpoint();
 		var enemyMid:FlxPoint = this.getMidpoint();
 		var distance:Float = Math.sqrt(Math.pow(targetMid.x - enemyMid.x, 2) + Math.pow(targetMid.y - enemyMid.y, 2));
-		if (distance <= aggroRange) {
+		if (distance <= stats.aggroRange) {
 			if (OBSTRUCTIONS.ray(enemyMid, targetMid)) {
 				targetPosition = targetMid;
 				return true;
@@ -125,13 +134,10 @@ class Enemy extends FlxSprite
 		return false;
 	}
 
-	public function getAttackSpeed():Float { return attackSpeed; }
-	public function getReloadTime():Float { return reloadTime; }
-	public function getRounds():Int { return rounds; }
-	public function getTargetPosition():FlxPoint { return targetPosition; }
-
 	public static function addTarget(object:FlxObject):Void {
-		TARGETS.push(object);
+		if (!TARGETS.contains(object)) {
+			TARGETS.push(object);
+		}
 	}
 
 	public function attack():Void { throw new Exception("attack function not implemented");}
