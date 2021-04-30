@@ -55,8 +55,8 @@ class PlayState extends FlxState
 		FlxG.camera.zoom = 1.25;
 
 		hud = new Hud(player, HUD_OFFSET_X, HUD_OFFSET_Y);
-
-		ambienceTrack = FlxG.sound.load(AssetPaths.background_ambience__mp3, 0.05);
+		
+		ambienceTrack = FlxG.sound.load(AssetPaths.background_ambience__ogg, 0.05);
 		if (ambienceTrack != null)
 		{
 			ambienceTrack.looped = true;

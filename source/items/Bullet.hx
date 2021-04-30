@@ -1,5 +1,6 @@
 package items;
 
+
 import flixel.FlxSprite;
 import flixel.math.FlxPoint;
 import flixel.FlxObject;
@@ -11,9 +12,17 @@ class Bullet extends FlxSprite {
 	private var range:Float;
 	private var damage:Float;
 	
+	private static var WIDTH:Float = 10;
+	private static var HEIGHT:Float = 8;
+	private static var OFFSET_Y:Int = 1;
+	private static var OFFSET_X:Int = 0;
+	
 	public function new(?X:Float=0, ?Y:Float=0):Void {
 		super(X,Y);
-		makeGraphic(7,7);
+		loadGraphic(AssetPaths.Bullet__png, false, 10, 10);
+		width = WIDTH;
+		height = HEIGHT;
+		this.offset.set(OFFSET_X, OFFSET_Y);
 		this.spawnPoint = FlxPoint.weak(X, Y);
 	}
 	
@@ -41,6 +50,8 @@ class Bullet extends FlxSprite {
 		this.range = range;
 		this.damage = damage;
 		this.spawnPoint.set(this.x, this.y);
+		this.facing = direction == -1 ? FlxObject.LEFT : FlxObject.RIGHT;
+		this.flipX = facing == FlxObject.LEFT;
 	}
 	
 	public static function doDamage(object:FlxObject, bullet:Bullet) {

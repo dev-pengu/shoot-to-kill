@@ -81,7 +81,8 @@ class Player extends FlxSprite {
     @:isVar public var attackSpeed(get, null):Float = 0.75;
     @:isVar public var attackDamage(get, null):Float = 10;
     @:isVar public var baseRange(get, null):Float = 400;
-    @:isVar public var critChance(get, set):Float = 0;
+    @:isVar public var critChance(get, set):Float = 0.05;
+    @:isVar public var attackTimer(default, default):Float;
 
     public function new(?X:Float=0, ?Y:Float=0) {
         super(X, Y);
@@ -158,10 +159,10 @@ class Player extends FlxSprite {
     }
 
     private function buildSoundMap():Void {
-        playerSfx[RUNNING_SOUND] = FlxG.sound.load(AssetPaths.Running_on_Gravel_www__fesliyanstudios__com__mp3, 0.25, true);
-        playerSfx[RELOADING_SOUND] = FlxG.sound.load(AssetPaths.Loading_and_chambering_gun_www__fesliyanstudios__com__mp3, 0.5);
-        playerSfx[WALKING_SOUND] = FlxG.sound.load(AssetPaths.Walking_on_Gravel__Slow__A2_www__fesliyanstudios__com__mp3, 0.25, true);
-        playerSfx[FIRING_GUN_SOUND] = FlxG.sound.load(AssetPaths.Beefy_Desert_Eagle___50_AE_Close_Single_Gunshot_A_www__fesliyanstudios__com_www__fesliyanstudios__com__mp3, 0.35);
+        playerSfx[RUNNING_SOUND] = FlxG.sound.load(AssetPaths.Running_on_Gravel_www__fesliyanstudios__com__ogg, 0.25, true);
+		playerSfx[RELOADING_SOUND] = FlxG.sound.load(AssetPaths.Loading_and_chambering_gun_www__fesliyanstudios__com__ogg, 0.5);
+		playerSfx[WALKING_SOUND] = FlxG.sound.load(AssetPaths.Walking_on_Gravel__Slow__A2_www__fesliyanstudios__com__ogg, 0.25, true);
+		playerSfx[FIRING_GUN_SOUND] = FlxG.sound.load(AssetPaths.Beefy_Desert_Eagle___50_AE_Close_Single_Gunshot_A_www__fesliyanstudios__com_www__fesliyanstudios__com__ogg, 0.35);
         playerSfx[JUMPING_SOUND] = FlxG.sound.load(AssetPaths.jump_start__wav, 0.35);
         playerSfx[LANDING_SOUND] = FlxG.sound.load(AssetPaths.jump_land__wav, 0.35);
     }
@@ -179,14 +180,17 @@ class Player extends FlxSprite {
     }
 
     override public function update(elapsed:Float) {
+
         updateInput();
         applyInputAndTransition();
+        attackTimer -= elapsed;
         state.update(elapsed);
 
         if (invincibleTimer > 0) {
             invincibleTimer -= elapsed;
         }
-        super.update(elapsed);
+
+		super.update(elapsed);
     }
 
     public function attack():Void {
