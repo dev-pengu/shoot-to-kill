@@ -1,5 +1,6 @@
 package;
 
+import flixel.system.FlxSound;
 import environment.HitBox;
 import ui.Hud;
 import environment.Spike;
@@ -19,8 +20,6 @@ import flixel.FlxG;
 import flixel.FlxObject;
 import environment.background.Parallax;
 
-import LevelGlobals;
-
 class PlayState extends FlxState
 {
 	private static var HUD_OFFSET_Y:Float = 100;
@@ -37,12 +36,10 @@ class PlayState extends FlxState
 	private var levelLoader:FlxOgmo3Loader;
 	private var map:FlxTilemap;
 
+	private var ambienceTrack:FlxSound;
+
 	override public function create()
 	{
-		LevelGlobals.init();
-		LevelGlobals.currentState = this;
-		LevelGlobals.totalElapsed = 0;
-
 		initBackground();
 
 		setUpLevel(AssetPaths.shoot_to_kill__ogmo, AssetPaths.level_01__json);
@@ -54,13 +51,13 @@ class PlayState extends FlxState
 		FlxG.camera.zoom = 1.25;
 
 		hud = new Hud(player, HUD_OFFSET_X, HUD_OFFSET_Y);
-		LevelGlobals.hudReference = hud;
 
-		LevelGlobals.ambienceTrack = FlxG.sound.load(AssetPaths.background_ambience__mp3, 0.05);
-		if (LevelGlobals.ambienceTrack != null) {
-			LevelGlobals.ambienceTrack.looped = true;
-			LevelGlobals.ambienceTrack.play();
-			LevelGlobals.ambienceTrack.fadeIn(1, 0, 0.05);
+		ambienceTrack = FlxG.sound.load(AssetPaths.background_ambience__mp3, 0.05);
+		if (ambienceTrack != null)
+		{
+			ambienceTrack.looped = true;
+			ambienceTrack.play();
+			ambienceTrack.fadeIn(1, 0, 0.05);
 		}
 
 		addAll();
@@ -71,8 +68,6 @@ class PlayState extends FlxState
 	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
-		LevelGlobals.deltaTime = elapsed;
-		LevelGlobals.totalElapsed += elapsed * 1000;
 
 		FlxG.collide(player, map);
 		FlxG.collide(enemies, map);

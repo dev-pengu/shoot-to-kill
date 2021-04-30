@@ -1,6 +1,7 @@
 package environment.background;
 
 import flixel.addons.display.FlxBackdrop;
+import flixel.FlxG;
 
 class Parallax {
     public static var elements:Map<String, FlxBackdrop>;
@@ -21,7 +22,7 @@ class Parallax {
 
         elements[name].health = canOffset ? 1 : 0;
 
-		LevelGlobals.currentState.add(elements[name]);
+		FlxG.state.add(elements[name]);
 
         return elements[name];
     }
