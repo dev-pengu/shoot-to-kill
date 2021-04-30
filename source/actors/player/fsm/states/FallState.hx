@@ -22,5 +22,6 @@ class FallState extends AirState {
         if (this.managedPlayer.animation.name == Player.FALL_ANIMATION) {
             this.managedPlayer.animation.stop();
         }
+        this.managedPlayer.playerSfx[Player.LANDING_SOUND].play(true);
     }
 }

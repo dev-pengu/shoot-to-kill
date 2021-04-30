@@ -1,5 +1,6 @@
 package actors.player.fsm.states;
 
+import flixel.FlxG;
 import flixel.FlxObject;
 
 class RunState extends PlayerState {
@@ -57,5 +58,11 @@ class RunState extends PlayerState {
 
     override public function transitionIn():Void {
         this.managedPlayer.animation.play(Player.RUN_ANIMATION);
+        this.managedPlayer.playerSfx[Player.RUNNING_SOUND].play(true);
+		this.managedPlayer.playerSfx[Player.RUNNING_SOUND].fadeIn(0.25, 0, 0.25);
+    }
+
+    override public function transitionOut():Void {
+		this.managedPlayer.playerSfx[Player.RUNNING_SOUND].stop();
     }
 }
