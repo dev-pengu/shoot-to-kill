@@ -46,6 +46,8 @@ class StandState extends PlayerState {
     override public function transitionIn():Void {
         this.managedPlayer.drag.x = Player.STANDING_DECELERATION;
 
+        this.managedPlayer.airJumps = this.managedPlayer.maxAirJumps;
+
         if (this.managedPlayer.animation.finished) {
             this.managedPlayer.animation.play(Player.STAND_ANIMATION);
         }

@@ -9,4 +9,5 @@ enum PlayerStates {
     FALLING;
     ATTACKING;
     RELOADING;
+    DOUBLE_JUMPING;
 }
