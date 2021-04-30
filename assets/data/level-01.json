@@ -78,7 +78,8 @@
         {"name": "level-goal-block", "id": 78, "_eid": "63330913", "x": 2240, "y": 288, "originX": 0, "originY": 0},
         {"name": "level-goal-block", "id": 79, "_eid": "63330913", "x": 2240, "y": 320, "originX": 0, "originY": 0},
         {"name": "level-goal-block", "id": 80, "_eid": "63330913", "x": 2208, "y": 352, "originX": 0, "originY": 0},
-        {"name": "level-goal-block", "id": 81, "_eid": "63330913", "x": 2240, "y": 352, "originX": 0, "originY": 0}
+        {"name": "level-goal-block", "id": 81, "_eid": "63330913", "x": 2240, "y": 352, "originX": 0, "originY": 0},
+        {"name": "double-powerup", "id": 82, "_eid": "76042907", "x": 512, "y": 1184, "originX": 0, "originY": 0}
       ]
     },
     {

@@ -1,5 +1,7 @@
 package actors.player;
 
+import items.PowerUp;
+import actors.player.fsm.states.DoubleJumpState;
 import flixel.system.FlxSound;
 import actors.player.fsm.states.ReloadState;
 import actors.player.fsm.states.AttackState;
@@ -65,10 +67,13 @@ class Player extends FlxSprite {
 
     private var input:Input;
     private var state:State;
-    private var states:Vector<State> = new Vector<State>(8);
+    private var states:Vector<State> = new Vector<State>(9);
     private var invincibleTimer:Float = 0;
 
+    @:isVar public var powerUps(default, null):Array<String>;
+    @:isVar public var maxAirJumps(default, null):Int = 1;
     @:isVar public var playerSfx(default, null):Map<String, FlxSound>;
+    @:isVar public var airJumps(default, default):Int;
     @:isVar public var maxHealth(get, null):Float = 100;
     @:isVar public var rounds(get, null):Int = 4;
     @:isVar public var roundsLeft(get, set):Int;
@@ -90,7 +95,9 @@ class Player extends FlxSprite {
 		this.offset.set(OFFSET_X, OFFSET_Y);
 		this.width = HIT_BOX_WIDTH;
 		this.height = HIT_BOX_HEIGHT;
-        
+        airJumps = 1;
+        powerUps = new Array<String>();
+
 
         animation.add(STAND_ANIMATION, [0], 1, false);
         animation.add(RUN_ANIMATION, [1, 2, 3, 1, 4, 5], 8);
@@ -111,6 +118,7 @@ class Player extends FlxSprite {
         states[PlayerStates.CROUCHING.getIndex()] = new CrouchState(this);
         states[PlayerStates.ATTACKING.getIndex()] = new AttackState(this);
         states[PlayerStates.RELOADING.getIndex()] = new ReloadState(this);
+        states[PlayerStates.DOUBLE_JUMPING.getIndex()] = new DoubleJumpState(this);
 
 		touching = FlxObject.DOWN;
 		input = new Input();
@@ -219,6 +227,14 @@ class Player extends FlxSprite {
             invincibleTimer = INVINCIBLE_TIME;
             //this.animation.play(HURT_ANIMATION);
         }
+    }
+
+    public function addPowerUp(powerUp:PowerUp):Bool {
+        if (!powerUps.contains(powerUp.data.name)) {
+            powerUps.push(powerUp.data.name);
+            return true;
+        }
+        return false;
     }
 
     function get_maxHealth() return maxHealth;

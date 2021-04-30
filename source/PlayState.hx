@@ -1,6 +1,7 @@
 package;
 
 import ui.PauseMenuState;
+import items.PowerUp;
 import flixel.system.FlxSound;
 import environment.HitBox;
 import ui.Hud;
@@ -33,6 +34,7 @@ class PlayState extends FlxState
 	private var levelGoalBlocks:FlxTypedGroup<LevelGoalBlock>;
 	private var spikes:FlxTypedGroup<Spike>;
 	private var colliders:FlxTypedGroup<HitBox>;
+	private var allPowerUps:FlxTypedGroup<PowerUp>;
 
 	private var levelLoader:FlxOgmo3Loader;
 	private var map:FlxTilemap;
@@ -84,7 +86,9 @@ class PlayState extends FlxState
 		FlxG.collide(Player.BULLETS, map, function(bullet, map) bullet.kill());
 		FlxG.overlap(player, spikes, function(player, spike) spike.doDamage(player));
 		FlxG.collide(player, colliders);
-		
+		FlxG.overlap(player, allPowerUps, function(player, powerUp:PowerUp) powerUp.pickUp(player));
+
+
 		if (FlxG.keys.justPressed.ESCAPE) {
 			openSubState(pauseMenuSubState);
 		}
@@ -96,6 +100,7 @@ class PlayState extends FlxState
 		add(spikes);
 		add(breakableBlocks);
 		add(levelGoalBlocks);
+		add(allPowerUps);
 		add(RangedVillager.BULLETS);
 		add(Player.BULLETS);
 		add(player);
@@ -120,6 +125,7 @@ class PlayState extends FlxState
 		levelGoalBlocks = new FlxTypedGroup<LevelGoalBlock>();
 		spikes = new FlxTypedGroup<Spike>();
 		colliders = new FlxTypedGroup<HitBox>();
+		allPowerUps = new FlxTypedGroup<PowerUp>();
 
 		levelLoader.loadEntities(placeEntities, "entities");
 		Player.OBSTRUCTIONS = Enemy.OBSTRUCTIONS = map;
@@ -139,6 +145,8 @@ class PlayState extends FlxState
 			levelGoalBlocks.add(new LevelGoalBlock(entityData.x - entityData.originX, entityData.y - entityData.originY));
 		} else if (entityData.name == "hitbox") {
 			colliders.add(new HitBox(entityData.x - entityData.originX, entityData.y - entityData.originY, 32, 32));
+		} else if (entityData.name == "double-powerup") {
+			allPowerUps.add(new PowerUp(entityData.x - entityData.originX, entityData.y - entityData.originY, "doubleJump"));
 		}
 	}
 
