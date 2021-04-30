@@ -1,6 +1,7 @@
 package actors.player.fsm.states;
 
 import flixel.FlxObject;
+import flixel.FlxG;
 
 class ReloadState extends PlayerState {
 
@@ -46,10 +47,17 @@ class ReloadState extends PlayerState {
 
     override public function transitionIn():Void {
 		reloadTimer = this.managedPlayer.reloadTime / this.managedPlayer.rounds;
+        this.managedPlayer.playerSfx[Player.RELOADING_SOUND].play(true);
+		this.managedPlayer.playerSfx[Player.WALKING_SOUND].play(true);
+		this.managedPlayer.playerSfx[Player.WALKING_SOUND].fadeIn(0.25, 0, 0.25);
     }
 
     override public function transitionOut():Void {
         this.managedPlayer.animation.stop();
+		this.managedPlayer.playerSfx[Player.WALKING_SOUND].stop();
+		if (this.managedPlayer.playerSfx[Player.RELOADING_SOUND].playing) {
+			this.managedPlayer.playerSfx[Player.RELOADING_SOUND].stop();
+        }
     }
 
     override public function update(elapsed:Float):Void {
