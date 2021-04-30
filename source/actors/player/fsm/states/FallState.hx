@@ -1,5 +1,7 @@
 package actors.player.fsm.states;
 
+import flixel.FlxObject;
+
 class FallState extends AirState {
 
     public function new(player:Player) {
@@ -7,6 +9,10 @@ class FallState extends AirState {
     }
 
     override public function handleInput(input:Input):Int {
+        if (input.jumpJustPressed && this.managedPlayer.airJumps > 0 && this.managedPlayer.powerUps.contains("doubleJump")) {
+            this.managedPlayer.airJumps--;
+            return PlayerStates.DOUBLE_JUMPING.getIndex();
+        }
         return super.handleInput(input);
     }
 
@@ -22,6 +28,8 @@ class FallState extends AirState {
         if (this.managedPlayer.animation.name == Player.FALL_ANIMATION) {
             this.managedPlayer.animation.stop();
         }
-        this.managedPlayer.playerSfx[Player.LANDING_SOUND].play(true);
+		if (this.managedPlayer.isTouching(FlxObject.DOWN)) {
+            this.managedPlayer.playerSfx[Player.LANDING_SOUND].play(true);
+        }
     }
 }

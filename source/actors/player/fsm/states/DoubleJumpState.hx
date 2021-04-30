@@ -15,7 +15,7 @@ class DoubleJumpState extends AirState {
     }
 
     override public function transitionIn():Void {
-        this.managedPlayer.velocity.y = Player.JUMP_VELOCITY * .5;
+        this.managedPlayer.velocity.y = Player.JUMP_VELOCITY * .75;
         this.managedPlayer.animation.play(Player.JUMP_ANIMATION);
         this.managedPlayer.playerSfx[Player.JUMPING_SOUND].play(true);
     }
