@@ -48,18 +48,18 @@ class CrouchState extends PlayerState {
     }
 
     override public function transitionIn():Void {
-        this.managedPlayer.height = Player.CROUCH_HEIGHT;
-        this.managedPlayer.y += Player.HIT_BOX_HEIGHT - Player.CROUCH_HEIGHT;
-        this.managedPlayer.offset.y += Player.HIT_BOX_HEIGHT - Player.CROUCH_HEIGHT;
+        this.managedPlayer.resizeHitBox(Player.CROUCH_HEIGHT);
 
         this.managedPlayer.animation.play(Player.START_CROUCH_ANIMATION);
+		this.managedPlayer.playerSfx[Player.WALKING_SOUND].play(true);
+		this.managedPlayer.playerSfx[Player.WALKING_SOUND].fadeIn(0.25, 0, 0.25);
     }
 
     override public function transitionOut():Void {
         this.managedPlayer.height = Player.HIT_BOX_HEIGHT;
         this.managedPlayer.y -= Player.HIT_BOX_HEIGHT - Player.CROUCH_HEIGHT;
 		this.managedPlayer.offset.y -= Player.HIT_BOX_HEIGHT - Player.CROUCH_HEIGHT;
-
+		this.managedPlayer.playerSfx[Player.WALKING_SOUND].stop();
         if (this.managedPlayer.animation.name == Player.CROUCH_ANIMATION || this.managedPlayer.animation.name == Player.CROUCH_MOVE_ANIMATION) {
             this.managedPlayer.animation.stop();
         }

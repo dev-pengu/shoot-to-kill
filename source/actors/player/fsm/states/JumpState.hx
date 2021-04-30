@@ -16,10 +16,13 @@ class JumpState extends AirState {
 
     override public function transitionIn():Void {
         this.managedPlayer.velocity.y = Player.JUMP_VELOCITY;
+        this.managedPlayer.resizeHitBox(Player.JUMP_HEIGHT, false);
         this.managedPlayer.animation.play(Player.JUMP_ANIMATION);
+        this.managedPlayer.playerSfx[Player.JUMPING_SOUND].play(true);
     }
 
     override public function transitionOut():Void {
+        this.managedPlayer.resizeHitBox();
 		if (this.managedPlayer.animation.name == Player.JUMP_ANIMATION)
 		{
 			this.managedPlayer.animation.stop();

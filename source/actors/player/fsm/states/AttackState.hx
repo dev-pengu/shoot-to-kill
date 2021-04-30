@@ -14,7 +14,7 @@ class AttackState extends PlayerState {
 
     // The player will not be able to cancel their attack once it has started
     override public function handleInput(input:Input):Int {
-        if (input.attackPressed && this.managedPlayer.roundsLeft > 0) {
+        if (input.attackJustPressed && this.managedPlayer.roundsLeft > 0) {
             return PlayerStates.NO_CHANGE.getIndex();
         }
 
