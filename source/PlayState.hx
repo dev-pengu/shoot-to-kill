@@ -55,7 +55,8 @@ class PlayState extends FlxState
 		FlxG.camera.zoom = 1.25;
 
 		hud = new Hud(player, HUD_OFFSET_X, HUD_OFFSET_Y);
-		
+		RangedVillager.BULLETS = new FlxTypedGroup<Bullet>();
+
 		ambienceTrack = FlxG.sound.load(AssetPaths.background_ambience__ogg, 0.05);
 		if (ambienceTrack != null)
 		{
@@ -81,9 +82,9 @@ class PlayState extends FlxState
 		FlxG.collide(enemies, map);
 		FlxG.collide(player, breakableBlocks, function(player, block) block.explode());
 		FlxG.overlap(player, RangedVillager.BULLETS, Bullet.doDamage);
-		FlxG.overlap(enemies, Player.BULLETS, Bullet.doDamage);
+		FlxG.overlap(enemies, player.bullets, Bullet.doDamage);
 		FlxG.collide(RangedVillager.BULLETS, map, function(bullet, map) bullet.kill());
-		FlxG.collide(Player.BULLETS, map, function(bullet, map) bullet.kill());
+		FlxG.collide(player.bullets, map, function(bullet, map) bullet.kill());
 		FlxG.overlap(player, spikes, function(player, spike) spike.doDamage(player));
 		FlxG.collide(player, colliders);
 		FlxG.overlap(player, allPowerUps, function(player, powerUp:PowerUp) powerUp.pickUp(player));
@@ -102,7 +103,7 @@ class PlayState extends FlxState
 		add(levelGoalBlocks);
 		add(allPowerUps);
 		add(RangedVillager.BULLETS);
-		add(Player.BULLETS);
+		add(player.bullets);
 		add(player);
 		add(hud);
 	}

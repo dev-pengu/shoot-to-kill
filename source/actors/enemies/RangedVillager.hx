@@ -16,7 +16,7 @@ class RangedVillager extends Enemy {
     public static var ATTACK_SPEED(default, never):Float = 0.5; // attacks per second
     public static var MAX_HEALTH(default, never):Float = 50;
 
-    public static var BULLETS(default, null):FlxTypedGroup<Bullet> = new FlxTypedGroup<Bullet>();
+    public static var BULLETS(default, default):FlxTypedGroup<Bullet>;
     public static var BULLET_SPAWN_OFFSET_X(default, never):Float = 35;
     public static var BULLET_SPAWN_OFFSET_Y(default, never):Float = 14;
     public static var BULLET_SPEED(default, never):Float = 100;
@@ -25,6 +25,10 @@ class RangedVillager extends Enemy {
 
     public function new(?X:Float=0, ?Y:Float=0, player:Player) {
 		super(X, Y, AssetPaths.enemy__png, player, "rangedVillager");
+
+        if (BULLETS == null) {
+            BULLETS = new FlxTypedGroup<Bullet>();
+        }
 
         animation.add(Enemy.IDLE_ANIMATION, [0], 1, false);
 		animation.add(Enemy.WALK_ANIMATION, [1, 2, 3, 1, 4, 5], 8);

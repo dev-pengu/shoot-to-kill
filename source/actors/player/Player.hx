@@ -60,7 +60,6 @@ class Player extends FlxSprite {
     public static var GRAVITY(default, never):Float = 400;
 	private static var INVINCIBLE_TIME:Float = 1;
 
-	public static var BULLETS(default, null):FlxTypedGroup<Bullet> = new FlxTypedGroup<Bullet>();
 	public static var BULLET_SPAWN_OFFSET_X(default, never):Float = -5;
 	public static var BULLET_SPAWN_OFFSET_Y(default, never):Float = 20;
 	public static var BULLET_SPEED(default, never):Float = 150;
@@ -69,6 +68,7 @@ class Player extends FlxSprite {
     private var state:State;
     private var states:Vector<State> = new Vector<State>(9);
     private var invincibleTimer:Float = 0;
+	public var bullets(default, null):FlxTypedGroup<Bullet>;
 
     @:isVar public var powerUps(default, null):Array<String>;
     @:isVar public var maxAirJumps(default, null):Int = 1;
@@ -86,6 +86,7 @@ class Player extends FlxSprite {
 
     public function new(?X:Float=0, ?Y:Float=0) {
         super(X, Y);
+
         acceleration.y = GRAVITY;
         maxVelocity.set(MAX_RUN_SPEED, MAX_Y_SPEED);
 
@@ -99,6 +100,9 @@ class Player extends FlxSprite {
         airJumps = 1;
         powerUps = new Array<String>();
 
+        if (bullets == null) {
+            bullets = new FlxTypedGroup<Bullet>();
+        }
 
         animation.add(STAND_ANIMATION, [0], 1, false);
         animation.add(RUN_ANIMATION, [1, 2, 3, 1, 4, 5], 8);
@@ -194,7 +198,7 @@ class Player extends FlxSprite {
     }
 
     public function attack():Void {
-        var bullet:Bullet = BULLETS.recycle(Bullet);
+        var bullet:Bullet = bullets.recycle(Bullet);
         if (this.facing == FlxObject.RIGHT) {
             bullet.setPosition(this.x + SPRITE_SIZE + BULLET_SPAWN_OFFSET_X, this.y + BULLET_SPAWN_OFFSET_Y);
             bullet.setParams(BULLET_SPEED, 1, baseRange, (isAttackCrit() ? attackDamage * 1.75 : attackDamage));

@@ -36,7 +36,7 @@ class PauseMenuState extends FlxSubState {
     }
 
     function restartLevel() {
-
+        FlxG.resetState();
     }
 
     #if desktop
