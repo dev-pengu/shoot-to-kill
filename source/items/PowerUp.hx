@@ -18,7 +18,7 @@ class PowerUp extends FlxSprite implements I_PowerUp {
 
     public function pickUp(player:Player):Void {
         player.addPowerUp(this);
-        FlxG.sound.play(AssetPaths.Video_Game_Unlock_Sound_A1_8bit_www__fesliyanstudios__com__mp3, .25);
+        FlxG.sound.play(AssetPaths.Video_Game_Unlock_Sound_A1_8bit_www__fesliyanstudios__com__ogg, .25);
         this.kill();
     }
 

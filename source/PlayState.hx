@@ -1,5 +1,6 @@
 package;
 
+import ui.PauseMenuState;
 import items.PowerUp;
 import flixel.system.FlxSound;
 import environment.HitBox;
@@ -38,6 +39,7 @@ class PlayState extends FlxState
 	private var levelLoader:FlxOgmo3Loader;
 	private var map:FlxTilemap;
 
+	private var pauseMenuSubState:PauseMenuState;
 	private var ambienceTrack:FlxSound;
 
 	override public function create()
@@ -53,8 +55,9 @@ class PlayState extends FlxState
 		FlxG.camera.zoom = 1.25;
 
 		hud = new Hud(player, HUD_OFFSET_X, HUD_OFFSET_Y);
+		RangedVillager.BULLETS = new FlxTypedGroup<Bullet>();
 
-		ambienceTrack = FlxG.sound.load(AssetPaths.background_ambience__mp3, 0.05);
+		ambienceTrack = FlxG.sound.load(AssetPaths.background_ambience__ogg, 0.05);
 		if (ambienceTrack != null)
 		{
 			ambienceTrack.looped = true;
@@ -65,6 +68,10 @@ class PlayState extends FlxState
 		addAll();
 
 		super.create();
+
+		destroySubStates = false;
+		pauseMenuSubState = new PauseMenuState(FlxColor.fromRGB(0,0,0,185));
+		pauseMenuSubState.isPersistent = true;
 	}
 
 	override public function update(elapsed:Float)
@@ -75,12 +82,17 @@ class PlayState extends FlxState
 		FlxG.collide(enemies, map);
 		FlxG.collide(player, breakableBlocks, function(player, block) block.explode());
 		FlxG.overlap(player, RangedVillager.BULLETS, Bullet.doDamage);
-		FlxG.overlap(enemies, Player.BULLETS, Bullet.doDamage);
+		FlxG.overlap(enemies, player.bullets, Bullet.doDamage);
 		FlxG.collide(RangedVillager.BULLETS, map, function(bullet, map) bullet.kill());
-		FlxG.collide(Player.BULLETS, map, function(bullet, map) bullet.kill());
+		FlxG.collide(player.bullets, map, function(bullet, map) bullet.kill());
 		FlxG.overlap(player, spikes, function(player, spike) spike.doDamage(player));
 		FlxG.collide(player, colliders);
 		FlxG.overlap(player, allPowerUps, function(player, powerUp:PowerUp) powerUp.pickUp(player));
+
+
+		if (FlxG.keys.justPressed.ESCAPE) {
+			openSubState(pauseMenuSubState);
+		}
 	}
 
 	private function addAll():Void {
@@ -91,7 +103,7 @@ class PlayState extends FlxState
 		add(levelGoalBlocks);
 		add(allPowerUps);
 		add(RangedVillager.BULLETS);
-		add(Player.BULLETS);
+		add(player.bullets);
 		add(player);
 		add(hud);
 	}
@@ -139,6 +151,14 @@ class PlayState extends FlxState
 		}
 	}
 
+
+	override public function destroy():Void {
+		super.destroy();
+
+		pauseMenuSubState.destroy();
+		pauseMenuSubState = null;
+	}
+
 	private function initBackground() {
 		Parallax.init();
 		Parallax.addElement("sky", AssetPaths.Sky__png, 974, 800, 0, 0, 1/64, 0, 1, false);
@@ -147,5 +167,6 @@ class PlayState extends FlxState
 		Parallax.addElement("mountains", AssetPaths.Mountains__png, 974, 800, 0, 54, 1/32, 1/92);
 		Parallax.addElement("mountains-fg", AssetPaths.MountainsFG__png, 974, 800, 0, 70, 1/16, 1/48);
 		Parallax.addElement("ground", AssetPaths.Ground__png, 974, 800, 0, 136, 1/8, 1/16);
+
 	}
 }

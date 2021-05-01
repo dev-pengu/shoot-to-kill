@@ -60,7 +60,6 @@ class Player extends FlxSprite {
     public static var GRAVITY(default, never):Float = 400;
 	private static var INVINCIBLE_TIME:Float = 1;
 
-	public static var BULLETS(default, null):FlxTypedGroup<Bullet> = new FlxTypedGroup<Bullet>();
 	public static var BULLET_SPAWN_OFFSET_X(default, never):Float = -5;
 	public static var BULLET_SPAWN_OFFSET_Y(default, never):Float = 20;
 	public static var BULLET_SPEED(default, never):Float = 150;
@@ -69,6 +68,7 @@ class Player extends FlxSprite {
     private var state:State;
     private var states:Vector<State> = new Vector<State>(9);
     private var invincibleTimer:Float = 0;
+	public var bullets(default, null):FlxTypedGroup<Bullet>;
 
     @:isVar public var powerUps(default, null):Array<String>;
     @:isVar public var maxAirJumps(default, null):Int = 1;
@@ -81,10 +81,12 @@ class Player extends FlxSprite {
     @:isVar public var attackSpeed(get, null):Float = 0.75;
     @:isVar public var attackDamage(get, null):Float = 10;
     @:isVar public var baseRange(get, null):Float = 400;
-    @:isVar public var critChance(get, set):Float = 0;
+    @:isVar public var critChance(get, set):Float = 0.05;
+    @:isVar public var attackTimer(default, default):Float;
 
     public function new(?X:Float=0, ?Y:Float=0) {
         super(X, Y);
+
         acceleration.y = GRAVITY;
         maxVelocity.set(MAX_RUN_SPEED, MAX_Y_SPEED);
 
@@ -98,6 +100,9 @@ class Player extends FlxSprite {
         airJumps = 1;
         powerUps = new Array<String>();
 
+        if (bullets == null) {
+            bullets = new FlxTypedGroup<Bullet>();
+        }
 
         animation.add(STAND_ANIMATION, [0], 1, false);
         animation.add(RUN_ANIMATION, [1, 2, 3, 1, 4, 5], 8);
@@ -158,10 +163,10 @@ class Player extends FlxSprite {
     }
 
     private function buildSoundMap():Void {
-        playerSfx[RUNNING_SOUND] = FlxG.sound.load(AssetPaths.Running_on_Gravel_www__fesliyanstudios__com__mp3, 0.25, true);
-        playerSfx[RELOADING_SOUND] = FlxG.sound.load(AssetPaths.Loading_and_chambering_gun_www__fesliyanstudios__com__mp3, 0.5);
-        playerSfx[WALKING_SOUND] = FlxG.sound.load(AssetPaths.Walking_on_Gravel__Slow__A2_www__fesliyanstudios__com__mp3, 0.25, true);
-        playerSfx[FIRING_GUN_SOUND] = FlxG.sound.load(AssetPaths.Beefy_Desert_Eagle___50_AE_Close_Single_Gunshot_A_www__fesliyanstudios__com_www__fesliyanstudios__com__mp3, 0.35);
+        playerSfx[RUNNING_SOUND] = FlxG.sound.load(AssetPaths.Running_on_Gravel_www__fesliyanstudios__com__ogg, 0.25, true);
+		playerSfx[RELOADING_SOUND] = FlxG.sound.load(AssetPaths.Loading_and_chambering_gun_www__fesliyanstudios__com__ogg, 0.5);
+		playerSfx[WALKING_SOUND] = FlxG.sound.load(AssetPaths.Walking_on_Gravel__Slow__A2_www__fesliyanstudios__com__ogg, 0.25, true);
+		playerSfx[FIRING_GUN_SOUND] = FlxG.sound.load(AssetPaths.Beefy_Desert_Eagle___50_AE_Close_Single_Gunshot_A_www__fesliyanstudios__com_www__fesliyanstudios__com__ogg, 0.35);
         playerSfx[JUMPING_SOUND] = FlxG.sound.load(AssetPaths.jump_start__wav, 0.35);
         playerSfx[LANDING_SOUND] = FlxG.sound.load(AssetPaths.jump_land__wav, 0.35);
     }
@@ -179,18 +184,21 @@ class Player extends FlxSprite {
     }
 
     override public function update(elapsed:Float) {
+
         updateInput();
         applyInputAndTransition();
+        attackTimer -= elapsed;
         state.update(elapsed);
 
         if (invincibleTimer > 0) {
             invincibleTimer -= elapsed;
         }
-        super.update(elapsed);
+
+		super.update(elapsed);
     }
 
     public function attack():Void {
-        var bullet:Bullet = BULLETS.recycle(Bullet);
+        var bullet:Bullet = bullets.recycle(Bullet);
         if (this.facing == FlxObject.RIGHT) {
             bullet.setPosition(this.x + SPRITE_SIZE + BULLET_SPAWN_OFFSET_X, this.y + BULLET_SPAWN_OFFSET_Y);
             bullet.setParams(BULLET_SPEED, 1, baseRange, (isAttackCrit() ? attackDamage * 1.75 : attackDamage));

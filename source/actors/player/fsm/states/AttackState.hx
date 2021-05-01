@@ -4,11 +4,9 @@ import flixel.FlxObject;
 
 class AttackState extends PlayerState {
 
-    private var attackTimer:Float;
-
 	public function new(player:Player) {
 		super(player);
-        attackTimer = 0;
+        this.managedPlayer.attackTimer = 0;
         this.managedPlayer.roundsLeft = this.managedPlayer.rounds;
 	}
 
@@ -42,14 +40,12 @@ class AttackState extends PlayerState {
 
     override public function update(elapsed:Float):Void {
         if (this.managedPlayer.roundsLeft > 0) {
-            if (attackTimer <= 0) {
+            if (this.managedPlayer.attackTimer <= 0) {
 				this.managedPlayer.flipX = this.managedPlayer.facing == FlxObject.LEFT;
                 this.managedPlayer.animation.play(Player.ATTACK_ANIMATION);
                 this.managedPlayer.attack();
 
-                attackTimer = (60 / this.managedPlayer.attackSpeed) / 60;
-            } else {
-                attackTimer -= elapsed;
+                this.managedPlayer.attackTimer = (60 / this.managedPlayer.attackSpeed) / 60;
             }
         }
     }
