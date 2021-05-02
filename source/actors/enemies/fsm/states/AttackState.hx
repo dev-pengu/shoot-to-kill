@@ -44,6 +44,6 @@ class AttackState extends EnemyState {
 
     override public function update(elapsed:Float) {
 		this.managedEntity.facing = this.managedEntity.targetPosition.x > this.managedEntity.x ? FlxObject.RIGHT : FlxObject.LEFT;
-		this.managedEntity.flipX = this.managedEntity.facing == FlxObject.RIGHT;
+		this.managedEntity.flipX = this.managedEntity.facing == FlxObject.LEFT;
     }
 }

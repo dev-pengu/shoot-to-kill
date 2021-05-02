@@ -1,6 +1,7 @@
 package actors.enemies;
 
 
+
 import actors.enemies.stats.StatFactory;
 import actors.player.Player;
 import haxe.Exception;
@@ -42,6 +43,10 @@ class Enemy extends FlxSprite
 	public static var WALK_ANIMATION(default, never):String = "walk";
 	public static var HURT_ANIMATION(default, never):String = "hurt";
 	public static var ATTACK_ANIMATION(default, never):String = "attack";
+
+	public static var HURT_SOUND(default, never):String = "hurt";
+	public static var ATTACK_SOUND(default, never):String = "attack";
+	public static var DEATH_SOUND(default, never):String = "death";
 
 	private var state:State;
 	private var states:Vector<State> = new Vector<State>(4);
@@ -114,11 +119,13 @@ class Enemy extends FlxSprite
     }
 
 	override public function hurt(damage:Float) {
+		this.stats.enemySfx[Enemy.HURT_SOUND].play(true);
 		this.animation.play(HURT_ANIMATION);
 		super.hurt(damage);
 	}
 
 	override public function kill() {
+		this.stats.enemySfx[Enemy.DEATH_SOUND].play(true);
 		super.kill();
 		healthBar.kill();
 	}
