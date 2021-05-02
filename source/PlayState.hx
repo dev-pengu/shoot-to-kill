@@ -1,6 +1,7 @@
 package;
 
-import ui.PauseMenuState;
+import states.GameOverState;
+import states.PauseMenuState;
 import items.PowerUp;
 import flixel.system.FlxSound;
 import environment.HitBox;
@@ -35,6 +36,7 @@ class PlayState extends FlxState
 	private var spikes:FlxTypedGroup<Spike>;
 	private var colliders:FlxTypedGroup<HitBox>;
 	private var allPowerUps:FlxTypedGroup<PowerUp>;
+	private var levelGoal:HitBox;
 
 	private var levelLoader:FlxOgmo3Loader;
 	private var map:FlxTilemap;
@@ -54,15 +56,17 @@ class PlayState extends FlxState
 		FlxG.camera.setScrollBoundsRect(0, 0, FlxG.worldBounds.width, FlxG.worldBounds.height);
 		FlxG.camera.zoom = 1.25;
 
+		FlxG.mouse.visible = false;
+
 		hud = new Hud(player, HUD_OFFSET_X, HUD_OFFSET_Y);
 		RangedVillager.BULLETS = new FlxTypedGroup<Bullet>();
 
-		ambienceTrack = FlxG.sound.load(AssetPaths.background_ambience__ogg, 0.05);
+		ambienceTrack = FlxG.sound.load(AssetPaths.background_ambience__ogg, 0.15);
 		if (ambienceTrack != null)
 		{
 			ambienceTrack.looped = true;
 			ambienceTrack.play();
-			ambienceTrack.fadeIn(1, 0, 0.05);
+			ambienceTrack.fadeIn(1, 0, 0.15);
 		}
 
 		addAll();
@@ -70,7 +74,7 @@ class PlayState extends FlxState
 		super.create();
 
 		destroySubStates = false;
-		pauseMenuSubState = new PauseMenuState(FlxColor.fromRGB(0,0,0,185));
+		pauseMenuSubState = new PauseMenuState();
 		pauseMenuSubState.isPersistent = true;
 	}
 
@@ -88,6 +92,11 @@ class PlayState extends FlxState
 		FlxG.overlap(player, spikes, function(player, spike) spike.doDamage(player));
 		FlxG.collide(player, colliders);
 		FlxG.overlap(player, allPowerUps, function(player, powerUp:PowerUp) powerUp.pickUp(player));
+		FlxG.overlap(player, levelGoal, function(player, levelGoal) {
+			FlxG.camera.fade(FlxColor.BLACK, 0.33, false, function() {
+				FlxG.switchState(new GameOverState(true, 0));
+			});
+		});
 
 
 		if (FlxG.keys.justPressed.ESCAPE) {
@@ -148,6 +157,8 @@ class PlayState extends FlxState
 			colliders.add(new HitBox(entityData.x - entityData.originX, entityData.y - entityData.originY, 32, 32));
 		} else if (entityData.name == "double-powerup") {
 			allPowerUps.add(new PowerUp(entityData.x - entityData.originX, entityData.y - entityData.originY, "doubleJump"));
+		} else if (entityData.name == "goal") {
+			levelGoal = new HitBox(entityData.x - entityData.originX, entityData.y - entityData.originY, 32, 32);
 		}
 	}
 
