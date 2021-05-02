@@ -32,6 +32,7 @@ class IdleState extends EnemyState {
 	override public function transitionIn():Void {
 		idleTimer = FlxG.random.float(1, 1.5);
 		this.managedEntity.drag.x = Enemy.DECELERATION;
+		this.managedEntity.velocity.set(0, 0);
 
 		if (this.managedEntity.animation.finished || this.managedEntity.animation.name == Enemy.WALK_ANIMATION) {
 			this.managedEntity.animation.play(Enemy.IDLE_ANIMATION);

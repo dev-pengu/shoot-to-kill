@@ -40,6 +40,8 @@ class Player extends FlxSprite {
     public static var LANDING_SOUND(default, never):String = "land";
     public static var JUMPING_SOUND(default, never):String = "jump";
     public static var WALKING_SOUND(default, never):String = "walk";
+    public static var HURT_SOUND(default, never):String = "hurt";
+    public static var DEATH_SOUND(default, never):String = "death";
 
     public static var MAX_RUN_SPEED(default, never):Float = 150;
     public static var MAX_Y_SPEED(default, never):Float = 300;
@@ -64,7 +66,7 @@ class Player extends FlxSprite {
 
 	public static var BULLET_SPAWN_OFFSET_X(default, never):Float = -5;
 	public static var BULLET_SPAWN_OFFSET_Y(default, never):Float = 20;
-	public static var BULLET_SPEED(default, never):Float = 150;
+	public static var BULLET_SPEED(default, never):Float = 175;
 
     private var input:Input;
     private var state:State;
@@ -169,8 +171,10 @@ class Player extends FlxSprite {
 		playerSfx[RELOADING_SOUND] = FlxG.sound.load(AssetPaths.Loading_and_chambering_gun_www__fesliyanstudios__com__ogg, 0.5);
 		playerSfx[WALKING_SOUND] = FlxG.sound.load(AssetPaths.Walking_on_Gravel__Slow__A2_www__fesliyanstudios__com__ogg, 0.25, true);
 		playerSfx[FIRING_GUN_SOUND] = FlxG.sound.load(AssetPaths.Beefy_Desert_Eagle___50_AE_Close_Single_Gunshot_A_www__fesliyanstudios__com_www__fesliyanstudios__com__ogg, 0.35);
-        playerSfx[JUMPING_SOUND] = FlxG.sound.load(AssetPaths.jump_start__wav, 0.35);
-        playerSfx[LANDING_SOUND] = FlxG.sound.load(AssetPaths.jump_land__wav, 0.35);
+        playerSfx[JUMPING_SOUND] = FlxG.sound.load(AssetPaths.Male_Jump_01__wav, 0.35);
+        playerSfx[LANDING_SOUND] = FlxG.sound.load(AssetPaths.Landing_01__wav, 0.35);
+        playerSfx[HURT_SOUND] = FlxG.sound.load(AssetPaths.Male_Hurt_02__wav, 0.35);
+        playerSfx[DEATH_SOUND] = FlxG.sound.load(AssetPaths.Male_Death_04__wav, 0.35);
     }
 
     private function applyInputAndTransition() {
@@ -235,11 +239,14 @@ class Player extends FlxSprite {
         if (invincibleTimer <= 0) {
             super.hurt(damage);
             invincibleTimer = INVINCIBLE_TIME;
-            //this.animation.play(HURT_ANIMATION);
+            playerSfx[HURT_SOUND].play(true);
+            FlxG.camera.flash(FlxColor.fromRGB(255, 0, 0, 185), 0.5);
         }
     }
 
     override public function kill() {
+        playerSfx[DEATH_SOUND].play(true);
+
         FlxG.camera.fade(FlxColor.BLACK, 0.5, false, function() {
 			FlxG.switchState(new GameOverState(false, 0));
         });
