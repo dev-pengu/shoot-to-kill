@@ -1,5 +1,6 @@
 package actors.player;
 
+import states.GameOverState;
 import items.PowerUp;
 import actors.player.fsm.states.DoubleJumpState;
 import flixel.system.FlxSound;
@@ -7,7 +8,8 @@ import actors.player.fsm.states.ReloadState;
 import actors.player.fsm.states.AttackState;
 import items.Bullet;
 import flixel.group.FlxGroup.FlxTypedGroup;
-import ui.Hud;
+import flixel.util.FlxColor;
+import states.GameOverState;
 import actors.player.fsm.states.CrouchState;
 import actors.player.fsm.states.FallState;
 import actors.player.fsm.states.JumpState;
@@ -235,6 +237,14 @@ class Player extends FlxSprite {
             invincibleTimer = INVINCIBLE_TIME;
             //this.animation.play(HURT_ANIMATION);
         }
+    }
+
+    override public function kill() {
+        FlxG.camera.fade(FlxColor.BLACK, 0.5, false, function() {
+			FlxG.switchState(new GameOverState(false, 0));
+        });
+
+        super.kill();
     }
 
     public function addPowerUp(powerUp:PowerUp):Bool {
