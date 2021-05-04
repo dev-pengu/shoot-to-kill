@@ -1,5 +1,6 @@
 package;
 
+import flixel.text.FlxText;
 import states.GameOverState;
 import states.PauseMenuState;
 import items.PowerUp;
@@ -37,6 +38,8 @@ class PlayState extends FlxState
 	private var colliders:FlxTypedGroup<HitBox>;
 	private var allPowerUps:FlxTypedGroup<PowerUp>;
 	private var levelGoal:HitBox;
+	private var message:FlxText;
+	private var messageTimer:Float;
 
 	private var levelLoader:FlxOgmo3Loader;
 	private var map:FlxTilemap;
@@ -47,19 +50,15 @@ class PlayState extends FlxState
 	override public function create()
 	{
 		initBackground();
-
-		setUpLevel(AssetPaths.shoot_to_kill__ogmo, AssetPaths.level_01__json);
-
-		FlxG.camera.fade(FlxColor.BLACK, 2, true);
-		FlxG.camera.follow(player, FlxCameraFollowStyle.PLATFORMER, 1 / 2);
-		FlxG.camera.bgColor = FlxColor.fromRGB(20, 11, 7);
-		FlxG.camera.setScrollBoundsRect(0, 0, FlxG.worldBounds.width, FlxG.worldBounds.height);
-		FlxG.camera.zoom = 1.25;
+		setupLevel(AssetPaths.shoot_to_kill__ogmo, AssetPaths.level_01__json);
+		setupCamera();
 
 		FlxG.mouse.visible = false;
 
 		hud = new Hud(player, HUD_OFFSET_X, HUD_OFFSET_Y);
 		RangedVillager.BULLETS = new FlxTypedGroup<Bullet>();
+		message = new FlxText(FlxG.width * 0.5, FlxG.height * 0.5, 0, "message", 24);
+		message.visible = false;
 
 		ambienceTrack = FlxG.sound.load(AssetPaths.background_ambience__ogg, 0.15);
 		if (ambienceTrack != null)
@@ -82,26 +81,49 @@ class PlayState extends FlxState
 	{
 		super.update(elapsed);
 
-		FlxG.collide(player, map);
-		FlxG.collide(enemies, map);
-		FlxG.collide(player, breakableBlocks, function(player, block) block.explode());
-		FlxG.overlap(player, RangedVillager.BULLETS, Bullet.doDamage);
-		FlxG.overlap(enemies, player.bullets, Bullet.doDamage);
-		FlxG.collide(RangedVillager.BULLETS, map, function(bullet, map) bullet.kill());
-		FlxG.collide(player.bullets, map, function(bullet, map) bullet.kill());
-		FlxG.overlap(player, spikes, function(player, spike) spike.doDamage(player));
-		FlxG.collide(player, colliders);
-		FlxG.overlap(player, allPowerUps, function(player, powerUp:PowerUp) powerUp.pickUp(player));
-		FlxG.overlap(player, levelGoal, function(player, levelGoal) {
-			FlxG.camera.fade(FlxColor.BLACK, 0.33, false, function() {
-				FlxG.switchState(new GameOverState(true, 0));
-			});
-		});
-
+		handleCollisions();
+		if (message.visible && messageTimer == 0) {
+			message.visible = false;
+		}
+		messageTimer -= elapsed;
 
 		if (FlxG.keys.justPressed.ESCAPE) {
 			openSubState(pauseMenuSubState);
 		}
+	}
+
+	private function handleCollisions():Void {
+		FlxG.collide(player, map);
+		FlxG.collide(enemies, map);
+		FlxG.collide(player, breakableBlocks, function(player:Player, block:BreakableBlock) block.explode());
+		FlxG.overlap(player, RangedVillager.BULLETS, Bullet.doDamage);
+		FlxG.overlap(enemies, player.bullets, Bullet.doDamage);
+		FlxG.collide(RangedVillager.BULLETS, map, function(bullet:Bullet, map) bullet.kill());
+		FlxG.collide(player.bullets, map, function(bullet:Bullet, map) bullet.kill());
+		FlxG.overlap(player, spikes, function(player:Player, spike:Spike) spike.doDamage(player));
+		FlxG.collide(player, colliders);
+		FlxG.overlap(player, allPowerUps, function(player:Player, powerUp:PowerUp)
+		{
+			powerUp.pickUp(player);
+			message.text = powerUp.data.unlockMessage;
+			message.visible = true;
+			messageTimer = 1;
+		});
+		FlxG.overlap(player, levelGoal, function(player, levelGoal)
+		{
+			FlxG.camera.fade(FlxColor.BLACK, 0.33, false, function()
+			{
+				FlxG.switchState(new GameOverState(true, 0));
+			});
+		});
+	}
+
+	private function setupCamera():Void {
+		FlxG.camera.fade(FlxColor.BLACK, 2, true);
+		FlxG.camera.follow(player, FlxCameraFollowStyle.PLATFORMER, 1 / 2);
+		FlxG.camera.bgColor = FlxColor.fromRGB(20, 11, 7);
+		FlxG.camera.setScrollBoundsRect(0, 0, FlxG.worldBounds.width, FlxG.worldBounds.height);
+		FlxG.camera.zoom = 1.25;
 	}
 
 	private function addAll():Void {
@@ -115,9 +137,10 @@ class PlayState extends FlxState
 		add(player.bullets);
 		add(player);
 		add(hud);
+		add(message);
 	}
 
-	private function setUpLevel(projectPath:String, projectJson:String):Void {
+	private function setupLevel(projectPath:String, projectJson:String):Void {
 		levelLoader = new FlxOgmo3Loader(projectPath,
 			projectJson);
 
@@ -147,8 +170,9 @@ class PlayState extends FlxState
 		} else if (entityData.name == "ranged-villager") {
 			enemies.add(new RangedVillager(entityData.x - entityData.originX, entityData.y - entityData.originY, player));
 		} else if (entityData.name == "spikes") {
-			spikes.add(new Spike(entityData.x - entityData.originX, entityData.y - entityData.originY));
-			colliders.add(new HitBox(entityData.x - entityData.originX, entityData.y - entityData.originY + 16, 32, 16));
+			var spike:Spike = new Spike(entityData.x - entityData.originX, entityData.y - entityData.originY);
+			spikes.add(spike);
+			colliders.add(new HitBox(entityData.x - entityData.originX, entityData.y - entityData.originY + 16, 32, 16, spike));
 		} else if (entityData.name == "breakable-block") {
 			breakableBlocks.add(new BreakableBlock(entityData.x - entityData.originX, entityData.y - entityData.originY));
 		} else if (entityData.name == "level-goal-block") {
@@ -159,6 +183,8 @@ class PlayState extends FlxState
 			allPowerUps.add(new PowerUp(entityData.x - entityData.originX, entityData.y - entityData.originY, "doubleJump"));
 		} else if (entityData.name == "goal") {
 			levelGoal = new HitBox(entityData.x - entityData.originX, entityData.y - entityData.originY, 32, 32);
+		} else if (entityData.name == "jump-shot-powerup") {
+			allPowerUps.add(new PowerUp(entityData.x - entityData.originX, entityData.y - entityData.originY, "jumpShot"));
 		}
 	}
 

@@ -7,6 +7,10 @@ class DoubleJumpState extends AirState {
     }
 
     override public function handleInput(input:Input):Int {
+        if (input.attackJustPressed && this.managedPlayer.powerUps.contains("jumpShot")) {
+            return PlayerStates.JUMP_ATTACKING.getIndex();
+        }
+        
         if (input.jumpJustReleased || managedPlayer.velocity.y >= 0) {
             return PlayerStates.FALLING.getIndex();
         }

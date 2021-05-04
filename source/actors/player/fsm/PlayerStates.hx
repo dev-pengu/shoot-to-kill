@@ -10,4 +10,5 @@ enum PlayerStates {
     ATTACKING;
     RELOADING;
     DOUBLE_JUMPING;
+    JUMP_ATTACKING;
 }

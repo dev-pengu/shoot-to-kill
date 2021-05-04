@@ -27,7 +27,7 @@ class AttackState extends PlayerState {
     }
 
     override public function transitionIn():Void {
-        this.managedPlayer.drag.x = Player.STANDING_DECELERATION;
+        this.managedPlayer.velocity.x = 0;
 
 		if (this.managedPlayer.animation.finished || this.managedPlayer.animation.name == Player.RUN_ANIMATION) {
 			this.managedPlayer.animation.play(Player.STAND_ANIMATION);

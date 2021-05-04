@@ -71,10 +71,7 @@ class Enemy extends FlxSprite
 			TARGETS.push(player);
 		}
 
-		healthBar = new FlxBar(X, Y - 20, FlxBarFillDirection.LEFT_TO_RIGHT, Math.floor(stats.maxHealth / 2), 10, this, "health", 0, stats.maxHealth);
-		healthBar.createFilledBar(FlxColor.BLACK, FlxColor.RED, true);
-		healthBar.trackParent(HEALTH_BAR_OFFSET_X, HEALTH_BAR_OFFSET_Y);
-		FlxG.state.add(this.healthBar);
+		initHealthBar();
 
 		loadGraphic(graphic, true, SPRITE_SIZE, SPRITE_SIZE);
 		setGraphicSize(SPRITE_SIZE * 2, SPRITE_SIZE * 2);
@@ -84,6 +81,13 @@ class Enemy extends FlxSprite
 		height = HEIGHT;
 
 		touching = FlxObject.DOWN;
+	}
+
+	private function initHealthBar():Void {
+		healthBar = new FlxBar(this.x, this.y - 20, FlxBarFillDirection.LEFT_TO_RIGHT, Math.floor(stats.maxHealth / 2), 10, this, "health", 0, stats.maxHealth);
+		healthBar.createFilledBar(FlxColor.BLACK, FlxColor.RED, true);
+		healthBar.trackParent(HEALTH_BAR_OFFSET_X, HEALTH_BAR_OFFSET_Y);
+		FlxG.state.add(this.healthBar);
 	}
 
 	private function initStates():Void {
