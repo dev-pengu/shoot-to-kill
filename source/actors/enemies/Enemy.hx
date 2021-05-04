@@ -71,8 +71,6 @@ class Enemy extends FlxSprite
 			TARGETS.push(player);
 		}
 
-		initHealthBar();
-
 		loadGraphic(graphic, true, SPRITE_SIZE, SPRITE_SIZE);
 		setGraphicSize(SPRITE_SIZE * 2, SPRITE_SIZE * 2);
 		updateHitbox();
@@ -117,6 +115,9 @@ class Enemy extends FlxSprite
 
     override public function update(elapsed:Float)
     {
+		if (healthBar == null) {
+			initHealthBar();
+		}
         handleStateTransitions();
         state.update(elapsed);
         super.update(elapsed);

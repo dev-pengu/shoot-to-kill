@@ -39,7 +39,7 @@ class PlayState extends FlxState
 	private var allPowerUps:FlxTypedGroup<PowerUp>;
 	private var levelGoal:HitBox;
 	private var message:FlxText;
-	private var messageTimer:Float;
+	private var messageTimer:Float = 2;
 
 	private var levelLoader:FlxOgmo3Loader;
 	private var map:FlxTilemap;
@@ -57,8 +57,12 @@ class PlayState extends FlxState
 
 		hud = new Hud(player, HUD_OFFSET_X, HUD_OFFSET_Y);
 		RangedVillager.BULLETS = new FlxTypedGroup<Bullet>();
-		message = new FlxText(FlxG.width * 0.5, FlxG.height * 0.5, 0, "message", 24);
+		message = new FlxText(0, 0, 0, "message", 24);
+		message.alignment = CENTER;
+		message.screenCenter();
 		message.visible = false;
+		message.scrollFactor.set(0, 0);
+
 
 		ambienceTrack = FlxG.sound.load(AssetPaths.background_ambience__ogg, 0.15);
 		if (ambienceTrack != null)
@@ -79,13 +83,21 @@ class PlayState extends FlxState
 
 	override public function update(elapsed:Float)
 	{
+		if (!message.isOnScreen()) {
+			var x = FlxG.width / 2 * ((FlxG.camera.zoom - 1) / FlxG.camera.zoom);
+			var y = FlxG.height / 2 * ((FlxG.camera.zoom - 1) / FlxG.camera.zoom);
+			message.x = x;
+			message.y = y;
+		}
+
 		super.update(elapsed);
 
 		handleCollisions();
-		if (message.visible && messageTimer == 0) {
+		if (message.visible && messageTimer <= 0) {
 			message.visible = false;
+		} else if (messageTimer > 0) {
+			messageTimer -= elapsed;
 		}
-		messageTimer -= elapsed;
 
 		if (FlxG.keys.justPressed.ESCAPE) {
 			openSubState(pauseMenuSubState);
@@ -108,6 +120,7 @@ class PlayState extends FlxState
 			message.text = powerUp.data.unlockMessage;
 			message.visible = true;
 			messageTimer = 1;
+
 		});
 		FlxG.overlap(player, levelGoal, function(player, levelGoal)
 		{
@@ -128,7 +141,6 @@ class PlayState extends FlxState
 
 	private function addAll():Void {
 		add(map);
-		add(enemies);
 		add(spikes);
 		add(breakableBlocks);
 		add(levelGoalBlocks);
@@ -136,6 +148,7 @@ class PlayState extends FlxState
 		add(RangedVillager.BULLETS);
 		add(player.bullets);
 		add(player);
+		add(enemies);
 		add(hud);
 		add(message);
 	}
