@@ -24,6 +24,7 @@ import flixel.FlxObject;
 import actors.player.Input;
 import actors.player.fsm.State;
 import flixel.tile.FlxTilemap;
+import items.Tnt;
 
 class Player extends FlxSprite {
 	public static var HIT_BOX_WIDTH(default, never):Int = 20;
@@ -75,7 +76,10 @@ class Player extends FlxSprite {
     private var previousState:State;
     private var states:Vector<State> = new Vector<State>(10);
     private var invincibleTimer:Float = 0;
+
+    public var tntCount = 0;
 	public var bullets(default, null):FlxTypedGroup<Bullet>;
+    public var tnt(default, default):FlxTypedGroup<Tnt>;
 
     @:isVar public var powerUps(default, null):Array<String>;
     @:isVar public var maxAirJumps(default, null):Int = 1;
@@ -145,6 +149,10 @@ class Player extends FlxSprite {
 
         if (bullets == null) {
             bullets = new FlxTypedGroup<Bullet>();
+        }
+
+        if (tnt == null) {
+            tnt = new FlxTypedGroup<Tnt>();
         }
     }
 

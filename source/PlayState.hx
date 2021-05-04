@@ -1,5 +1,6 @@
 package;
 
+import items.Tnt;
 import flixel.text.FlxText;
 import states.GameOverState;
 import states.PauseMenuState;
@@ -23,6 +24,7 @@ import flixel.FlxState;
 import flixel.FlxG;
 import flixel.FlxObject;
 import environment.background.Parallax;
+import environment.Explodable;
 
 class PlayState extends FlxState
 {
@@ -37,6 +39,7 @@ class PlayState extends FlxState
 	private var spikes:FlxTypedGroup<Spike>;
 	private var colliders:FlxTypedGroup<HitBox>;
 	private var allPowerUps:FlxTypedGroup<PowerUp>;
+	private var allExplodables:FlxTypedGroup<Explodable>;
 	private var levelGoal:HitBox;
 	private var message:FlxText;
 	private var messageTimer:Float = 2;
@@ -57,6 +60,7 @@ class PlayState extends FlxState
 
 		hud = new Hud(player, HUD_OFFSET_X, HUD_OFFSET_Y);
 		RangedVillager.BULLETS = new FlxTypedGroup<Bullet>();
+		Tnt.EXPLODABLES = allExplodables;
 		message = new FlxText(0, 0, 0, "message", 24);
 		message.alignment = CENTER;
 		message.screenCenter();
@@ -172,6 +176,7 @@ class PlayState extends FlxState
 		spikes = new FlxTypedGroup<Spike>();
 		colliders = new FlxTypedGroup<HitBox>();
 		allPowerUps = new FlxTypedGroup<PowerUp>();
+		allExplodables = new FlxTypedGroup<Explodable>();
 
 		levelLoader.loadEntities(placeEntities, "entities");
 		Player.OBSTRUCTIONS = Enemy.OBSTRUCTIONS = map;
@@ -187,7 +192,9 @@ class PlayState extends FlxState
 			spikes.add(spike);
 			colliders.add(new HitBox(entityData.x - entityData.originX, entityData.y - entityData.originY + 16, 32, 16, spike));
 		} else if (entityData.name == "breakable-block") {
-			breakableBlocks.add(new BreakableBlock(entityData.x - entityData.originX, entityData.y - entityData.originY));
+			var block:BreakableBlock = new BreakableBlock(entityData.x - entityData.originX, entityData.y - entityData.originY);
+			breakableBlocks.add(block);
+			allExplodables.add(block);
 		} else if (entityData.name == "level-goal-block") {
 			levelGoalBlocks.add(new LevelGoalBlock(entityData.x - entityData.originX, entityData.y - entityData.originY));
 		} else if (entityData.name == "hitbox") {
