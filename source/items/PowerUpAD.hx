@@ -13,9 +13,11 @@ interface I_PowerUp {
 class PowerUpData {
 	@:isVar public var name(default, null):String;
 	@:isVar public var iconPath(default, null):String;
+    @:isVar public var unlockMessage(default, null):String;
 
-    public function new(name:String, iconPath:String) {
+    public function new(name:String, iconPath:String, unlockMessage:String) {
         this.name = name;
         this.iconPath = iconPath;
+        this.unlockMessage = unlockMessage;
     }
 }

@@ -1,5 +1,6 @@
 package actors.player;
 
+import actors.player.fsm.states.AirAttackState;
 import states.GameOverState;
 import items.PowerUp;
 import actors.player.fsm.states.DoubleJumpState;
@@ -28,7 +29,7 @@ class Player extends FlxSprite {
 	public static var HIT_BOX_WIDTH(default, never):Int = 20;
 	public static var HIT_BOX_HEIGHT(default, never):Int = 60;
     public static var SPRITE_SIZE(default, never):Int = 48;
-	public static var CROUCH_HEIGHT(default, never):Float = 32;
+	public static var CROUCH_HEIGHT(default, never):Float = 30;
     public static var JUMP_HEIGHT(default, never):Float = 55;
     public static var OFFSET_X(default, never):Int = 14;
     public static var OFFSET_Y(default, never):Int = 12;
@@ -59,18 +60,20 @@ class Player extends FlxSprite {
     public static var IDLE_RELOAD_ANIMATION(default, never):String = "reload";
     public static var WALK_RELOAD_ANIMATION(default, never):String = "walkReload";
     public static var HURT_ANIMATION(default, never):String = "hurt";
+    public static var JUMP_ATTACK_ANIMATION(default, never):String = "jumpShot";
 
     public static var JUMP_VELOCITY(default, never):Float = -275;
     public static var GRAVITY(default, never):Float = 400;
 	private static var INVINCIBLE_TIME:Float = 1;
 
 	public static var BULLET_SPAWN_OFFSET_X(default, never):Float = -5;
-	public static var BULLET_SPAWN_OFFSET_Y(default, never):Float = 20;
+	public static var BULLET_SPAWN_OFFSET_Y(default, never):Float = 21;
 	public static var BULLET_SPEED(default, never):Float = 175;
 
     private var input:Input;
     private var state:State;
-    private var states:Vector<State> = new Vector<State>(9);
+    private var previousState:State;
+    private var states:Vector<State> = new Vector<State>(10);
     private var invincibleTimer:Float = 0;
 	public var bullets(default, null):FlxTypedGroup<Bullet>;
 
@@ -95,47 +98,16 @@ class Player extends FlxSprite {
         maxVelocity.set(MAX_RUN_SPEED, MAX_Y_SPEED);
 
 		this.health = maxHealth;
+		this.airJumps = 1;
+		this.touching = FlxObject.DOWN;
 
-		loadGraphic(AssetPaths.Outlaw_sprite_sheet__png, true, 48, 48);
-        setGraphicSize(96, 96);
-		this.offset.set(OFFSET_X, OFFSET_Y);
-		this.width = HIT_BOX_WIDTH;
-		this.height = HIT_BOX_HEIGHT;
-        airJumps = 1;
-        powerUps = new Array<String>();
+		initGraphic();
+        initCollections();
+        buildAnimations();
+        buildStates();
+		buildSoundMap();
 
-        if (bullets == null) {
-            bullets = new FlxTypedGroup<Bullet>();
-        }
-
-        animation.add(STAND_ANIMATION, [0], 1, false);
-        animation.add(RUN_ANIMATION, [1, 2, 3, 1, 4, 5], 8);
-        animation.add(START_CROUCH_ANIMATION, [7, 8], 6, false);
-        animation.add(CROUCH_ANIMATION, [8], 1, false);
-        animation.add(CROUCH_MOVE_ANIMATION, [8, 9], 2, false);
-        animation.add(JUMP_ANIMATION, [10, 11], 8, false);
-        animation.add(FALL_ANIMATION, [12, 13, 14], 6, false);
-        animation.add(ATTACK_ANIMATION, [0, 15, 16, 17, 18], 15, false);
-        animation.add(IDLE_RELOAD_ANIMATION, [19], 1, false);
-        animation.add(WALK_RELOAD_ANIMATION, [20, 21, 22, 23, 24, 25], 8);
-
-
-        states[PlayerStates.STANDING.getIndex()] = new StandState(this);
-        states[PlayerStates.RUNNING.getIndex()] = new RunState(this);
-        states[PlayerStates.JUMPING.getIndex()] = new JumpState(this);
-        states[PlayerStates.FALLING.getIndex()] = new FallState(this);
-        states[PlayerStates.CROUCHING.getIndex()] = new CrouchState(this);
-        states[PlayerStates.ATTACKING.getIndex()] = new AttackState(this);
-        states[PlayerStates.RELOADING.getIndex()] = new ReloadState(this);
-        states[PlayerStates.DOUBLE_JUMPING.getIndex()] = new DoubleJumpState(this);
-
-		touching = FlxObject.DOWN;
-		input = new Input();
-        playerSfx = new Map<String, FlxSound>();
-
-        buildSoundMap();
-
-        state = states[PlayerStates.STANDING.getIndex()];
+        this.state = states[PlayerStates.STANDING.getIndex()];
         state.transitionIn();
     }
 
@@ -166,6 +138,50 @@ class Player extends FlxSprite {
         input.reloadJustPressed = FlxG.keys.justPressed.R;
     }
 
+    private function initCollections():Void {
+        powerUps = new Array<String>();
+		input = new Input();
+		playerSfx = new Map<String, FlxSound>();
+
+        if (bullets == null) {
+            bullets = new FlxTypedGroup<Bullet>();
+        }
+    }
+
+    private function initGraphic():Void {
+		loadGraphic(AssetPaths.Outlaw_sprite_sheet__png, true, 48, 48);
+		setGraphicSize(96, 96);
+		this.offset.set(OFFSET_X, OFFSET_Y);
+		this.width = HIT_BOX_WIDTH;
+		this.height = HIT_BOX_HEIGHT;
+    }
+
+    private function buildStates():Void {
+		states[PlayerStates.STANDING.getIndex()] = new StandState(this);
+		states[PlayerStates.RUNNING.getIndex()] = new RunState(this);
+		states[PlayerStates.JUMPING.getIndex()] = new JumpState(this);
+		states[PlayerStates.FALLING.getIndex()] = new FallState(this);
+		states[PlayerStates.CROUCHING.getIndex()] = new CrouchState(this);
+		states[PlayerStates.ATTACKING.getIndex()] = new AttackState(this);
+		states[PlayerStates.RELOADING.getIndex()] = new ReloadState(this);
+		states[PlayerStates.DOUBLE_JUMPING.getIndex()] = new DoubleJumpState(this);
+		states[PlayerStates.JUMP_ATTACKING.getIndex()] = new AirAttackState(this);
+    }
+
+    private function buildAnimations():Void {
+		animation.add(STAND_ANIMATION, [0], 1, false);
+		animation.add(RUN_ANIMATION, [1, 2, 3, 1, 4, 5], 8);
+		animation.add(START_CROUCH_ANIMATION, [7, 8], 6, false);
+		animation.add(CROUCH_ANIMATION, [8], 1, false);
+		animation.add(CROUCH_MOVE_ANIMATION, [8, 9], 2, false);
+		animation.add(JUMP_ANIMATION, [10, 11], 8, false);
+		animation.add(FALL_ANIMATION, [12, 13, 14], 6, false);
+		animation.add(ATTACK_ANIMATION, [0, 15, 16, 17, 18], 15, false);
+		animation.add(IDLE_RELOAD_ANIMATION, [19], 1, false);
+		animation.add(WALK_RELOAD_ANIMATION, [20, 21, 22, 23, 24, 25], 8);
+		animation.add(JUMP_ATTACK_ANIMATION, [26, 27, 28, 29], 15, false);
+    }
+
     private function buildSoundMap():Void {
         playerSfx[RUNNING_SOUND] = FlxG.sound.load(AssetPaths.Running_on_Gravel_www__fesliyanstudios__com__ogg, 0.25, true);
 		playerSfx[RELOADING_SOUND] = FlxG.sound.load(AssetPaths.Loading_and_chambering_gun_www__fesliyanstudios__com__ogg, 0.5);
@@ -182,6 +198,7 @@ class Player extends FlxSprite {
         do {
             nextState = state.handleInput(input);
             if (nextState != PlayerStates.NO_CHANGE.getIndex()) {
+                previousState = state;
                 state.transitionOut();
                 state = states[nextState];
                 state.transitionIn();

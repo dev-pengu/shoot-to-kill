@@ -17,6 +17,14 @@ class ReloadState extends PlayerState {
             return PlayerStates.STANDING.getIndex();
         }
 
+        if (input.jumpJustPressed) {
+            return PlayerStates.JUMPING.getIndex();
+        }
+
+        if (input.downJustPressed) {
+            return PlayerStates.CROUCHING.getIndex();
+        }
+
         this.movementDirection = 0;
         if (input.leftPressed) {
             this.movementDirection = -1;
@@ -61,9 +69,7 @@ class ReloadState extends PlayerState {
     }
 
     override public function update(elapsed:Float):Void {
-        if (movementDirection != 0) {
-			this.managedPlayer.velocity.x = (Player.MAX_RUN_SPEED / 2) * movementDirection;
-        }
+        this.managedPlayer.velocity.x = (Player.MAX_RUN_SPEED / 2) * movementDirection;
         if (reloadTimer <= 0) {
             this.managedPlayer.roundsLeft++;
 			reloadTimer = this.managedPlayer.reloadTime / this.managedPlayer.rounds;

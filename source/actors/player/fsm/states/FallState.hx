@@ -9,6 +9,10 @@ class FallState extends AirState {
     }
 
     override public function handleInput(input:Input):Int {
+        if (input.attackJustPressed && this.managedPlayer.powerUps.contains("jumpShot")) {
+            return PlayerStates.JUMP_ATTACKING.getIndex();
+        }
+        
         if (input.jumpJustPressed && this.managedPlayer.airJumps > 0 && this.managedPlayer.powerUps.contains("doubleJump")) {
             this.managedPlayer.airJumps--;
             return PlayerStates.DOUBLE_JUMPING.getIndex();

@@ -11,8 +11,10 @@ class PowerUpFactory {
         if (data == null) {
             switch(name) {
                 case "doubleJump":
-                    data = new PowerUpData("doubleJump", AssetPaths.double_jump_icon__png);
+                    data = new PowerUpData("doubleJump", AssetPaths.double_jump_icon__png, "Double Jump Ability Unlocked!");
                     POWER_UPS.set(name, data);
+                case "jumpShot":
+                    data = new PowerUpData("jumpShot", AssetPaths.jump_shot_icon__png, "Jump Shot Ability Unlocked!");
             }
         }
 

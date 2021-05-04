@@ -12,8 +12,8 @@ class StandState extends PlayerState {
         if (input.attackJustPressed) {
             return PlayerStates.ATTACKING.getIndex();
         }
-
-		if ((input.reloadJustPressed && this.managedPlayer.roundsLeft < this.managedPlayer.rounds)) {
+        
+		if ((input.reloadJustPressed && this.managedPlayer.roundsLeft < this.managedPlayer.rounds) || (this.managedPlayer.roundsLeft == 0)) {
             return PlayerStates.RELOADING.getIndex();
         }
 
