@@ -18,7 +18,7 @@ class BreakableBlock extends Explodable {
         this.animation.play(IDLE_ANIMATION);
     }
 
-    public function explode() {
+    override public function explode() {
 		this.animation.play(BREAKING_ANIMATION);
     }
 

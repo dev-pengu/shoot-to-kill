@@ -9,7 +9,6 @@ class EnemyStats {
 	@:isVar public var reloadTime(get, null):Float;
 	@:isVar public var rounds(get, null):Int;
 	@:isVar public var attackRange(get, null):Float;
-	@:isVar public var enemySfx(default, null):Map<String, FlxSound>;
 
 	public function new(maxHealth:Float, aggroRange:Float, attackSpeed:Float, attackRange:Float, ?reloadTime:Float=0, ?rounds:Int=0) {
 		this.maxHealth = maxHealth;
@@ -18,7 +17,6 @@ class EnemyStats {
 		this.attackRange = attackRange;
 		this.reloadTime = reloadTime;
 		this.rounds = rounds;
-		enemySfx = new Map<String, FlxSound>();
 	}
 
     function get_maxHealth() return maxHealth;

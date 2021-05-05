@@ -23,6 +23,12 @@ class Hud extends FlxTypedGroup<FlxSprite>
 	private var managedEntity:Player;
 	private var roundsValue:Int;
 	private var bulletsVar:String = "roundsLeft";
+	private var tntSprite:FlxSprite;
+	private var tntCount:Int = 0;
+	private var tntText:FlxText;
+	private var tntVar:String = "tntCount";
+	private var bulletsIsDirty = false;
+	private var tntIsDirty = false;
 
 	public function new(?managedEntity:Player, ?x_offset:Float=0, ?y_offset:Float=0)
 	{
@@ -41,21 +47,41 @@ class Hud extends FlxTypedGroup<FlxSprite>
 				bulletSprites.push(sprite);
 				add(bulletSprites[i]);
 			}
+			tntSprite = new FlxSprite(x_offset + BULLET_UI_BEGIN_X, y_offset + BULLET_UI_Y + BULLET_SPRITE_SIZE + 5);
+			tntSprite.loadGraphic(AssetPaths.tnt_sprite_sheet__png, true, 32, 32);
+			tntSprite.animation.add("idle", [0], 1, false);
+			tntSprite.animation.play("idle");
+
+			tntText = new FlxText(tntSprite.x + 40, tntSprite.y + 16, 0, Std.string(tntCount),10);
 
 			add(healthText);
 			add(healthBar);
+			add(tntSprite);
+			add(tntText);
 			forEach(function(sprite) sprite.scrollFactor.set(0, 0));
+
 		}
 	}
 
 	function updateValueFromParent():Void {
-		roundsValue = Reflect.getProperty(managedEntity, bulletsVar);
+		if (bulletsIsDirty) {
+			roundsValue = Reflect.getProperty(managedEntity, bulletsVar);
+		}
+		if (tntIsDirty) {
+			tntCount = Reflect.getProperty(managedEntity, tntVar);
+		}
 	}
 
 	override public function update(elapsed:Float):Void	{
 		super.update(elapsed);
 		if (managedEntity != null) {
 			if (Reflect.getProperty(managedEntity, bulletsVar) != roundsValue) {
+				bulletsIsDirty = true;
+			}
+			if (Reflect.getProperty(managedEntity, tntVar) != tntCount) {
+				tntIsDirty = true;
+			}
+			if (bulletsIsDirty || tntIsDirty) {
 				updateValueFromParent();
 				updateUI();
 			}
@@ -63,16 +89,23 @@ class Hud extends FlxTypedGroup<FlxSprite>
 	}
 
 	function updateUI() {
-        for (i in 0...managedEntity.rounds) {
-            if (i + 1 <= roundsValue) {
-				if (i != 0) {
-					bulletSprites[i].loadGraphic(AssetPaths.bulletUI_0__png);
+		if (bulletsIsDirty) {
+			for (i in 0...managedEntity.rounds) {
+				if (i + 1 <= roundsValue) {
+					if (i != 0) {
+						bulletSprites[i].loadGraphic(AssetPaths.bulletUI_0__png);
+					} else {
+						bulletSprites[i].loadGraphic(AssetPaths.bulletUI_1__png);
+					}
 				} else {
-					bulletSprites[i].loadGraphic(AssetPaths.bulletUI_1__png);
+					bulletSprites[i].makeGraphic(BULLET_SPRITE_SIZE, BULLET_SPRITE_SIZE, FlxColor.TRANSPARENT);
 				}
-            } else {
-				bulletSprites[i].makeGraphic(BULLET_SPRITE_SIZE, BULLET_SPRITE_SIZE, FlxColor.TRANSPARENT);
-            }
-        }
+			}
+			bulletsIsDirty = false;
+		}
+		if (tntIsDirty) {
+			tntText.text = Std.string(tntCount);
+			tntIsDirty = false;
+		}
     }
 }

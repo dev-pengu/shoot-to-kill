@@ -1,5 +1,7 @@
 package;
 
+import items.TntPickup;
+import items.ItemPickup;
 import items.Tnt;
 import flixel.text.FlxText;
 import states.GameOverState;
@@ -40,6 +42,7 @@ class PlayState extends FlxState
 	private var colliders:FlxTypedGroup<HitBox>;
 	private var allPowerUps:FlxTypedGroup<PowerUp>;
 	private var allExplodables:FlxTypedGroup<Explodable>;
+	private var itemPickups:FlxTypedGroup<ItemPickup>;
 	private var levelGoal:HitBox;
 	private var message:FlxText;
 	private var messageTimer:Float = 2;
@@ -60,7 +63,6 @@ class PlayState extends FlxState
 
 		hud = new Hud(player, HUD_OFFSET_X, HUD_OFFSET_Y);
 		RangedVillager.BULLETS = new FlxTypedGroup<Bullet>();
-		Tnt.EXPLODABLES = allExplodables;
 		message = new FlxText(0, 0, 0, "message", 24);
 		message.alignment = CENTER;
 		message.screenCenter();
@@ -111,7 +113,9 @@ class PlayState extends FlxState
 	private function handleCollisions():Void {
 		FlxG.collide(player, map);
 		FlxG.collide(enemies, map);
-		FlxG.collide(player, breakableBlocks, function(player:Player, block:BreakableBlock) block.explode());
+		FlxG.collide(player.tnt, map);
+		FlxG.collide(player, allExplodables);
+		FlxG.collide(player.tnt, allExplodables);
 		FlxG.overlap(player, RangedVillager.BULLETS, Bullet.doDamage);
 		FlxG.overlap(enemies, player.bullets, Bullet.doDamage);
 		FlxG.collide(RangedVillager.BULLETS, map, function(bullet:Bullet, map) bullet.kill());
@@ -133,6 +137,12 @@ class PlayState extends FlxState
 				FlxG.switchState(new GameOverState(true, 0));
 			});
 		});
+		FlxG.overlap(player, itemPickups, function(player:Player, itemPickup:ItemPickup) {
+			itemPickup.pickup(player);
+			message.text = itemPickup.numItems + " " + itemPickup.itemData.pickupMessage;
+			message.visible = true;
+			messageTimer = 1;
+		});
 	}
 
 	private function setupCamera():Void {
@@ -151,8 +161,10 @@ class PlayState extends FlxState
 		add(allPowerUps);
 		add(RangedVillager.BULLETS);
 		add(player.bullets);
+		add(player.tnt);
 		add(player);
 		add(enemies);
+		add(itemPickups);
 		add(hud);
 		add(message);
 	}
@@ -177,9 +189,11 @@ class PlayState extends FlxState
 		colliders = new FlxTypedGroup<HitBox>();
 		allPowerUps = new FlxTypedGroup<PowerUp>();
 		allExplodables = new FlxTypedGroup<Explodable>();
+		itemPickups = new FlxTypedGroup<ItemPickup>();
 
 		levelLoader.loadEntities(placeEntities, "entities");
 		Player.OBSTRUCTIONS = Enemy.OBSTRUCTIONS = map;
+		Tnt.EXPLODABLES = allExplodables;
 	}
 
 	private function placeEntities(entityData:EntityData):Void {
@@ -205,6 +219,10 @@ class PlayState extends FlxState
 			levelGoal = new HitBox(entityData.x - entityData.originX, entityData.y - entityData.originY, 32, 32);
 		} else if (entityData.name == "jump-shot-powerup") {
 			allPowerUps.add(new PowerUp(entityData.x - entityData.originX, entityData.y - entityData.originY, "jumpShot"));
+		} else if (entityData.name == "bomb-pickup") {
+			itemPickups.add(new TntPickup(entityData.x - entityData.originX, entityData.y - entityData.originY, 1));
+		} else if (entityData.name == "triple-bomb-pickup") {
+			itemPickups.add(new TntPickup(entityData.x - entityData.originX, entityData.y - entityData.originY, 3));
 		}
 	}
 

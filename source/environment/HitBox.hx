@@ -9,7 +9,7 @@ class HitBox extends FlxSprite {
     private var offsetX:Float = 0;
     private var offsetY:Float = 0;
 
-    public function new(?x:Float=0, ?y:Float=0, ?width:Int = 1, ?height:Int = 1, ?owner:FlxSprite) {
+    public function new(?x:Float=0, ?y:Float=0, ?width:Int = 1, ?height:Int = 1, ?owner:FlxSprite, ?offset:Float) {
         super(x,y);
 
         this.owner = owner;
@@ -17,6 +17,9 @@ class HitBox extends FlxSprite {
 
         immovable = true;
         visible = false;
+        if (offset != null) {
+            offsetX = offsetY = offset;
+        }
     }
 
     public function positionBox(from:String = "Bottom", to:String = "South") {

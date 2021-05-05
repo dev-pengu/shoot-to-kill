@@ -1,14 +1,12 @@
 package items;
 
 import environment.HitBox;
-import actors.player.Player;
 
 interface I_UsableItem {
     public var data(default, null):ItemData;
-    private var hitBox:HitBox;
+    public var hitBox(default, null):HitBox;
 
     public function use():Void;
-	public function pickup(player:Player):Void;
 }
 
 class ItemData {

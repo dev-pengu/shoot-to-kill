@@ -27,7 +27,7 @@ import flixel.tile.FlxTilemap;
 import items.Tnt;
 
 class Player extends FlxSprite {
-	public static var HIT_BOX_WIDTH(default, never):Int = 20;
+	public static var HIT_BOX_WIDTH(default, never):Int = 22;
 	public static var HIT_BOX_HEIGHT(default, never):Int = 60;
     public static var SPRITE_SIZE(default, never):Int = 48;
 	public static var CROUCH_HEIGHT(default, never):Float = 30;
@@ -138,6 +138,7 @@ class Player extends FlxSprite {
         input.attackJustPressed = FlxG.mouse.justPressed;
         input.attackPressed = FlxG.mouse.pressed;
         input.attackJustReleased = FlxG.mouse.justReleased;
+        input.useBombJustPressed = FlxG.keys.justPressed.E;
 
         input.reloadJustPressed = FlxG.keys.justPressed.R;
     }
@@ -223,6 +224,12 @@ class Player extends FlxSprite {
 
         if (invincibleTimer > 0) {
             invincibleTimer -= elapsed;
+        }
+
+        if (input.useBombJustPressed && tntCount > 0) {
+            var bomb:Tnt = tnt.recycle(Tnt);
+            bomb.setOwner(this);
+            bomb.use();
         }
 
 		super.update(elapsed);

@@ -11,7 +11,7 @@ class ItemFactory {
         if (data == null) {
             switch(name) {
                 case "tnt":
-                    data = new ItemData("tnt", AssetPaths.tnt_sprite_sheet__png, " packs of TNT found.");
+                    data = new ItemData("tnt", AssetPaths.tnt_sprite_sheet__png, " pack(s) of TNT found.");
                     ITEMS.set(name, data);
             }
         }

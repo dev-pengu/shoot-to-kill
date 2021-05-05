@@ -2,6 +2,7 @@ package actors.enemies;
 
 
 
+import flixel.system.FlxSound;
 import actors.enemies.stats.StatFactory;
 import actors.player.Player;
 import haxe.Exception;
@@ -54,6 +55,7 @@ class Enemy extends FlxSprite
 
 	@:isVar public var stats(get, null):EnemyStats;
 	@:isVar public var targetPosition(get, null):FlxPoint;
+	@:isVar public var enemySfx(default, null):Map<String, FlxSound>;
 
 	function get_stats() return stats;
 	function get_targetPosition() return targetPosition;
@@ -66,6 +68,9 @@ class Enemy extends FlxSprite
 
 		this.stats = StatFactory.getStats(statsString);
 		this.health = stats.maxHealth;
+		enemySfx = new Map<String, FlxSound>();
+		enemySfx[Enemy.HURT_SOUND] = FlxG.sound.load(AssetPaths.Male_Hurt_02__wav, 0.25);
+		enemySfx[Enemy.DEATH_SOUND] = FlxG.sound.load(AssetPaths.Male_Death_04__wav, 0.25);
 
 		if (!TARGETS.contains(player)) {
 			TARGETS.push(player);
@@ -124,13 +129,13 @@ class Enemy extends FlxSprite
     }
 
 	override public function hurt(damage:Float) {
-		this.stats.enemySfx[Enemy.HURT_SOUND].play(true);
+		this.enemySfx[Enemy.HURT_SOUND].play(true);
 		this.animation.play(HURT_ANIMATION);
 		super.hurt(damage);
 	}
 
 	override public function kill() {
-		this.stats.enemySfx[Enemy.DEATH_SOUND].play(true);
+		this.enemySfx[Enemy.DEATH_SOUND].play(true);
 		super.kill();
 		healthBar.kill();
 	}
