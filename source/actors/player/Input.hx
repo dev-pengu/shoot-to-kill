@@ -24,8 +24,10 @@ class Input {
 	public var attackJustPressed:Bool = false;
 	public var attackPressed:Bool = false;
 	public var attackJustReleased:Bool = false;
+	public var useBombJustPressed:Bool = false;
 
 	public var reloadJustPressed:Bool = false;
+
 
     public function new() {}
 }

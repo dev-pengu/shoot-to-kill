@@ -1,5 +1,8 @@
 package;
 
+import items.TntPickup;
+import items.ItemPickup;
+import items.Tnt;
 import flixel.text.FlxText;
 import states.GameOverState;
 import states.PauseMenuState;
@@ -23,6 +26,7 @@ import flixel.FlxState;
 import flixel.FlxG;
 import flixel.FlxObject;
 import environment.background.Parallax;
+import environment.Explodable;
 
 class PlayState extends FlxState
 {
@@ -37,6 +41,8 @@ class PlayState extends FlxState
 	private var spikes:FlxTypedGroup<Spike>;
 	private var colliders:FlxTypedGroup<HitBox>;
 	private var allPowerUps:FlxTypedGroup<PowerUp>;
+	private var allExplodables:FlxTypedGroup<Explodable>;
+	private var itemPickups:FlxTypedGroup<ItemPickup>;
 	private var levelGoal:HitBox;
 	private var message:FlxText;
 	private var messageTimer:Float = 2;
@@ -107,7 +113,9 @@ class PlayState extends FlxState
 	private function handleCollisions():Void {
 		FlxG.collide(player, map);
 		FlxG.collide(enemies, map);
-		FlxG.collide(player, breakableBlocks, function(player:Player, block:BreakableBlock) block.explode());
+		FlxG.collide(player.tnt, map);
+		FlxG.collide(player, allExplodables);
+		FlxG.collide(player.tnt, allExplodables);
 		FlxG.overlap(player, RangedVillager.BULLETS, Bullet.doDamage);
 		FlxG.overlap(enemies, player.bullets, Bullet.doDamage);
 		FlxG.collide(RangedVillager.BULLETS, map, function(bullet:Bullet, map) bullet.kill());
@@ -129,6 +137,12 @@ class PlayState extends FlxState
 				FlxG.switchState(new GameOverState(true, 0));
 			});
 		});
+		FlxG.overlap(player, itemPickups, function(player:Player, itemPickup:ItemPickup) {
+			itemPickup.pickup(player);
+			message.text = itemPickup.numItems + " " + itemPickup.itemData.pickupMessage;
+			message.visible = true;
+			messageTimer = 1;
+		});
 	}
 
 	private function setupCamera():Void {
@@ -147,8 +161,10 @@ class PlayState extends FlxState
 		add(allPowerUps);
 		add(RangedVillager.BULLETS);
 		add(player.bullets);
+		add(player.tnt);
 		add(player);
 		add(enemies);
+		add(itemPickups);
 		add(hud);
 		add(message);
 	}
@@ -172,9 +188,12 @@ class PlayState extends FlxState
 		spikes = new FlxTypedGroup<Spike>();
 		colliders = new FlxTypedGroup<HitBox>();
 		allPowerUps = new FlxTypedGroup<PowerUp>();
+		allExplodables = new FlxTypedGroup<Explodable>();
+		itemPickups = new FlxTypedGroup<ItemPickup>();
 
 		levelLoader.loadEntities(placeEntities, "entities");
 		Player.OBSTRUCTIONS = Enemy.OBSTRUCTIONS = map;
+		Tnt.EXPLODABLES = allExplodables;
 	}
 
 	private function placeEntities(entityData:EntityData):Void {
@@ -187,7 +206,9 @@ class PlayState extends FlxState
 			spikes.add(spike);
 			colliders.add(new HitBox(entityData.x - entityData.originX, entityData.y - entityData.originY + 16, 32, 16, spike));
 		} else if (entityData.name == "breakable-block") {
-			breakableBlocks.add(new BreakableBlock(entityData.x - entityData.originX, entityData.y - entityData.originY));
+			var block:BreakableBlock = new BreakableBlock(entityData.x - entityData.originX, entityData.y - entityData.originY);
+			breakableBlocks.add(block);
+			allExplodables.add(block);
 		} else if (entityData.name == "level-goal-block") {
 			levelGoalBlocks.add(new LevelGoalBlock(entityData.x - entityData.originX, entityData.y - entityData.originY));
 		} else if (entityData.name == "hitbox") {
@@ -198,6 +219,10 @@ class PlayState extends FlxState
 			levelGoal = new HitBox(entityData.x - entityData.originX, entityData.y - entityData.originY, 32, 32);
 		} else if (entityData.name == "jump-shot-powerup") {
 			allPowerUps.add(new PowerUp(entityData.x - entityData.originX, entityData.y - entityData.originY, "jumpShot"));
+		} else if (entityData.name == "bomb-pickup") {
+			itemPickups.add(new TntPickup(entityData.x - entityData.originX, entityData.y - entityData.originY, 1));
+		} else if (entityData.name == "triple-bomb-pickup") {
+			itemPickups.add(new TntPickup(entityData.x - entityData.originX, entityData.y - entityData.originY, 3));
 		}
 	}
 

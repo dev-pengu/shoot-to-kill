@@ -2,7 +2,7 @@ package environment;
 
 import flixel.FlxSprite;
 
-class BreakableBlock extends FlxSprite implements Explodable {
+class BreakableBlock extends Explodable {
 
     private static var SPRITE_SIZE:Int = 32;
     private static var BREAKING_ANIMATION:String = "break";
@@ -18,7 +18,7 @@ class BreakableBlock extends FlxSprite implements Explodable {
         this.animation.play(IDLE_ANIMATION);
     }
 
-    public function explode() {
+    override public function explode() {
 		this.animation.play(BREAKING_ANIMATION);
     }
 

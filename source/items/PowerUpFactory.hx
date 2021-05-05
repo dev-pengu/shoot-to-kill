@@ -15,6 +15,7 @@ class PowerUpFactory {
                     POWER_UPS.set(name, data);
                 case "jumpShot":
                     data = new PowerUpData("jumpShot", AssetPaths.jump_shot_icon__png, "Jump Shot Ability Unlocked!");
+                    POWER_UPS.set(name, data);
             }
         }
 

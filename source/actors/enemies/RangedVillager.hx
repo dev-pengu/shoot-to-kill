@@ -31,6 +31,7 @@ class RangedVillager extends Enemy {
         }
         initAnimations();
         initStates();
+		enemySfx[Enemy.ATTACK_SOUND] = FlxG.sound.load(AssetPaths.rifle_shooting__ogg, 0.25);
     }
 
     private function initAnimations():Void {
@@ -67,7 +68,7 @@ class RangedVillager extends Enemy {
             bullet.setPosition(this.x - BULLET_SPAWN_OFFSET_X, this.y + BULLET_SPAWN_OFFSET_Y);
 			bullet.setParams(BULLET_SPEED, -1, BULLET_RANGE, BULLET_DAMAGE);
         }
-        this.stats.enemySfx[Enemy.ATTACK_SOUND].play(true);
+        this.enemySfx[Enemy.ATTACK_SOUND].play(true);
         bullet.fire();
     }
 }
