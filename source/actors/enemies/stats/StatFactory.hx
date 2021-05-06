@@ -1,5 +1,7 @@
 package actors.enemies.stats;
 
+import items.Bullet;
+import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.FlxG;
 
 class StatFactory {
@@ -21,4 +23,6 @@ class StatFactory {
 
         return stats;
     }
+
+    public static var BULLETS:FlxTypedGroup<Bullet>;
 }

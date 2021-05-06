@@ -27,6 +27,7 @@ import flixel.FlxG;
 import flixel.FlxObject;
 import environment.background.Parallax;
 import environment.Explodable;
+import actors.enemies.stats.StatFactory;
 
 class PlayState extends FlxState
 {
@@ -62,7 +63,7 @@ class PlayState extends FlxState
 		FlxG.mouse.visible = false;
 
 		hud = new Hud(player, HUD_OFFSET_X, HUD_OFFSET_Y);
-		RangedVillager.BULLETS = new FlxTypedGroup<Bullet>();
+		StatFactory.BULLETS = new FlxTypedGroup<Bullet>();
 		message = new FlxText(0, 0, 0, "message", 24);
 		message.alignment = CENTER;
 		message.screenCenter();
@@ -116,9 +117,9 @@ class PlayState extends FlxState
 		FlxG.collide(player.tnt, map);
 		FlxG.collide(player, allExplodables);
 		FlxG.collide(player.tnt, allExplodables);
-		FlxG.overlap(player, RangedVillager.BULLETS, Bullet.doDamage);
+		FlxG.overlap(player, StatFactory.BULLETS, Bullet.doDamage);
 		FlxG.overlap(enemies, player.bullets, Bullet.doDamage);
-		FlxG.collide(RangedVillager.BULLETS, map, function(bullet:Bullet, map) bullet.kill());
+		FlxG.collide(StatFactory.BULLETS, map, function(bullet:Bullet, map) bullet.kill());
 		FlxG.collide(player.bullets, map, function(bullet:Bullet, map) bullet.kill());
 		FlxG.overlap(player, spikes, function(player:Player, spike:Spike) spike.doDamage(player));
 		FlxG.collide(player, colliders);
@@ -159,7 +160,7 @@ class PlayState extends FlxState
 		add(breakableBlocks);
 		add(levelGoalBlocks);
 		add(allPowerUps);
-		add(RangedVillager.BULLETS);
+		add(StatFactory.BULLETS);
 		add(player.bullets);
 		add(player.tnt);
 		add(player);

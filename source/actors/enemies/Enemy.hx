@@ -1,7 +1,5 @@
 package actors.enemies;
 
-
-
 import flixel.system.FlxSound;
 import actors.enemies.stats.StatFactory;
 import actors.player.Player;
@@ -30,8 +28,6 @@ class Enemy extends FlxSprite
 	public static var DECELERATION(default, never):Float = 700;
 	public static var OBSTRUCTIONS(default, default):FlxTilemap;
 	public static var GRAVITY(default, never):Float = 400;
-	public static var OFFSET_X(default, never):Int = 14;
-	public static var OFFSET_Y(default, never):Int = 12;
 	public static var WIDTH(default, never):Int = 20;
 	public static var HEIGHT(default, never):Int = 60;
 	public static var SPRITE_SIZE(default, never):Int = 48;
@@ -60,7 +56,7 @@ class Enemy extends FlxSprite
 	function get_stats() return stats;
 	function get_targetPosition() return targetPosition;
 
-	public function new(?X:Float = 0, ?Y:Float = 0,  graphic:FlxGraphicAsset, player:Player, statsString:String)
+	public function new(?X:Float = 0, ?Y:Float = 0,  graphic:FlxGraphicAsset, player:Player, statsString:String, ?width:Int, ?height:Int, ?graphicSize:Int)
 	{
 		super(X, Y);
 		acceleration.y = GRAVITY;
@@ -76,12 +72,22 @@ class Enemy extends FlxSprite
 			TARGETS.push(player);
 		}
 
-		loadGraphic(graphic, true, SPRITE_SIZE, SPRITE_SIZE);
-		setGraphicSize(SPRITE_SIZE * 2, SPRITE_SIZE * 2);
+		if (graphicSize == null) {
+			graphicSize = SPRITE_SIZE;
+		}
+		if (width == null) {
+			width = WIDTH;
+		}
+		if (height == null) {
+			height = HEIGHT;
+		}
+
+		loadGraphic(graphic, true, graphicSize, graphicSize);
+		setGraphicSize(graphicSize * 2, graphicSize * 2);
 		updateHitbox();
-		offset.set(OFFSET_X, OFFSET_Y);
-		width = WIDTH;
-		height = HEIGHT;
+		offset.set((graphicSize - width) / 2, (graphicSize - height));
+		this.width = width;
+		this.height = height;
 
 		touching = FlxObject.DOWN;
 	}
