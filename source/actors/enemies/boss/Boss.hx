@@ -1,14 +1,17 @@
 package actors.enemies.boss;
 
-import actors.enemies.stats.StatFactory;
+import actors.enemies.boss.fsm.states.B_MeleeAttackState;
+import actors.enemies.boss.fsm.states.B_RangedAttackState;
+import actors.enemies.boss.fsm.BossStates;
+import actors.enemies.boss.fsm.states.B_WalkState;
+import actors.enemies.boss.fsm.states.B_IdleState;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.math.FlxPoint;
 import actors.player.Player;
-import flixel.group.FlxGroup;
-import items.Bullet;
-import actors.enemies.fsm.EnemyStates;
 import actors.enemies.Enemy;
+import haxe.ds.Vector;
+import actors.enemies.fsm.State;
 
 class Boss extends Enemy {
 
@@ -17,9 +20,10 @@ class Boss extends Enemy {
 	public static var SPRITE_SIZE(default, never):Int = 48;
 
     public static var SPEED(default, never):Float = 80;
-    public static var CHARGE_SPEED(default, never):Float = 160;
+    public static var CHARGE_SPEED(default, never):Float = 170;
 
 	public static var JUMP_VELOCITY(default, never):Float = -275;
+	public static var MAX_Y_SPEED(default, never):Float = 300;
 	public static var GRAVITY(default, never):Float = 450;
 	private static var INVINCIBLE_TIME:Float = 1;
 
@@ -39,10 +43,9 @@ class Boss extends Enemy {
     private var wayPoints:Array<FlxPoint>;
     private var currentWayPointIndex:Int = 0;
 
-    private var damageToInvincible:Float = 50;
-
     public var target:FlxObject;
-    public var isInvincible(default, null):Bool = false;
+    public var isInvincible(default, default):Bool = false;
+    public var inBattle(default, null):Bool = false;
 
 	public function new(?X:Float = 0, ?Y:Float = 0, graphicPath:String, player:Player, statsString:String, ?width:Int, ?height:Int, ?graphicSize:Int) {
         if (graphicSize == null) {
@@ -55,15 +58,31 @@ class Boss extends Enemy {
 			height = HEIGHT;
 		}
 		super(X, Y, graphicPath, player, statsString, width, height, graphicSize);
+		maxVelocity.set(CHARGE_SPEED, MAX_Y_SPEED);
 
         wayPoints = new Array<FlxPoint>();
-        enemySfx[RANGED_ATTACK] = FlxG.sound.load(AssetPaths.shotgun_shot__ogg, 0.25);
-        enemySfx[MELEE_ATTACK] = FlxG.sound.load(AssetPaths.Running_on_Gravel_www__fesliyanstudios__com__ogg, 0.25);
-        this.active = false;
+
+        buildAnimations();
+        buildSoundMap();
+        initStates();
+    }
+
+    private function buildSoundMap():Void {
+		enemySfx[RANGED_ATTACK] = FlxG.sound.load(AssetPaths.shotgun_shot__ogg, 0.25);
+		enemySfx[MELEE_ATTACK] = FlxG.sound.load(AssetPaths.Running_on_Gravel_www__fesliyanstudios__com__ogg, 0.25);
+    }
+
+    private function buildAnimations():Void {
+		animation.add(IDLE, [0], 1, false);
+		animation.add(WALK, [1, 2, 3, 1, 4, 5], 8);
+		animation.add(JUMP, [10, 11], 8, false);
+		animation.add(FALL, [12, 13, 14], 6, false);
+		animation.add(RANGED_ATTACK, [0, 15, 16, 17, 18], 15, false);
+		animation.add(MELEE_ATTACK, [1, 2, 3, 1, 4, 5], 8);
     }
 
     public function activate():Void {
-        this.active = true;
+		this.inBattle = true;
     }
 
     public function addWayPoint(point:FlxPoint) {
@@ -73,82 +92,44 @@ class Boss extends Enemy {
     }
 
     override private function initStates():Void {
-
-        state = states[EnemyStates.IDLE.getIndex()];
-        state.transitionIn();
+		states = new Vector<State>(5);
+        states[BossStates.IDLE.getIndex()] = new B_IdleState(this);
+        states[BossStates.WALK.getIndex()] = new B_WalkState(this);
+        states[BossStates.RANGED_ATTACK.getIndex()] = new B_RangedAttackState(this);
+        states[BossStates.MELEE_ATTACK.getIndex()] = new B_MeleeAttackState(this);
+		state = states[BossStates.IDLE.getIndex()];
+		state.transitionIn();
     }
 
     override public function hurt(damage:Float) {
         if (!isInvincible) {
             super.hurt(damage);
-            damageToInvincible -= damage;
-            if (damageToInvincible <= 0) {
-                isInvincible = true;
-            }
         }
     }
 
-    override public function attack():Void {
-        if (this.getMidpoint().distanceTo(target.getMidpoint()) <= stats.aggroRange) {
-            this.animation.play(MELEE_ATTACK);
-            chargeAttack();
-        } else {
-            this.animation.play(RANGED_ATTACK);
-            rangedAttack();
-        }
-    }
-
-    private function chargeAttack():Void {
-        isInvincible = true;
-        var movementDirection:Int = 0;
-        if (target.x > this.x) {
-            movementDirection = 1;
-        } else {
-            movementDirection = -1;
-        }
-        this.velocity.x = Boss.CHARGE_SPEED * movementDirection;
-		this.enemySfx[MELEE_ATTACK].play(true);
-    }
-
-    private function rangedAttack():Void {
-        var bullet1:Bullet = StatFactory.BULLETS.recycle(Bullet);
-		var bullet2:Bullet = StatFactory.BULLETS.recycle(Bullet);
-		var bullet3:Bullet = StatFactory.BULLETS.recycle(Bullet);
-
-        var angle1:Float = 15;
-        var angle2:Float = 345;
-
-        if (this.facing == FlxObject.RIGHT) {
-            bullet1.setPosition(this.x + Boss.SPRITE_SIZE + BULLET_SPAWN_OFFSET_X, this.y + BULLET_SPAWN_OFFSET_Y);
-			bullet2.setPosition(this.x + Boss.SPRITE_SIZE + BULLET_SPAWN_OFFSET_X, this.y + BULLET_SPAWN_OFFSET_Y);
-			bullet3.setPosition(this.x + Boss.SPRITE_SIZE + BULLET_SPAWN_OFFSET_X, this.y + BULLET_SPAWN_OFFSET_Y);
-
-            bullet1.setParams(BULLET_SPEED, 1, BULLET_RANGE, BULLET_DAMAGE);
-			bullet3.setParams(BULLET_SPEED, 1, BULLET_RANGE, BULLET_DAMAGE);
-			bullet3.setParams(BULLET_SPEED, 1, BULLET_RANGE, BULLET_DAMAGE);
-        } else {
-			bullet1.setPosition(this.x - BULLET_SPAWN_OFFSET_X, this.y + BULLET_SPAWN_OFFSET_Y);
-			bullet2.setPosition(this.x - BULLET_SPAWN_OFFSET_X, this.y + BULLET_SPAWN_OFFSET_Y);
-			bullet3.setPosition(this.x - BULLET_SPAWN_OFFSET_X, this.y + BULLET_SPAWN_OFFSET_Y);
-
-			bullet1.setParams(BULLET_SPEED, -1, BULLET_RANGE, BULLET_DAMAGE);
-			bullet3.setParams(BULLET_SPEED, -1, BULLET_RANGE, BULLET_DAMAGE);
-			bullet3.setParams(BULLET_SPEED, -1, BULLET_RANGE, BULLET_DAMAGE);
-
-            angle1 = 165;
-            angle2 = 195;
-        }
-        this.enemySfx[RANGED_ATTACK].play(true);
-        bullet1.fireAngle(angle1);
-        bullet2.fire();
-        bullet3.fireAngle(angle2);
-    }
+    override public function attack():Void { }
 
     public function setNextWayPoint():Void {
-
+		currentWayPointIndex = FlxG.random.int(0, wayPoints.length - 1, [currentWayPointIndex]);
     }
 
     public function getTargetWaypoint():FlxPoint {
         return wayPoints[currentWayPointIndex];
     }
+
+	override private function handleStateTransitions():Void
+	{
+		var nextState:Int;
+		do
+		{
+			nextState = state.getNextState();
+			if (nextState != BossStates.NO_CHANGE.getIndex())
+			{
+				state.transitionOut();
+				state = states[nextState];
+				state.transitionIn();
+			}
+		}
+		while (nextState != BossStates.NO_CHANGE.getIndex());
+	}
 }

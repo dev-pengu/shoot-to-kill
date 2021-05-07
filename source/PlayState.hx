@@ -1,5 +1,6 @@
 package;
 
+import actors.enemies.boss.Boss;
 import items.TntPickup;
 import items.ItemPickup;
 import items.Tnt;
@@ -28,6 +29,7 @@ import flixel.FlxObject;
 import environment.background.Parallax;
 import environment.Explodable;
 import actors.enemies.stats.StatFactory;
+import flixel.math.FlxPoint;
 
 class PlayState extends FlxState
 {
@@ -37,6 +39,7 @@ class PlayState extends FlxState
 	private var player:Player;
 	private var hud:Hud;
 	private var enemies:FlxTypedGroup<Enemy>;
+	private var boss:Boss;
 	private var breakableBlocks:FlxTypedGroup<BreakableBlock>;
 	private var levelGoalBlocks:FlxTypedGroup<LevelGoalBlock>;
 	private var spikes:FlxTypedGroup<Spike>;
@@ -47,6 +50,8 @@ class PlayState extends FlxState
 	private var levelGoal:HitBox;
 	private var message:FlxText;
 	private var messageTimer:Float = 2;
+	private var bossWayPointsTemp:Array<FlxPoint>;
+	private var bossBattleTrigger:HitBox;
 
 	private var levelLoader:FlxOgmo3Loader;
 	private var map:FlxTilemap;
@@ -144,6 +149,23 @@ class PlayState extends FlxState
 			message.visible = true;
 			messageTimer = 1;
 		});
+		FlxG.overlap(player, bossBattleTrigger, function(player:Player, trigger:HitBox) {
+			levelGoalBlocks.forEach(function(block:LevelGoalBlock) {
+				block.activate();
+			});
+			boss.activate();
+			bossBattleTrigger.kill();
+			ambienceTrack.stop();
+			ambienceTrack = FlxG.sound.load(AssetPaths.boss_fight_ambience__ogg, 0.25);
+			if (ambienceTrack != null)
+			{
+				ambienceTrack.looped = true;
+				ambienceTrack.play();
+				ambienceTrack.fadeIn(1, 0, 0.15);
+			}
+		});
+		FlxG.collide(player, levelGoalBlocks);
+		FlxG.collide(enemies, levelGoalBlocks);
 	}
 
 	private function setupCamera():Void {
@@ -168,6 +190,8 @@ class PlayState extends FlxState
 		add(itemPickups);
 		add(hud);
 		add(message);
+		add(boss);
+		add(bossBattleTrigger);
 	}
 
 	private function setupLevel(projectPath:String, projectJson:String):Void {
@@ -191,10 +215,14 @@ class PlayState extends FlxState
 		allPowerUps = new FlxTypedGroup<PowerUp>();
 		allExplodables = new FlxTypedGroup<Explodable>();
 		itemPickups = new FlxTypedGroup<ItemPickup>();
+		bossWayPointsTemp = new Array<FlxPoint>();
 
 		levelLoader.loadEntities(placeEntities, "entities");
 		Player.OBSTRUCTIONS = Enemy.OBSTRUCTIONS = map;
 		Tnt.EXPLODABLES = allExplodables;
+		for (i in 0...bossWayPointsTemp.length) {
+			boss.addWayPoint(bossWayPointsTemp[i]);
+		}
 	}
 
 	private function placeEntities(entityData:EntityData):Void {
@@ -224,6 +252,13 @@ class PlayState extends FlxState
 			itemPickups.add(new TntPickup(entityData.x - entityData.originX, entityData.y - entityData.originY, 1));
 		} else if (entityData.name == "triple-bomb-pickup") {
 			itemPickups.add(new TntPickup(entityData.x - entityData.originX, entityData.y - entityData.originY, 3));
+		} else if (entityData.name == "boss-path-trigger") {
+			bossWayPointsTemp.push(new FlxPoint(entityData.x - entityData.originX, entityData.y - entityData.originY));
+		} else if (entityData.name == "boss") {
+			boss = new Boss(entityData.x - entityData.originX, entityData.y - entityData.originY, AssetPaths.Outlaw_sprite_sheet__png, player, "boss01", 22, 60, 48);
+			enemies.add(boss);
+		} else if (entityData.name == "boss-battle-trigger") {
+			bossBattleTrigger = new HitBox(entityData.x - entityData.originX, entityData.y - entityData.originY, 32, 96);
 		}
 	}
 

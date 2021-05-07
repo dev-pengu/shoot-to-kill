@@ -16,6 +16,8 @@ class StatFactory {
                     stats = new EnemyStats(RangedVillager.MAX_HEALTH, RangedVillager.RANGED_VILLAGER_AGGRO_RANGE, 
                         RangedVillager.ATTACK_SPEED, RangedVillager.ATTACK_RANGE, RangedVillager.RELOAD_TIME, 
                         RangedVillager.ROUNDS);
+                case "boss01":
+                    stats = new EnemyStats(200, 400, 0, 300, 0, 0);
             }
 			STATS.set(statType, stats);
         }

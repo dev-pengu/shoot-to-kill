@@ -1,5 +1,6 @@
 package actors.enemies.boss.fsm.states;
 
+import flixel.FlxSprite;
 import flixel.FlxObject;
 import flixel.FlxG;
 import flixel.math.FlxVector;
@@ -9,7 +10,7 @@ class B_WalkState extends BossState {
 
     private var hasReachedDestination:Bool = false;
     private var targetWayPoint:FlxPoint;
-    private var direction:FlxVector;
+    private var direction:Int;
     private var isJumping:Bool;
 
     public function new(entity:Boss) {
@@ -19,9 +20,8 @@ class B_WalkState extends BossState {
     override public function getNextState():Int {
 
         if (hasReachedDestination) {
-            return (FlxG.random.int(-1, 1, [0]) == 1 ?
-                BossStates.RANGED_ATTACK.getIndex() :
-                BossStates.MELEE_ATTACK.getIndex());
+			return (FlxG.random.int(-1, 1, [0]) == 1 ? BossStates.RANGED_ATTACK.getIndex() : 
+            BossStates.MELEE_ATTACK.getIndex());
         }
 
         return super.getNextState();
@@ -31,27 +31,58 @@ class B_WalkState extends BossState {
         hasReachedDestination = false;
         targetWayPoint = this.managedEntity.getTargetWaypoint();
         if (targetWayPoint.x > this.managedEntity.x) {
-            direction = FlxVector.weak(1, 0);
+            direction = 1;
         } else {
-            direction = FlxVector.weak(-1, 0);
+            direction = -1;
         }
         isJumping = false;
+		this.managedEntity.facing = direction == 1 ? FlxObject.RIGHT : FlxObject.LEFT;
+		this.managedEntity.flipX = this.managedEntity.facing == FlxObject.LEFT;
+		this.managedEntity.animation.play(Boss.WALK);
+
+        var sprite = new FlxSprite(targetWayPoint.x, targetWayPoint.y);
+        sprite.makeGraphic(32, 32);
+        FlxG.state.add(sprite);
     }
 
     override public function transitionOut():Void {
-        this.managedEntity.animation.stop();
+        if (this.managedEntity.animation.curAnim.looped) {
+			this.managedEntity.animation.stop();
+        }
     }
 
     override public function update(elapsed:Float):Void {
+		/*if (this.targetWayPoint.x == this.managedEntity.x) {
+				hasReachedDestination = true;
+				direction = 0;
+				this.managedEntity.animation.play(Boss.IDLE);
+			}
+
+			if (this.targetWayPoint.y < this.managedEntity.y && !isJumping && 
+				Math.abs(this.targetWayPoint.x - this.managedEntity.x) < 32) {
+				this.managedEntity.velocity.y = Boss.JUMP_VELOCITY;
+				this.managedEntity.animation.play(Boss.JUMP);
+				isJumping = true;
+				trace("im jumping");
+			}
+
+			if (detectEdge() && !isJumping) {
+				this.managedEntity.velocity.y = Boss.JUMP_VELOCITY;
+				this.managedEntity.animation.play(Boss.JUMP);
+				isJumping = true;
+			}
         if (this.targetWayPoint.x == this.managedEntity.x) {
             hasReachedDestination = true;
+            direction = 0;
+            this.managedEntity.animation.play(Boss.IDLE);
         }
-
+		
         if (this.targetWayPoint.y < this.managedEntity.y && !isJumping && 
             Math.abs(this.targetWayPoint.x - this.managedEntity.x) < 32) {
             this.managedEntity.velocity.y = Boss.JUMP_VELOCITY;
             this.managedEntity.animation.play(Boss.JUMP);
             isJumping = true;
+            trace("im jumping");
         }
 
         if (detectEdge() && !isJumping) {
@@ -59,16 +90,22 @@ class B_WalkState extends BossState {
             this.managedEntity.animation.play(Boss.JUMP);
             isJumping = true;
         }
-        this.managedEntity.velocity.x = Boss.SPEED * direction.x;
+        */
 
+        this.managedEntity.velocity.x = Boss.SPEED * direction;
+        trace(this.managedEntity.velocity.x);
+/*
         if (this.managedEntity.velocity.y >= 0 && !this.managedEntity.isTouching(FlxObject.DOWN) && this.managedEntity.animation.name != Boss.FALL) {
             this.managedEntity.animation.play(Boss.FALL);
+            trace("im falling");
         }
 
         if (this.managedEntity.isTouching(FlxObject.DOWN) && this.managedEntity.animation.name != Boss.WALK) {
             this.managedEntity.animation.play(Boss.WALK);
             isJumping = false;
+            trace("im walking");
         }
+		 */
     }
 
     private function detectEdge():Bool {

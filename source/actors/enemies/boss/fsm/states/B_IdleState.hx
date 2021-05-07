@@ -12,7 +12,7 @@ class B_IdleState extends BossState {
 
     override public function getNextState():Int {
 
-        if (idleTimer <= 0) {
+        if (idleTimer <= 0 && this.managedEntity.inBattle) {
             return BossStates.WALK.getIndex();
         }
 

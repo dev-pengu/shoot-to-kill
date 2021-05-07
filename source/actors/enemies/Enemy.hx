@@ -1,5 +1,6 @@
 package actors.enemies;
 
+import actors.enemies.boss.Boss;
 import flixel.system.FlxSound;
 import actors.enemies.stats.StatFactory;
 import actors.player.Player;
@@ -46,7 +47,7 @@ class Enemy extends FlxSprite
 	public static var DEATH_SOUND(default, never):String = "death";
 
 	private var state:State;
-	private var states:Vector<State> = new Vector<State>(4);
+	private var states:Vector<State>;
 	private var healthBar:FlxBar;
 
 	@:isVar public var stats(get, null):EnemyStats;
@@ -85,10 +86,9 @@ class Enemy extends FlxSprite
 		loadGraphic(graphic, true, graphicSize, graphicSize);
 		setGraphicSize(graphicSize * 2, graphicSize * 2);
 		updateHitbox();
-		offset.set((graphicSize - width) / 2, (graphicSize - height));
+		offset.set((graphicSize - width) / 2, (height - graphicSize));
 		this.width = width;
 		this.height = height;
-
 		touching = FlxObject.DOWN;
 	}
 
@@ -100,6 +100,7 @@ class Enemy extends FlxSprite
 	}
 
 	private function initStates():Void {
+		states = new Vector<State>(4);
 		states[EnemyStates.IDLE.getIndex()] = new IdleState(this);
 		states[EnemyStates.WALK.getIndex()] = new WalkState(this);
 		states[EnemyStates.ATTACK.getIndex()] = stats.attackRange > 50 ? new RangedAttackState(this) : new MeleeAttackState(this);

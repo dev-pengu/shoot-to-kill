@@ -15,7 +15,7 @@
       "gridCellsX": 118,
       "gridCellsY": 46,
       "entities": [
-        {"name": "player", "id": 0, "_eid": "38310677", "x": 64, "y": 1056, "originX": 0, "originY": 0},
+        {"name": "player", "id": 0, "_eid": "38310677", "x": 2400, "y": 320, "originX": 0, "originY": 0},
         {"name": "ranged-villager", "id": 1, "_eid": "38337552", "x": 1088, "y": 928, "originX": 0, "originY": 0},
         {"name": "ranged-villager", "id": 2, "_eid": "38337552", "x": 1952, "y": 864, "originX": 0, "originY": 0},
         {"name": "ranged-villager", "id": 3, "_eid": "38337552", "x": 352, "y": 1312, "originX": 0, "originY": 0},
@@ -64,10 +64,10 @@
         {"name": "spikes", "id": 61, "_eid": "63306497", "x": 800, "y": 1440, "originX": 0, "originY": 0},
         {"name": "spikes", "id": 62, "_eid": "63306497", "x": 768, "y": 1440, "originX": 0, "originY": 0},
         {"name": "boss-path-trigger", "id": 65, "_eid": "73572159", "x": 2912, "y": 224, "originX": 0, "originY": 0},
-        {"name": "boss-path-trigger", "id": 67, "_eid": "73572159", "x": 2848, "y": 352, "originX": 0, "originY": 0},
+        {"name": "boss-path-trigger", "id": 67, "_eid": "73572159", "x": 2784, "y": 352, "originX": 0, "originY": 0},
         {"name": "boss-path-trigger", "id": 68, "_eid": "73572159", "x": 3520, "y": 224, "originX": 0, "originY": 0},
         {"name": "boss-path-trigger", "id": 69, "_eid": "73572159", "x": 3296, "y": 224, "originX": 0, "originY": 0},
-        {"name": "boss-path-trigger", "id": 71, "_eid": "73572159", "x": 3392, "y": 352, "originX": 0, "originY": 0},
+        {"name": "boss-path-trigger", "id": 71, "_eid": "73572159", "x": 3424, "y": 352, "originX": 0, "originY": 0},
         {"name": "goal", "id": 72, "_eid": "73597822", "x": 3712, "y": 352, "originX": 0, "originY": 0},
         {"name": "double-powerup", "id": 82, "_eid": "76042907", "x": 512, "y": 1184, "originX": 0, "originY": 0},
         {"name": "level-goal-block", "id": 83, "_eid": "63330913", "x": 3616, "y": 288, "originX": 0, "originY": 0},
@@ -76,7 +76,7 @@
         {"name": "level-goal-block", "id": 86, "_eid": "63330913", "x": 3648, "y": 288, "originX": 0, "originY": 0},
         {"name": "level-goal-block", "id": 87, "_eid": "63330913", "x": 3648, "y": 320, "originX": 0, "originY": 0},
         {"name": "level-goal-block", "id": 88, "_eid": "63330913", "x": 3648, "y": 352, "originX": 0, "originY": 0},
-        {"name": "boss", "id": 89, "_eid": "73584219", "x": 3552, "y": 192, "originX": 0, "originY": 0},
+        {"name": "boss", "id": 89, "_eid": "73584219", "x": 3040, "y": 320, "originX": 0, "originY": 0},
         {"name": "ranged-villager", "id": 90, "_eid": "38337552", "x": 1792, "y": 224, "originX": 0, "originY": 0},
         {"name": "ranged-villager", "id": 91, "_eid": "38337552", "x": 3424, "y": 928, "originX": 0, "originY": 0},
         {"name": "ranged-villager", "id": 92, "_eid": "38337552", "x": 2624, "y": 800, "originX": 0, "originY": 0},
@@ -95,7 +95,14 @@
         {"name": "triple-bomb-pickup", "id": 109, "_eid": "17983879", "x": 1440, "y": 1056, "originX": 0, "originY": 0},
         {"name": "triple-bomb-pickup", "id": 110, "_eid": "17983879", "x": 1632, "y": 1408, "originX": 0, "originY": 0},
         {"name": "triple-bomb-pickup", "id": 111, "_eid": "17983879", "x": 3712, "y": 1408, "originX": 0, "originY": 0},
-        {"name": "triple-bomb-pickup", "id": 112, "_eid": "17983879", "x": 3648, "y": 1408, "originX": 0, "originY": 0}
+        {"name": "triple-bomb-pickup", "id": 112, "_eid": "17983879", "x": 3648, "y": 1408, "originX": 0, "originY": 0},
+        {"name": "level-goal-block", "id": 113, "_eid": "63330913", "x": 2496, "y": 352, "originX": 0, "originY": 0},
+        {"name": "level-goal-block", "id": 114, "_eid": "63330913", "x": 2496, "y": 320, "originX": 0, "originY": 0},
+        {"name": "level-goal-block", "id": 115, "_eid": "63330913", "x": 2496, "y": 288, "originX": 0, "originY": 0},
+        {"name": "level-goal-block", "id": 116, "_eid": "63330913", "x": 2528, "y": 288, "originX": 0, "originY": 0},
+        {"name": "level-goal-block", "id": 117, "_eid": "63330913", "x": 2528, "y": 320, "originX": 0, "originY": 0},
+        {"name": "level-goal-block", "id": 118, "_eid": "63330913", "x": 2528, "y": 352, "originX": 0, "originY": 0},
+        {"name": "boss-battle-trigger", "id": 119, "_eid": "36405963", "x": 2656, "y": 352, "originX": 0, "originY": 0}
       ]
     },
     {
