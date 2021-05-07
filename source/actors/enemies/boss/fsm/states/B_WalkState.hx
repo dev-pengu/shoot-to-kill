@@ -1,5 +1,6 @@
 package actors.enemies.boss.fsm.states;
 
+import flixel.math.FlxVelocity;
 import flixel.FlxSprite;
 import flixel.FlxObject;
 import flixel.FlxG;
@@ -52,12 +53,12 @@ class B_WalkState extends BossState {
     }
 
     override public function update(elapsed:Float):Void {
-		/*if (this.targetWayPoint.x == this.managedEntity.x) {
+		if (this.targetWayPoint.x == this.managedEntity.x) {
 				hasReachedDestination = true;
 				direction = 0;
 				this.managedEntity.animation.play(Boss.IDLE);
 			}
-
+		/*
 			if (this.targetWayPoint.y < this.managedEntity.y && !isJumping && 
 				Math.abs(this.targetWayPoint.x - this.managedEntity.x) < 32) {
 				this.managedEntity.velocity.y = Boss.JUMP_VELOCITY;
@@ -92,8 +93,7 @@ class B_WalkState extends BossState {
         }
         */
 
-        this.managedEntity.velocity.x = Boss.SPEED * direction;
-        trace(this.managedEntity.velocity.x);
+        FlxVelocity.moveTowardsPoint(this.managedEntity, targetWayPoint, Boss.SPEED);
 /*
         if (this.managedEntity.velocity.y >= 0 && !this.managedEntity.isTouching(FlxObject.DOWN) && this.managedEntity.animation.name != Boss.FALL) {
             this.managedEntity.animation.play(Boss.FALL);
