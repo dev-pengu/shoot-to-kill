@@ -1,5 +1,7 @@
 package;
 
+import items.SteakPickup;
+import actors.enemies.boss.Boss;
 import items.TntPickup;
 import items.ItemPickup;
 import items.Tnt;
@@ -27,6 +29,8 @@ import flixel.FlxG;
 import flixel.FlxObject;
 import environment.background.Parallax;
 import environment.Explodable;
+import actors.enemies.stats.StatFactory;
+import flixel.math.FlxPoint;
 
 class PlayState extends FlxState
 {
@@ -36,6 +40,7 @@ class PlayState extends FlxState
 	private var player:Player;
 	private var hud:Hud;
 	private var enemies:FlxTypedGroup<Enemy>;
+	private var boss:Boss;
 	private var breakableBlocks:FlxTypedGroup<BreakableBlock>;
 	private var levelGoalBlocks:FlxTypedGroup<LevelGoalBlock>;
 	private var spikes:FlxTypedGroup<Spike>;
@@ -46,6 +51,8 @@ class PlayState extends FlxState
 	private var levelGoal:HitBox;
 	private var message:FlxText;
 	private var messageTimer:Float = 2;
+	private var bossWayPointsTemp:Array<FlxPoint>;
+	private var bossBattleTrigger:HitBox;
 
 	private var levelLoader:FlxOgmo3Loader;
 	private var map:FlxTilemap;
@@ -62,12 +69,15 @@ class PlayState extends FlxState
 		FlxG.mouse.visible = false;
 
 		hud = new Hud(player, HUD_OFFSET_X, HUD_OFFSET_Y);
-		RangedVillager.BULLETS = new FlxTypedGroup<Bullet>();
+		StatFactory.BULLETS = new FlxTypedGroup<Bullet>();
 		message = new FlxText(0, 0, 0, "message", 24);
 		message.alignment = CENTER;
 		message.screenCenter();
 		message.visible = false;
 		message.scrollFactor.set(0, 0);
+
+		boss.onKillEvent.add(onBossDeath);
+		player.onDeathEvent.add(gameOver);
 
 
 		ambienceTrack = FlxG.sound.load(AssetPaths.background_ambience__ogg, 0.15);
@@ -116,9 +126,9 @@ class PlayState extends FlxState
 		FlxG.collide(player.tnt, map);
 		FlxG.collide(player, allExplodables);
 		FlxG.collide(player.tnt, allExplodables);
-		FlxG.overlap(player, RangedVillager.BULLETS, Bullet.doDamage);
+		FlxG.overlap(player, StatFactory.BULLETS, Bullet.doDamage);
 		FlxG.overlap(enemies, player.bullets, Bullet.doDamage);
-		FlxG.collide(RangedVillager.BULLETS, map, function(bullet:Bullet, map) bullet.kill());
+		FlxG.collide(StatFactory.BULLETS, map, function(bullet:Bullet, map) bullet.kill());
 		FlxG.collide(player.bullets, map, function(bullet:Bullet, map) bullet.kill());
 		FlxG.overlap(player, spikes, function(player:Player, spike:Spike) spike.doDamage(player));
 		FlxG.collide(player, colliders);
@@ -143,6 +153,33 @@ class PlayState extends FlxState
 			message.visible = true;
 			messageTimer = 1;
 		});
+		FlxG.overlap(player, bossBattleTrigger, function(player:Player, trigger:HitBox) {
+			levelGoalBlocks.forEach(function(block:LevelGoalBlock) {
+				block.activate();
+			});
+			boss.activate();
+			bossBattleTrigger.kill();
+			boss.target = player;
+			ambienceTrack.stop();
+			ambienceTrack = FlxG.sound.load(AssetPaths.boss_fight_ambience__ogg, 0.25);
+			if (ambienceTrack != null)
+			{
+				ambienceTrack.looped = true;
+				ambienceTrack.play();
+				ambienceTrack.fadeIn(1, 0, 0.25);
+			}
+		});
+		FlxG.overlap(player, Enemy.DROPS, function(player:Player, itemPickup:ItemPickup) {
+			itemPickup.pickup(player);
+			if (Std.is(itemPickup, SteakPickup)) {
+				message.text = itemPickup.itemData.pickupMessage;
+			}
+			message.visible = true;
+			messageTimer = 1;
+		});
+		FlxG.collide(player, levelGoalBlocks);
+		FlxG.collide(enemies, levelGoalBlocks);
+		FlxG.collide(Enemy.DROPS, map);
 	}
 
 	private function setupCamera():Void {
@@ -159,14 +196,17 @@ class PlayState extends FlxState
 		add(breakableBlocks);
 		add(levelGoalBlocks);
 		add(allPowerUps);
-		add(RangedVillager.BULLETS);
+		add(StatFactory.BULLETS);
 		add(player.bullets);
 		add(player.tnt);
 		add(player);
 		add(enemies);
+		add(Enemy.DROPS);
 		add(itemPickups);
 		add(hud);
 		add(message);
+		add(boss);
+		add(bossBattleTrigger);
 	}
 
 	private function setupLevel(projectPath:String, projectJson:String):Void {
@@ -190,10 +230,15 @@ class PlayState extends FlxState
 		allPowerUps = new FlxTypedGroup<PowerUp>();
 		allExplodables = new FlxTypedGroup<Explodable>();
 		itemPickups = new FlxTypedGroup<ItemPickup>();
+		bossWayPointsTemp = new Array<FlxPoint>();
 
 		levelLoader.loadEntities(placeEntities, "entities");
 		Player.OBSTRUCTIONS = Enemy.OBSTRUCTIONS = map;
 		Tnt.EXPLODABLES = allExplodables;
+		for (i in 0...bossWayPointsTemp.length) {
+			boss.addWayPoint(bossWayPointsTemp[i]);
+		}
+		
 	}
 
 	private function placeEntities(entityData:EntityData):Void {
@@ -223,6 +268,13 @@ class PlayState extends FlxState
 			itemPickups.add(new TntPickup(entityData.x - entityData.originX, entityData.y - entityData.originY, 1));
 		} else if (entityData.name == "triple-bomb-pickup") {
 			itemPickups.add(new TntPickup(entityData.x - entityData.originX, entityData.y - entityData.originY, 3));
+		} else if (entityData.name == "boss-path-trigger") {
+			bossWayPointsTemp.push(new FlxPoint(entityData.x - entityData.originX, entityData.y - entityData.originY));
+		} else if (entityData.name == "boss") {
+			boss = new Boss(entityData.x - entityData.originX, entityData.y - entityData.originY, AssetPaths.Outlaw_sprite_sheet__png, player, "boss01", 22, 60, 48);
+			enemies.add(boss);
+		} else if (entityData.name == "boss-battle-trigger") {
+			bossBattleTrigger = new HitBox(entityData.x - entityData.originX, entityData.y - entityData.originY, 32, 96);
 		}
 	}
 
@@ -243,5 +295,26 @@ class PlayState extends FlxState
 		Parallax.addElement("mountains-fg", AssetPaths.MountainsFG__png, 974, 800, 0, 70, 1/16, 1/48);
 		Parallax.addElement("ground", AssetPaths.Ground__png, 974, 800, 0, 136, 1/8, 1/16);
 
+	}
+
+	public function onBossDeath():Void {
+			levelGoalBlocks.forEach(function(block:LevelGoalBlock) {
+				block.explode();
+			});
+			ambienceTrack.stop();
+			ambienceTrack = FlxG.sound.load(AssetPaths.boss_defeated_ambience__ogg, 0.15);
+			if (ambienceTrack != null)
+			{
+				ambienceTrack.looped = true;
+				ambienceTrack.play();
+				ambienceTrack.fadeIn(1, 0, 0.15);
+			}
+	}
+
+	public function gameOver():Void {
+		FlxG.camera.fade(FlxColor.BLACK, 0.5, false, function()
+		{
+			FlxG.switchState(new GameOverState(false, 0));
+		});
 	}
 }

@@ -11,9 +11,7 @@ class BreakableBlock extends Explodable {
     public function new(?x:Float=0, ?y:Float=0) {
         super(x,y);
 
-		loadGraphic(AssetPaths.Tilesheet__png, true, SPRITE_SIZE, SPRITE_SIZE);
-		this.animation.add(IDLE_ANIMATION, [15], 1, false);
-        this.animation.add(BREAKING_ANIMATION, [16, 17, 18], 6, false);
+		initGraphics();
         immovable = true;
         this.animation.play(IDLE_ANIMATION);
     }
@@ -27,5 +25,11 @@ class BreakableBlock extends Explodable {
         if (this.animation.name == BREAKING_ANIMATION && this.animation.finished) {
             this.kill();
         }
+    }
+
+    private function initGraphics():Void {
+		loadGraphic(AssetPaths.Tilesheet__png, true, SPRITE_SIZE, SPRITE_SIZE);
+		this.animation.add(IDLE_ANIMATION, [15], 1, false);
+		this.animation.add(BREAKING_ANIMATION, [16, 17, 18], 6, false);
     }
 }

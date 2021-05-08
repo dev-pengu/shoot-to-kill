@@ -1,5 +1,7 @@
 package actors.player;
 
+import utilities.DelegateEvent;
+import flixel.math.FlxMath;
 import actors.player.fsm.states.AirAttackState;
 import states.GameOverState;
 import items.PowerUp;
@@ -80,6 +82,7 @@ class Player extends FlxSprite {
     public var tntCount = 0;
 	public var bullets(default, null):FlxTypedGroup<Bullet>;
     public var tnt(default, default):FlxTypedGroup<Tnt>;
+    public var onDeathEvent:DelegateEvent;
 
     @:isVar public var powerUps(default, null):Array<String>;
     @:isVar public var maxAirJumps(default, null):Int = 1;
@@ -104,6 +107,7 @@ class Player extends FlxSprite {
 		this.health = maxHealth;
 		this.airJumps = 1;
 		this.touching = FlxObject.DOWN;
+		onDeathEvent = new DelegateEvent();
 
 		initGraphic();
         initCollections();
@@ -273,16 +277,25 @@ class Player extends FlxSprite {
             invincibleTimer = INVINCIBLE_TIME;
             playerSfx[HURT_SOUND].play(true);
             FlxG.camera.flash(FlxColor.fromRGB(255, 0, 0, 185), 0.5);
+            knockBack();
         }
+    }
+
+    public function heal(amount:Float) {
+        super.hurt(-amount);
+    }
+
+    private function knockBack():Void {
+        var facingDirection:Int = this.facing == FlxObject.RIGHT ? 1 : -1;
+        velocity.x = 600 * -facingDirection;
+        velocity.y = JUMP_VELOCITY / 3;
     }
 
     override public function kill() {
         playerSfx[DEATH_SOUND].play(true);
-
-        FlxG.camera.fade(FlxColor.BLACK, 0.5, false, function() {
-			FlxG.switchState(new GameOverState(false, 0));
-        });
-
+        if (onDeathEvent != null) {
+            onDeathEvent.invoke();
+        }
         super.kill();
     }
 

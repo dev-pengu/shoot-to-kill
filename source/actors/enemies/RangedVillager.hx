@@ -6,6 +6,7 @@ import flixel.group.FlxGroup.FlxTypedGroup;
 import items.Bullet;
 import actors.player.Player;
 import actors.enemies.stats.EnemyStats;
+import actors.enemies.stats.StatFactory;
 
 class RangedVillager extends Enemy {
 
@@ -16,7 +17,6 @@ class RangedVillager extends Enemy {
     public static var ATTACK_SPEED(default, never):Float = 0.5; // attacks per second
     public static var MAX_HEALTH(default, never):Float = 50;
 
-    public static var BULLETS(default, default):FlxTypedGroup<Bullet>;
 	public static var BULLET_SPAWN_OFFSET_X(default, never):Float = -5;
 	public static var BULLET_SPAWN_OFFSET_Y(default, never):Float = 21;
     public static var BULLET_SPEED(default, never):Float = 150;
@@ -26,8 +26,8 @@ class RangedVillager extends Enemy {
     public function new(?X:Float=0, ?Y:Float=0, player:Player) {
 		super(X, Y, AssetPaths.TownsPeople_sprite_sheet__png, player, "rangedVillager");
 
-        if (BULLETS == null) {
-            BULLETS = new FlxTypedGroup<Bullet>();
+		if (StatFactory.BULLETS == null) {
+			StatFactory.BULLETS = new FlxTypedGroup<Bullet>();
         }
         initAnimations();
         initStates();
@@ -56,19 +56,29 @@ class RangedVillager extends Enemy {
     }
 
     public static function addBullets():Void {
-		FlxG.state.add(BULLETS);
+		FlxG.state.add(StatFactory.BULLETS);
     }
 
     override public function attack():Void {
-        var bullet:Bullet = BULLETS.recycle(Bullet);
+		var bullet:Bullet = StatFactory.BULLETS.recycle(Bullet);
         if (this.facing == FlxObject.RIGHT) {
             bullet.setPosition(this.x + Enemy.SPRITE_SIZE + BULLET_SPAWN_OFFSET_X, this.y + BULLET_SPAWN_OFFSET_Y);
-			bullet.setParams(BULLET_SPEED, 1, BULLET_RANGE, BULLET_DAMAGE);
+			bullet.setParams(BULLET_SPEED, 1, BULLET_RANGE, this.stats.rangedAttackDamage);
         } else {
             bullet.setPosition(this.x - BULLET_SPAWN_OFFSET_X, this.y + BULLET_SPAWN_OFFSET_Y);
-			bullet.setParams(BULLET_SPEED, -1, BULLET_RANGE, BULLET_DAMAGE);
+			bullet.setParams(BULLET_SPEED, -1, BULLET_RANGE, this.stats.rangedAttackDamage);
         }
         this.enemySfx[Enemy.ATTACK_SOUND].play(true);
         bullet.fire();
     }
+
+	override public function update(elapsed:Float):Void {
+		for (i in 0...Enemy.TARGETS.length) {
+			FlxG.overlap(Enemy.TARGETS[i], this, function(obj1:FlxObject, obj2:Enemy)
+			{
+				obj1.hurt(this.stats.meleeAttackDamage);
+			});
+		}
+		super.update(elapsed);
+	}
 }

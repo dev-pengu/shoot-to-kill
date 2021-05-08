@@ -1,7 +1,7 @@
 package actors.enemies;
 
-
-
+import items.SteakPickup;
+import actors.enemies.boss.Boss;
 import flixel.system.FlxSound;
 import actors.enemies.stats.StatFactory;
 import actors.player.Player;
@@ -23,6 +23,7 @@ import actors.enemies.fsm.states.WalkState;
 import actors.enemies.fsm.states.RangedAttackState;
 import actors.enemies.fsm.states.MeleeAttackState;
 import actors.enemies.stats.EnemyStats;
+import items.ItemPickup;
 
 class Enemy extends FlxSprite
 {
@@ -30,8 +31,6 @@ class Enemy extends FlxSprite
 	public static var DECELERATION(default, never):Float = 700;
 	public static var OBSTRUCTIONS(default, default):FlxTilemap;
 	public static var GRAVITY(default, never):Float = 400;
-	public static var OFFSET_X(default, never):Int = 14;
-	public static var OFFSET_Y(default, never):Int = 12;
 	public static var WIDTH(default, never):Int = 20;
 	public static var HEIGHT(default, never):Int = 60;
 	public static var SPRITE_SIZE(default, never):Int = 48;
@@ -39,6 +38,8 @@ class Enemy extends FlxSprite
 	public static var HEALTH_BAR_OFFSET_Y(default, never):Int = -20;
 
 	public static var TARGETS(default, null):Array<FlxObject> = new Array<FlxObject>();
+
+	public static var DROPS(default, null):FlxTypedGroup<ItemPickup> = new FlxTypedGroup<ItemPickup>();
 
 	public static var IDLE_ANIMATION(default, never):String = "idle";
 	public static var WALK_ANIMATION(default, never):String = "walk";
@@ -50,7 +51,7 @@ class Enemy extends FlxSprite
 	public static var DEATH_SOUND(default, never):String = "death";
 
 	private var state:State;
-	private var states:Vector<State> = new Vector<State>(4);
+	private var states:Vector<State>;
 	private var healthBar:FlxBar;
 
 	@:isVar public var stats(get, null):EnemyStats;
@@ -60,7 +61,7 @@ class Enemy extends FlxSprite
 	function get_stats() return stats;
 	function get_targetPosition() return targetPosition;
 
-	public function new(?X:Float = 0, ?Y:Float = 0,  graphic:FlxGraphicAsset, player:Player, statsString:String)
+	public function new(?X:Float = 0, ?Y:Float = 0,  graphic:FlxGraphicAsset, player:Player, statsString:String, ?width:Int, ?height:Int, ?graphicSize:Int)
 	{
 		super(X, Y);
 		acceleration.y = GRAVITY;
@@ -76,13 +77,22 @@ class Enemy extends FlxSprite
 			TARGETS.push(player);
 		}
 
-		loadGraphic(graphic, true, SPRITE_SIZE, SPRITE_SIZE);
-		setGraphicSize(SPRITE_SIZE * 2, SPRITE_SIZE * 2);
-		updateHitbox();
-		offset.set(OFFSET_X, OFFSET_Y);
-		width = WIDTH;
-		height = HEIGHT;
+		if (graphicSize == null) {
+			graphicSize = SPRITE_SIZE;
+		}
+		if (width == null) {
+			width = WIDTH;
+		}
+		if (height == null) {
+			height = HEIGHT;
+		}
 
+		loadGraphic(graphic, true, graphicSize, graphicSize);
+		setGraphicSize(graphicSize * 2, graphicSize * 2);
+		updateHitbox();
+		offset.set((graphicSize - width) / 2, (height - graphicSize));
+		this.width = width;
+		this.height = height;
 		touching = FlxObject.DOWN;
 	}
 
@@ -94,6 +104,7 @@ class Enemy extends FlxSprite
 	}
 
 	private function initStates():Void {
+		states = new Vector<State>(4);
 		states[EnemyStates.IDLE.getIndex()] = new IdleState(this);
 		states[EnemyStates.WALK.getIndex()] = new WalkState(this);
 		states[EnemyStates.ATTACK.getIndex()] = stats.attackRange > 50 ? new RangedAttackState(this) : new MeleeAttackState(this);
@@ -138,6 +149,13 @@ class Enemy extends FlxSprite
 		this.enemySfx[Enemy.DEATH_SOUND].play(true);
 		super.kill();
 		healthBar.kill();
+
+		if (FlxG.random.float(0, 1, [0]) <= 0.5) {
+			var drop = DROPS.recycle(SteakPickup);
+			drop.reset(this.x, this.y);
+			drop.acceleration.y = GRAVITY;
+		}
+
 	}
 
 	public function checkAggro(target:FlxObject):Bool {

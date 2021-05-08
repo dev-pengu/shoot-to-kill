@@ -1,5 +1,7 @@
 package actors.enemies.stats;
 
+import items.Bullet;
+import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.FlxG;
 
 class StatFactory {
@@ -12,8 +14,10 @@ class StatFactory {
             switch (statType) {
                 case "rangedVillager":
                     stats = new EnemyStats(RangedVillager.MAX_HEALTH, RangedVillager.RANGED_VILLAGER_AGGRO_RANGE, 
-                        RangedVillager.ATTACK_SPEED, RangedVillager.ATTACK_RANGE, RangedVillager.RELOAD_TIME, 
+                        RangedVillager.ATTACK_SPEED, RangedVillager.ATTACK_RANGE, 4, 10, RangedVillager.RELOAD_TIME, 
                         RangedVillager.ROUNDS);
+                case "boss01":
+                    stats = new EnemyStats(200, 400, 0, 300, 8, 12, 0, 0);
             }
 			STATS.set(statType, stats);
         }
@@ -21,4 +25,6 @@ class StatFactory {
 
         return stats;
     }
+
+    public static var BULLETS:FlxTypedGroup<Bullet>;
 }
