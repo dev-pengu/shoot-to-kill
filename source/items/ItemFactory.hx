@@ -13,6 +13,9 @@ class ItemFactory {
                 case "tnt":
                     data = new ItemData("tnt", AssetPaths.tnt_sprite_sheet__png, " pack(s) of TNT found.");
                     ITEMS.set(name, data);
+                case "steak":
+                    data = new ItemData("steak", AssetPaths.steak_drop__png, "Steak restored some health.");
+                    ITEMS.set(name, data);
             }
         }
 

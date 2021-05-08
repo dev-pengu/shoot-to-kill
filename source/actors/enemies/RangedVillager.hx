@@ -63,12 +63,22 @@ class RangedVillager extends Enemy {
 		var bullet:Bullet = StatFactory.BULLETS.recycle(Bullet);
         if (this.facing == FlxObject.RIGHT) {
             bullet.setPosition(this.x + Enemy.SPRITE_SIZE + BULLET_SPAWN_OFFSET_X, this.y + BULLET_SPAWN_OFFSET_Y);
-			bullet.setParams(BULLET_SPEED, 1, BULLET_RANGE, BULLET_DAMAGE);
+			bullet.setParams(BULLET_SPEED, 1, BULLET_RANGE, this.stats.rangedAttackDamage);
         } else {
             bullet.setPosition(this.x - BULLET_SPAWN_OFFSET_X, this.y + BULLET_SPAWN_OFFSET_Y);
-			bullet.setParams(BULLET_SPEED, -1, BULLET_RANGE, BULLET_DAMAGE);
+			bullet.setParams(BULLET_SPEED, -1, BULLET_RANGE, this.stats.rangedAttackDamage);
         }
         this.enemySfx[Enemy.ATTACK_SOUND].play(true);
         bullet.fire();
     }
+
+	override public function update(elapsed:Float):Void {
+		for (i in 0...Enemy.TARGETS.length) {
+			FlxG.overlap(Enemy.TARGETS[i], this, function(obj1:FlxObject, obj2:Enemy)
+			{
+				obj1.hurt(this.stats.meleeAttackDamage);
+			});
+		}
+		super.update(elapsed);
+	}
 }

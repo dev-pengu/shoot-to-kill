@@ -27,7 +27,9 @@ class MenuState extends FlxState {
 		add(playBtn);
 
 		#if desktop
-		exitBtn = new FlxButton(playBtn.x, playBtn.y + 40, "Exit Game", exitGame);
+		exitBtn = new FlxButton(playBtn.x, playBtn.y + 60, "Exit Game", exitGame);
+		exitBtn.setGraphicSize(150, 40);
+		exitBtn.label.size = 12;
 		add(exitBtn);
 		#end
 

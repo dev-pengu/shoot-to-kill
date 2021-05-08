@@ -40,6 +40,7 @@ class Bullet extends FlxSprite {
 	}
 
 	public function fire():Void {
+		this.angle = 0;
 		if (direction != 0) {
 			velocity.set(speed * direction, 0);
 		}

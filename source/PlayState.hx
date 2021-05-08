@@ -1,5 +1,6 @@
 package;
 
+import items.SteakPickup;
 import actors.enemies.boss.Boss;
 import items.TntPickup;
 import items.ItemPickup;
@@ -74,6 +75,9 @@ class PlayState extends FlxState
 		message.screenCenter();
 		message.visible = false;
 		message.scrollFactor.set(0, 0);
+
+		boss.onKillEvent.add(onBossDeath);
+		player.onDeathEvent.add(gameOver);
 
 
 		ambienceTrack = FlxG.sound.load(AssetPaths.background_ambience__ogg, 0.15);
@@ -155,17 +159,27 @@ class PlayState extends FlxState
 			});
 			boss.activate();
 			bossBattleTrigger.kill();
+			boss.target = player;
 			ambienceTrack.stop();
 			ambienceTrack = FlxG.sound.load(AssetPaths.boss_fight_ambience__ogg, 0.25);
 			if (ambienceTrack != null)
 			{
 				ambienceTrack.looped = true;
 				ambienceTrack.play();
-				ambienceTrack.fadeIn(1, 0, 0.15);
+				ambienceTrack.fadeIn(1, 0, 0.25);
 			}
+		});
+		FlxG.overlap(player, Enemy.DROPS, function(player:Player, itemPickup:ItemPickup) {
+			itemPickup.pickup(player);
+			if (Std.is(itemPickup, SteakPickup)) {
+				message.text = itemPickup.itemData.pickupMessage;
+			}
+			message.visible = true;
+			messageTimer = 1;
 		});
 		FlxG.collide(player, levelGoalBlocks);
 		FlxG.collide(enemies, levelGoalBlocks);
+		FlxG.collide(Enemy.DROPS, map);
 	}
 
 	private function setupCamera():Void {
@@ -187,6 +201,7 @@ class PlayState extends FlxState
 		add(player.tnt);
 		add(player);
 		add(enemies);
+		add(Enemy.DROPS);
 		add(itemPickups);
 		add(hud);
 		add(message);
@@ -223,6 +238,7 @@ class PlayState extends FlxState
 		for (i in 0...bossWayPointsTemp.length) {
 			boss.addWayPoint(bossWayPointsTemp[i]);
 		}
+		
 	}
 
 	private function placeEntities(entityData:EntityData):Void {
@@ -279,5 +295,26 @@ class PlayState extends FlxState
 		Parallax.addElement("mountains-fg", AssetPaths.MountainsFG__png, 974, 800, 0, 70, 1/16, 1/48);
 		Parallax.addElement("ground", AssetPaths.Ground__png, 974, 800, 0, 136, 1/8, 1/16);
 
+	}
+
+	public function onBossDeath():Void {
+			levelGoalBlocks.forEach(function(block:LevelGoalBlock) {
+				block.explode();
+			});
+			ambienceTrack.stop();
+			ambienceTrack = FlxG.sound.load(AssetPaths.boss_defeated_ambience__ogg, 0.15);
+			if (ambienceTrack != null)
+			{
+				ambienceTrack.looped = true;
+				ambienceTrack.play();
+				ambienceTrack.fadeIn(1, 0, 0.15);
+			}
+	}
+
+	public function gameOver():Void {
+		FlxG.camera.fade(FlxColor.BLACK, 0.5, false, function()
+		{
+			FlxG.switchState(new GameOverState(false, 0));
+		});
 	}
 }

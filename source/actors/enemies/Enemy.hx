@@ -1,5 +1,6 @@
 package actors.enemies;
 
+import items.SteakPickup;
 import actors.enemies.boss.Boss;
 import flixel.system.FlxSound;
 import actors.enemies.stats.StatFactory;
@@ -22,6 +23,7 @@ import actors.enemies.fsm.states.WalkState;
 import actors.enemies.fsm.states.RangedAttackState;
 import actors.enemies.fsm.states.MeleeAttackState;
 import actors.enemies.stats.EnemyStats;
+import items.ItemPickup;
 
 class Enemy extends FlxSprite
 {
@@ -36,6 +38,8 @@ class Enemy extends FlxSprite
 	public static var HEALTH_BAR_OFFSET_Y(default, never):Int = -20;
 
 	public static var TARGETS(default, null):Array<FlxObject> = new Array<FlxObject>();
+
+	public static var DROPS(default, null):FlxTypedGroup<ItemPickup> = new FlxTypedGroup<ItemPickup>();
 
 	public static var IDLE_ANIMATION(default, never):String = "idle";
 	public static var WALK_ANIMATION(default, never):String = "walk";
@@ -145,6 +149,13 @@ class Enemy extends FlxSprite
 		this.enemySfx[Enemy.DEATH_SOUND].play(true);
 		super.kill();
 		healthBar.kill();
+
+		if (FlxG.random.float(0, 1, [0]) <= 0.5) {
+			var drop = DROPS.recycle(SteakPickup);
+			drop.reset(this.x, this.y);
+			drop.acceleration.y = GRAVITY;
+		}
+
 	}
 
 	public function checkAggro(target:FlxObject):Bool {

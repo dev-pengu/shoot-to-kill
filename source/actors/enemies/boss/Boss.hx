@@ -1,5 +1,6 @@
 package actors.enemies.boss;
 
+import utilities.DelegateEvent;
 import actors.enemies.boss.fsm.states.B_MeleeAttackState;
 import actors.enemies.boss.fsm.states.B_RangedAttackState;
 import actors.enemies.boss.fsm.BossStates;
@@ -30,15 +31,11 @@ class Boss extends Enemy {
 	public static var BULLET_SPAWN_OFFSET_X(default, never):Float = -5;
 	public static var BULLET_SPAWN_OFFSET_Y(default, never):Float = 21;
 	public static var BULLET_SPEED(default, never):Float = 150;
-	public static var BULLET_RANGE(default, never):Float = 400;
-	public static var BULLET_DAMAGE(default, never):Float = 10;
 
     public static var RANGED_ATTACK(default, never):String = "rangedAttack";
     public static var MELEE_ATTACK(default, never):String = "meleeAttack";
     public static var IDLE(default, never):String = "idle";
     public static var WALK(default, never):String = "walk";
-    public static var JUMP(default, never):String = "jump";
-    public static var FALL(default, never):String = "fall";
 
     private var wayPoints:Array<FlxPoint>;
     private var currentWayPointIndex:Int = 0;
@@ -46,6 +43,7 @@ class Boss extends Enemy {
     public var target:FlxObject;
     public var isInvincible(default, default):Bool = false;
     public var inBattle(default, null):Bool = false;
+    public var onKillEvent(default, null):DelegateEvent;
 
 	public function new(?X:Float = 0, ?Y:Float = 0, graphicPath:String, player:Player, statsString:String, ?width:Int, ?height:Int, ?graphicSize:Int) {
         if (graphicSize == null) {
@@ -61,10 +59,12 @@ class Boss extends Enemy {
 		maxVelocity.set(CHARGE_SPEED, MAX_Y_SPEED);
 
         wayPoints = new Array<FlxPoint>();
+        onKillEvent = new DelegateEvent();
 
         buildAnimations();
         buildSoundMap();
         initStates();
+		this.acceleration.y = 0;
     }
 
     private function buildSoundMap():Void {
@@ -74,9 +74,7 @@ class Boss extends Enemy {
 
     private function buildAnimations():Void {
 		animation.add(IDLE, [0], 1, false);
-		animation.add(WALK, [1, 2, 3, 1, 4, 5], 8);
-		animation.add(JUMP, [10, 11], 8, false);
-		animation.add(FALL, [12, 13, 14], 6, false);
+		animation.add(WALK, [1, 2, 3, 1, 4, 5], 6);
 		animation.add(RANGED_ATTACK, [0, 15, 16, 17, 18], 15, false);
 		animation.add(MELEE_ATTACK, [1, 2, 3, 1, 4, 5], 8);
     }
@@ -132,4 +130,21 @@ class Boss extends Enemy {
 		}
 		while (nextState != BossStates.NO_CHANGE.getIndex());
 	}
+
+    override public function kill():Void {
+        if (this.onKillEvent != null) {
+            onKillEvent.invoke();
+        }
+        super.kill();
+    }
+
+    override public function update(elapsed:Float):Void {
+        if (isTouching(FlxObject.DOWN)) {
+            this.acceleration.y = 0;
+        } else if (!isTouching(FlxObject.DOWN)) {
+            this.acceleration.y = Boss.GRAVITY;
+        }
+
+        super.update(elapsed);
+    }
 }

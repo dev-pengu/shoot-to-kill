@@ -24,6 +24,7 @@ class B_RangedAttackState extends BossState {
     override public function transitionIn():Void {
         attacksLeft = 3;
         attackTimer = 0;
+		this.managedEntity.velocity.x = 0;
         this.managedEntity.isInvincible = true;
 		this.managedEntity.facing = this.managedEntity.target.x > this.managedEntity.x ? FlxObject.RIGHT : FlxObject.LEFT;
 		this.managedEntity.flipX = this.managedEntity.facing == FlxObject.LEFT;
@@ -37,13 +38,14 @@ class B_RangedAttackState extends BossState {
         if (attackTimer <= 0) {
             fireShots();
             attacksLeft--;
-            attackTimer = 1.25;
+            attackTimer = 1.75;
         } else {
             attackTimer -= elapsed;
         }
     }
 
     private function fireShots():Void {
+		this.managedEntity.animation.play(Boss.RANGED_ATTACK);
 		var bullet1:Bullet = StatFactory.BULLETS.recycle(Bullet);
 		var bullet2:Bullet = StatFactory.BULLETS.recycle(Bullet);
 		var bullet3:Bullet = StatFactory.BULLETS.recycle(Bullet);
@@ -57,9 +59,9 @@ class B_RangedAttackState extends BossState {
 			bullet2.setPosition(this.managedEntity.x + Boss.SPRITE_SIZE + Boss.BULLET_SPAWN_OFFSET_X, this.managedEntity.y + Boss.BULLET_SPAWN_OFFSET_Y);
 			bullet3.setPosition(this.managedEntity.x + Boss.SPRITE_SIZE + Boss.BULLET_SPAWN_OFFSET_X, this.managedEntity.y + Boss.BULLET_SPAWN_OFFSET_Y);
 
-			bullet1.setParams(Boss.BULLET_SPEED, 1, Boss.BULLET_RANGE, Boss.BULLET_DAMAGE);
-			bullet3.setParams(Boss.BULLET_SPEED, 1, Boss.BULLET_RANGE, Boss.BULLET_DAMAGE);
-			bullet3.setParams(Boss.BULLET_SPEED, 1, Boss.BULLET_RANGE, Boss.BULLET_DAMAGE);
+			bullet1.setParams(Boss.BULLET_SPEED, 1, this.managedEntity.stats.attackRange, this.managedEntity.stats.rangedAttackDamage);
+			bullet2.setParams(Boss.BULLET_SPEED, 1, this.managedEntity.stats.attackRange, this.managedEntity.stats.rangedAttackDamage);
+			bullet3.setParams(Boss.BULLET_SPEED, 1, this.managedEntity.stats.attackRange, this.managedEntity.stats.rangedAttackDamage);
 		}
 		else
 		{
@@ -67,12 +69,12 @@ class B_RangedAttackState extends BossState {
 			bullet2.setPosition(this.managedEntity.x - Boss.BULLET_SPAWN_OFFSET_X, this.managedEntity.y + Boss.BULLET_SPAWN_OFFSET_Y);
 			bullet3.setPosition(this.managedEntity.x - Boss.BULLET_SPAWN_OFFSET_X, this.managedEntity.y + Boss.BULLET_SPAWN_OFFSET_Y);
 
-			bullet1.setParams(Boss.BULLET_SPEED, -1, Boss.BULLET_RANGE, Boss.BULLET_DAMAGE);
-			bullet3.setParams(Boss.BULLET_SPEED, -1, Boss.BULLET_RANGE, Boss.BULLET_DAMAGE);
-			bullet3.setParams(Boss.BULLET_SPEED, -1, Boss.BULLET_RANGE, Boss.BULLET_DAMAGE);
+			bullet1.setParams(Boss.BULLET_SPEED, -1, this.managedEntity.stats.attackRange, this.managedEntity.stats.rangedAttackDamage);
+			bullet2.setParams(Boss.BULLET_SPEED, -1, this.managedEntity.stats.attackRange, this.managedEntity.stats.rangedAttackDamage);
+			bullet3.setParams(Boss.BULLET_SPEED, -1, this.managedEntity.stats.attackRange, this.managedEntity.stats.rangedAttackDamage);
 
-			angle1 = 165;
-			angle2 = 195;
+			//angle1 = 165;
+			//angle2 = 195;
 		}
 		this.managedEntity.enemySfx[Boss.RANGED_ATTACK].play(true);
 		bullet1.fireAngle(angle1);

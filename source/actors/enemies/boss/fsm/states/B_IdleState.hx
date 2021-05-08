@@ -7,7 +7,6 @@ class B_IdleState extends BossState {
 
     public function new(entity:Boss) {
         super(entity);
-        idleTimer = FlxG.random.float(1, 1.5);
     }
 
     override public function getNextState():Int {
@@ -20,8 +19,8 @@ class B_IdleState extends BossState {
     }
 
     override public function transitionIn():Void {
-        idleTimer = FlxG.random.float(1, 1.5);
-        this.managedEntity.velocity.set(0, 0);
+        idleTimer = FlxG.random.float(2, 3.5);
+        this.managedEntity.velocity.x = 0;
 
         if (this.managedEntity.animation.finished || this.managedEntity.animation.curAnim.looped) {
             this.managedEntity.animation.play(Boss.IDLE);
