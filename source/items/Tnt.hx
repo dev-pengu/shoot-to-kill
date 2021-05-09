@@ -1,5 +1,6 @@
 package items;
 
+import actors.enemies.Enemy;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import environment.Explodable;
 import actors.player.Player;
@@ -13,6 +14,7 @@ import flixel.FlxG;
 class Tnt extends FlxSprite implements I_UsableItem {
     public var data(default, null):ItemData;
     public static var EXPLODABLES(default, default):FlxTypedGroup<Explodable> = new FlxTypedGroup<Explodable>();
+    public static var ENEMIES(default, default):FlxTypedGroup<Enemy>;
 
     public var hitBox(default, null):HitBox;
     private var owner:Player;
@@ -26,6 +28,8 @@ class Tnt extends FlxSprite implements I_UsableItem {
     private static var WIDTH(default, never):Int = 20;
     private static var HEIGHT(default, never):Int = 20;
     private static var SPRITE_SIZE(default, never):Int = 32;
+
+    private static var DAMAGE_TO_ENEMIES(default, never):Float = 8;
 
     override public function new(?X:Float=0, ?Y:Float=0) {
         super(X, Y);
@@ -72,7 +76,11 @@ class Tnt extends FlxSprite implements I_UsableItem {
         explosionTimer = 2;
         ignited = true;
         owner.tntCount--;
-		this.y = owner.y + Player.BULLET_SPAWN_OFFSET_Y + 4;
+        if (owner.height == Player.CROUCH_HEIGHT) {
+            this.y = owner.y + 4;
+        } else {
+			this.y = owner.y + Player.BULLET_SPAWN_OFFSET_Y + 4;
+        }
 		this.x = owner.x;
 		this.width = WIDTH;
 		this.height = HEIGHT;
@@ -87,6 +95,10 @@ class Tnt extends FlxSprite implements I_UsableItem {
         FlxG.sound.play(AssetPaths.explosion__ogg, 0.25, false);
 		FlxG.overlap(this.hitBox, EXPLODABLES, function(tnt:Tnt, explodable:Explodable) {
             explodable.explode();
+        });
+
+        FlxG.overlap(this.hitBox, ENEMIES, function(tnt:Tnt, enemy:Enemy) {
+			enemy.hurt(DAMAGE_TO_ENEMIES);
         });
     }
 }

@@ -251,6 +251,7 @@ class PlayState extends FlxState
 		levelLoader.loadEntities(placeEntities, "entities");
 		Player.OBSTRUCTIONS = Enemy.OBSTRUCTIONS = map;
 		Tnt.EXPLODABLES = allExplodables;
+		Tnt.ENEMIES = enemies;
 		for (i in 0...bossWayPointsTemp.length) {
 			boss.addWayPoint(bossWayPointsTemp[i]);
 		}
