@@ -70,6 +70,7 @@ class PlayState extends FlxState
 
 		hud = new Hud(player, HUD_OFFSET_X, HUD_OFFSET_Y);
 		StatFactory.BULLETS = new FlxTypedGroup<Bullet>();
+		StatFactory.DROPS = new FlxTypedGroup<ItemPickup>();
 		message = new FlxText(0, 0, 0, "message", 24);
 		message.alignment = CENTER;
 		message.screenCenter();
@@ -169,17 +170,32 @@ class PlayState extends FlxState
 				ambienceTrack.fadeIn(1, 0, 0.25);
 			}
 		});
-		FlxG.overlap(player, Enemy.DROPS, function(player:Player, itemPickup:ItemPickup) {
+		FlxG.overlap(player, StatFactory.DROPS, function(player:Player, itemPickup:ItemPickup) {
 			itemPickup.pickup(player);
 			if (Std.is(itemPickup, SteakPickup)) {
-				message.text = itemPickup.itemData.pickupMessage;
+				if (message.visible) {
+					message.text += "\n" + itemPickup.itemData.pickupMessage;
+				} else {
+					message.text = itemPickup.itemData.pickupMessage;
+				}
+			} else if (Std.is(itemPickup, TntPickup)) {
+				if (message.visible) {
+					message.text += "\n" + itemPickup.numItems + " " + itemPickup.itemData.pickupMessage;
+				} else {
+					message.text = itemPickup.numItems + " " + itemPickup.itemData.pickupMessage;
+				}
 			}
-			message.visible = true;
-			messageTimer = 1;
+
+			if (message.visible) {
+				messageTimer += 1;
+			} else {
+				message.visible = true;
+				messageTimer = 1;
+			}
 		});
 		FlxG.collide(player, levelGoalBlocks);
 		FlxG.collide(enemies, levelGoalBlocks);
-		FlxG.collide(Enemy.DROPS, map);
+		FlxG.collide(StatFactory.DROPS, map);
 	}
 
 	private function setupCamera():Void {
@@ -201,7 +217,7 @@ class PlayState extends FlxState
 		add(player.tnt);
 		add(player);
 		add(enemies);
-		add(Enemy.DROPS);
+		add(StatFactory.DROPS);
 		add(itemPickups);
 		add(hud);
 		add(message);
