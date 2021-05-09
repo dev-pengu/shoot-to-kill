@@ -1,5 +1,6 @@
 package actors.enemies;
 
+import items.TntPickup;
 import items.SteakPickup;
 import actors.enemies.boss.Boss;
 import flixel.system.FlxSound;
@@ -38,8 +39,6 @@ class Enemy extends FlxSprite
 	public static var HEALTH_BAR_OFFSET_Y(default, never):Int = -20;
 
 	public static var TARGETS(default, null):Array<FlxObject> = new Array<FlxObject>();
-
-	public static var DROPS(default, null):FlxTypedGroup<ItemPickup> = new FlxTypedGroup<ItemPickup>();
 
 	public static var IDLE_ANIMATION(default, never):String = "idle";
 	public static var WALK_ANIMATION(default, never):String = "walk";
@@ -151,7 +150,12 @@ class Enemy extends FlxSprite
 		healthBar.kill();
 
 		if (FlxG.random.float(0, 1, [0]) <= 0.5) {
-			var drop = DROPS.recycle(SteakPickup);
+			var drop = StatFactory.DROPS.recycle(SteakPickup);
+			drop.reset(this.x, this.y);
+			drop.acceleration.y = GRAVITY;
+		}
+		if (FlxG.random.float(0, 1, [0]) <= 0.35) {
+			var drop = StatFactory.DROPS.recycle(TntPickup);
 			drop.reset(this.x, this.y);
 			drop.acceleration.y = GRAVITY;
 		}

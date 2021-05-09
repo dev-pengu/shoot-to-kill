@@ -1,5 +1,6 @@
 package actors.enemies.stats;
 
+import items.ItemPickup;
 import items.Bullet;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.FlxG;
@@ -27,4 +28,5 @@ class StatFactory {
     }
 
     public static var BULLETS:FlxTypedGroup<Bullet>;
+    public static var DROPS:FlxTypedGroup<ItemPickup>;
 }

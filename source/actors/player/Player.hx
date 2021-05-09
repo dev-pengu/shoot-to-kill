@@ -283,6 +283,9 @@ class Player extends FlxSprite {
 
     public function heal(amount:Float) {
         super.hurt(-amount);
+        if (health > maxHealth) {
+            health = maxHealth;
+        }
     }
 
     private function knockBack():Void {
