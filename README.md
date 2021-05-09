@@ -7,7 +7,7 @@ The main purpose of this project was to learn [HaxeFlixel](http://www.haxeflixel
 
 Shoot to Kill is a 2D platformer with a Western setting. The player plays as an outlaw disrupting the people in town by blowing up their buildings and shooting their livestock. The player collects gold that they steal from the townspeople, that could be later spent for items or temporary power ups. However, the townspeople are fighting back and the sheriff is tracking the outlaw down to keep him from leaving town.
 
-![Shoot To Kill Screenshot](screenshots/gameplay.jpg?raw=true)
+![Shoot To Kill Screenshot](/screenshots/gameplay.jpg?raw=true)
 
 Version 1.0 - [Try Me!](https://lippelman515.github.io/shoot-to-kill/)
 
@@ -41,7 +41,7 @@ If player health reaches 0, a Game Over window will appear and the option is giv
 
 ## Enemies
 ### Towns People
-* ![towns people](screenshots/average_enemy.jpg)
+* ![towns people](/screenshots/average_enemy.jpg)
 * Starts of patrolling an area.
 * When the player has walked into attack range, the enemy will begin firing bullets in the direction of the player.
 * When the player touches the enemy, the enemy will inflict damage to the player.
@@ -57,7 +57,7 @@ If player health reaches 0, a Game Over window will appear and the option is giv
 
 ## Power ups
 * When a power up has been acquired, a message will appear indicating what power up has been learned.
-* A power up pickup will have a sprite similar to: ![power up image](screenshots/powerup-example.jpg)
+* A power up pickup will have a sprite similar to: ![power up image](/screenshots/powerup-example.jpg)
 ### Double Jump
 * Allows the player to jump again while in the air.
 ### Jump Shot
@@ -66,26 +66,26 @@ If player health reaches 0, a Game Over window will appear and the option is giv
 ## Items
 * Items can be dropped from enemies or gathered from around the map
 ### Steak 
-* ![steak image](screenshots/meat_drop.jpg)
+* ![steak image](/screenshots/meat_drop.jpg)
 * Enemies have a chance of dropping meat.
 * Steak restores health.
 * The restoration value can vary between 10 and 30.
 ### TNT
 * TNT can be found around the map in packs of 1 and 3.
-* * 1 pack: ![tnt pack](screenshots/single_tnt_pickup.jpg)
-* * 3 pack: ![tnt pack](screenshots/three_pack_tnt_pickup.jpg)
+* * 1 pack: ![tnt pack](/screenshots/single_tnt_pickup.jpg)
+* * 3 pack: ![tnt pack](/screenshots/three_pack_tnt_pickup.jpg)
 * 1 TNT have a chance of dropping from enemies.
 * TNT is used to blow up explodable blocks and damaging enemies.
 
 ## Environment Objects
 ### Blocks
 * Breakable blocks can be blown up using TNT
-* * ![breakable block](screenshots/breakable_block.jpg)
+* * ![breakable block](/screenshots/breakable_block.jpg)
 * Unbreakable blocks have an event that must happen before they may be destroyed
-* * ![unbreakable block](screenshots/unbreakable_block.jpg)
+* * ![unbreakable block](/screenshots/unbreakable_block.jpg)
 ### Spikes
 * Spikes will damage the player if touched.
-* * ![spikes](screenshots/environmental_hazard.jpg)
+* * ![spikes](/screenshots/environmental_hazard.jpg)
 
 ## Attributions
 * Sound Effects and Music were attained through [FesliyanStudios](https://www.fesliyanstudios.com).
