@@ -893,7 +893,7 @@ ApplicationMain.main = function() {
 ApplicationMain.create = function(config) {
 	var app = new openfl_display_Application();
 	ManifestResources.init(config);
-	app.meta.h["build"] = "56";
+	app.meta.h["build"] = "58";
 	app.meta.h["company"] = "HaxeFlixel";
 	app.meta.h["file"] = "shoot-to-kill";
 	app.meta.h["name"] = "shoot-to-kill";
@@ -5521,6 +5521,7 @@ PlayState.prototype = $extend(flixel_FlxState.prototype,{
 		flixel_FlxG.mouse.set_visible(false);
 		this.hud = new ui_Hud(this.player,PlayState.HUD_OFFSET_X,PlayState.HUD_OFFSET_Y);
 		actors_enemies_stats_StatFactory.BULLETS = new flixel_group_FlxTypedGroup();
+		actors_enemies_stats_StatFactory.DROPS = new flixel_group_FlxTypedGroup();
 		this.message = new flixel_text_FlxText(0,0,0,"message",24);
 		this.message.set_alignment("center");
 		this.message.screenCenter();
@@ -5652,17 +5653,33 @@ PlayState.prototype = $extend(flixel_FlxState.prototype,{
 				_this.fadeTween = flixel_tweens_FlxTween.num(From,To,Duration,{ onComplete : null},$bind(_this,_this.volumeTween));
 			}
 		});
-		flixel_FlxG.overlap(this.player,actors_enemies_Enemy.DROPS,function(player,itemPickup) {
+		flixel_FlxG.overlap(this.player,actors_enemies_stats_StatFactory.DROPS,function(player,itemPickup) {
 			itemPickup.pickup(player);
 			if(((itemPickup) instanceof items_SteakPickup)) {
-				_gthis.message.set_text(itemPickup.itemData.pickupMessage);
+				if(_gthis.message.visible) {
+					var _g = _gthis.message;
+					_g.set_text(_g.text + ("\n" + itemPickup.itemData.pickupMessage));
+				} else {
+					_gthis.message.set_text(itemPickup.itemData.pickupMessage);
+				}
+			} else if(((itemPickup) instanceof items_TntPickup)) {
+				if(_gthis.message.visible) {
+					var _g = _gthis.message;
+					_g.set_text(_g.text + ("\n" + itemPickup.numItems + " " + itemPickup.itemData.pickupMessage));
+				} else {
+					_gthis.message.set_text(itemPickup.numItems + " " + itemPickup.itemData.pickupMessage);
+				}
 			}
-			_gthis.message.set_visible(true);
-			_gthis.messageTimer = 1;
+			if(_gthis.message.visible) {
+				_gthis.messageTimer += 1;
+			} else {
+				_gthis.message.set_visible(true);
+				_gthis.messageTimer = 1;
+			}
 		});
 		flixel_FlxG.overlap(this.player,this.levelGoalBlocks,null,flixel_FlxObject.separate);
 		flixel_FlxG.overlap(this.enemies,this.levelGoalBlocks,null,flixel_FlxObject.separate);
-		flixel_FlxG.overlap(actors_enemies_Enemy.DROPS,this.map,null,flixel_FlxObject.separate);
+		flixel_FlxG.overlap(actors_enemies_stats_StatFactory.DROPS,this.map,null,flixel_FlxObject.separate);
 	}
 	,setupCamera: function() {
 		flixel_FlxG.camera.fade(-16777216,2,true);
@@ -5695,7 +5712,7 @@ PlayState.prototype = $extend(flixel_FlxState.prototype,{
 		this.add(this.player.tnt);
 		this.add(this.player);
 		this.add(this.enemies);
-		this.add(actors_enemies_Enemy.DROPS);
+		this.add(actors_enemies_stats_StatFactory.DROPS);
 		this.add(this.itemPickups);
 		this.add(this.hud);
 		this.add(this.message);
@@ -9104,7 +9121,12 @@ actors_enemies_Enemy.prototype = $extend(flixel_FlxSprite.prototype,{
 		flixel_FlxSprite.prototype.kill.call(this);
 		this.healthBar.kill();
 		if(flixel_FlxG.random.float(0,1,[0]) <= 0.5) {
-			var drop = actors_enemies_Enemy.DROPS.recycle(items_SteakPickup);
+			var drop = actors_enemies_stats_StatFactory.DROPS.recycle(items_SteakPickup);
+			drop.reset(this.x,this.y);
+			drop.acceleration.set_y(actors_enemies_Enemy.GRAVITY);
+		}
+		if(flixel_FlxG.random.float(0,1,[0]) <= 0.35) {
+			var drop = actors_enemies_stats_StatFactory.DROPS.recycle(items_TntPickup);
 			drop.reset(this.x,this.y);
 			drop.acceleration.set_y(actors_enemies_Enemy.GRAVITY);
 		}
@@ -9899,6 +9921,7 @@ actors_enemies_stats_StatFactory.getStats = function(statType) {
 	return stats;
 };
 actors_enemies_stats_StatFactory.BULLETS = null;
+actors_enemies_stats_StatFactory.DROPS = null;
 var actors_player_Input = function() {
 	this.reloadJustPressed = false;
 	this.useBombJustPressed = false;
@@ -10282,6 +10305,9 @@ actors_player_Player.prototype = $extend(flixel_FlxSprite.prototype,{
 	}
 	,heal: function(amount) {
 		flixel_FlxSprite.prototype.hurt.call(this,-amount);
+		if(this.health > this.get_maxHealth()) {
+			this.health = this.get_maxHealth();
+		}
 	}
 	,knockBack: function() {
 		var facingDirection = this.facing == 16 ? 1 : -1;
@@ -60015,6 +60041,9 @@ items_Tnt.prototype = $extend(flixel_FlxSprite.prototype,{
 	,__class__: items_Tnt
 });
 var items_TntPickup = function(X,Y,numItems) {
+	if(numItems == null) {
+		numItems = 1;
+	}
 	if(Y == null) {
 		Y = 0;
 	}
@@ -75555,7 +75584,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 793834;
+	this.version = 705006;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = "lime.utils.AssetCache";
@@ -118546,7 +118575,6 @@ actors_enemies_Enemy.SPRITE_SIZE = 48;
 actors_enemies_Enemy.HEALTH_BAR_OFFSET_X = 0;
 actors_enemies_Enemy.HEALTH_BAR_OFFSET_Y = -20;
 actors_enemies_Enemy.TARGETS = [];
-actors_enemies_Enemy.DROPS = new flixel_group_FlxTypedGroup();
 actors_enemies_Enemy.IDLE_ANIMATION = "idle";
 actors_enemies_Enemy.WALK_ANIMATION = "walk";
 actors_enemies_Enemy.HURT_ANIMATION = "hurt";
