@@ -49,6 +49,11 @@ class B_WalkState extends BossState {
             direction = 0;
             this.managedEntity.animation.play(Boss.IDLE);
         }
-        this.managedEntity.velocity.x = Boss.SPEED * direction;
+        if (this.managedEntity.animation.finished && this.managedEntity.animation.name != Boss.WALK) {
+            this.managedEntity.animation.play(Boss.WALK);
+        }
+        if (this.managedEntity.animation.name == Boss.WALK) {
+			this.managedEntity.velocity.x = Boss.SPEED * direction;
+        }
     }
 }
