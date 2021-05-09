@@ -893,7 +893,7 @@ ApplicationMain.main = function() {
 ApplicationMain.create = function(config) {
 	var app = new openfl_display_Application();
 	ManifestResources.init(config);
-	app.meta.h["build"] = "45";
+	app.meta.h["build"] = "54";
 	app.meta.h["company"] = "HaxeFlixel";
 	app.meta.h["file"] = "shoot-to-kill";
 	app.meta.h["name"] = "shoot-to-kill";
@@ -4408,7 +4408,7 @@ ManifestResources.init = function(config) {
 	openfl_text_Font.registerFont(_$_$ASSET_$_$OPENFL_$_$flixel_$fonts_$nokiafc22_$ttf);
 	openfl_text_Font.registerFont(_$_$ASSET_$_$OPENFL_$_$flixel_$fonts_$monsterrat_$ttf);
 	var bundle;
-	var data = "{\"name\":null,\"assets\":\"aoy4:pathy34:assets%2Fdata%2Fdata-goes-here.txty4:sizezy4:typey4:TEXTy2:idR1y7:preloadtgoR0y29:assets%2Fdata%2Flevel-00.jsonR2i3406R3R4R5R7R6tgoR0y29:assets%2Fdata%2Flevel-01.jsonR2i29813R3R4R5R8R6tgoR0y34:assets%2Fdata%2Fshoot-to-kill.ogmoR2i21664R3R4R5R9R6tgoR0y41:assets%2Fimages%2Fbackground%2FGround.pngR2i41944R3y5:IMAGER5R10R6tgoR0y44:assets%2Fimages%2Fbackground%2FMountains.pngR2i23037R3R11R5R12R6tgoR0y46:assets%2Fimages%2Fbackground%2FMountainsFG.pngR2i21570R3R11R5R13R6tgoR0y38:assets%2Fimages%2Fbackground%2FSky.pngR2i5660R3R11R5R14R6tgoR0y38:assets%2Fimages%2Fbackground%2FSun.pngR2i9906R3R11R5R15R6tgoR0y37:assets%2Fimages%2Fbreakable-block.pngR2i444R3R11R5R16R6tgoR0y27:assets%2Fimages%2FBrick.pngR2i274R3R11R5R17R6tgoR0y28:assets%2Fimages%2FBullet.pngR2i141R3R11R5R18R6tgoR0y32:assets%2Fimages%2FbulletUI_0.pngR2i201R3R11R5R19R6tgoR0y32:assets%2Fimages%2FbulletUI_1.pngR2i202R3R11R5R20R6tgoR0y41:assets%2Fimages%2Fcowboy-5405230_1280.pngR2i55768R3R11R5R21R6tgoR0y27:assets%2Fimages%2Fenemy.pngR2i1479R3R11R5R22R6tgoR0y36:assets%2Fimages%2Fimages-go-here.txtR2zR3R4R5R23R6tgoR0y41:assets%2Fimages%2FOutlaw-sprite-sheet.pngR2i13449R3R11R5R24R6tgoR0y49:assets%2Fimages%2Fpowerups%2Fdouble_jump_icon.pngR2i456R3R11R5R25R6tgoR0y47:assets%2Fimages%2Fpowerups%2Fjump_shot_icon.pngR2i465R3R11R5R26R6tgoR0y56:assets%2Fimages%2Fsarah-lachise-88vFFj0xXxk-unsplash.jpgR2i1055308R3R11R5R27R6tgoR0y28:assets%2Fimages%2Fspikes.pngR2i386R3R11R5R28R6tgoR0y31:assets%2Fimages%2FTilesheet.pngR2i6375R3R11R5R29R6tgoR0y38:assets%2Fimages%2Ftnt-sprite-sheet.pngR2i2181R3R11R5R30R6tgoR0y46:assets%2Fimages%2FTownsPeople-sprite-sheet.pngR2i10038R3R11R5R31R6tgoR2i3483631R3y5:MUSICR5y40:assets%2Fmusic%2Fbackground_ambience.oggy9:pathGroupaR33hR6tgoR2i3654011R3R32R5y40:assets%2Fmusic%2Fboss_fight_ambience.oggR34aR35hR6tgoR2i4680553R3R32R5y36:assets%2Fmusic%2Fgame_over_music.oggR34aR36hR6tgoR2i3959601R3R32R5y31:assets%2Fmusic%2Fmenu_music.oggR34aR37hR6tgoR0y36:assets%2Fmusic%2Fmusic-goes-here.txtR2zR3R4R5R38R6tgoR2i57218R3y5:SOUNDR5y90:assets%2Fsounds%2F12-Gauge-Pump-Action-Shotgun-Close-Gunshot-A-www.fesliyanstudios.com.oggR34aR40hR6tgoR2i48512R3R39R5y118:assets%2Fsounds%2FBeefy-Desert-Eagle-.50-AE-Close-Single-Gunshot-A-www.fesliyanstudios.com-www.fesliyanstudios.com.oggR34aR41hR6tgoR2i41780R3R39R5y27:assets%2Fsounds%2Fdeath.oggR34aR42hR6tgoR2i55007R3R39R5y31:assets%2Fsounds%2Fexplosion.oggR34aR43hR6tgoR2i9443R3R39R5y26:assets%2Fsounds%2Fjump.oggR34aR44hR6tgoR2i6122R3R39R5y31:assets%2Fsounds%2Fjump_land.wavR34aR45hR6tgoR2i36912R3R39R5y32:assets%2Fsounds%2Fjump_start.wavR34aR46hR6tgoR2i23092R3R39R5y26:assets%2Fsounds%2Fland.oggR34aR47hR6tgoR2i57388R3R39R5y32:assets%2Fsounds%2FLanding_01.wavR34aR48hR6tgoR2i199147R3R39R5y72:assets%2Fsounds%2FLoading-and-chambering-gun-www.fesliyanstudios.com.oggR34aR49hR6tgoR2i182316R3R39R5y35:assets%2Fsounds%2FMale_Death_04.wavR34aR50hR6tgoR2i90156R3R39R5y34:assets%2Fsounds%2FMale_Hurt_02.wavR34aR51hR6tgoR2i53292R3R39R5y34:assets%2Fsounds%2FMale_Jump_01.wavR34aR52hR6tgoR2i31219R3R39R5y26:assets%2Fsounds%2Fpain.oggR34aR53hR6tgoR2i204939R3R39R5y63:assets%2Fsounds%2FRifle-Reloading-A-www.fesliyanstudios.com.oggR34aR54hR6tgoR2i51262R3R39R5y36:assets%2Fsounds%2Frifle_shooting.oggR34aR55hR6tgoR2i443215R3R39R5y63:assets%2Fsounds%2FRunning-on-Gravel-www.fesliyanstudios.com.oggR34aR56hR6tgoR0y36:assets%2Fsounds%2Fsounds-go-here.txtR2zR3R4R5R57R6tgoR2i11604R3R39R5y77:assets%2Fsounds%2FVideo-Game-Unlock-Sound-A1-8bit-www.fesliyanstudios.com.oggR34aR58hR6tgoR2i696763R3R39R5y73:assets%2Fsounds%2FWalking-on-Gravel--Slow--A2-www.fesliyanstudios.com.oggR34aR59hR6tgoR2i2114R3R32R5y26:flixel%2Fsounds%2Fbeep.mp3R34aR60y26:flixel%2Fsounds%2Fbeep.ogghR6tgoR2i39706R3R32R5y28:flixel%2Fsounds%2Fflixel.mp3R34aR62y28:flixel%2Fsounds%2Fflixel.ogghR6tgoR2i5794R3R39R5R61R34aR60R61hgoR2i33629R3R39R5R63R34aR62R63hgoR2i15744R3y4:FONTy9:classNamey35:__ASSET__flixel_fonts_nokiafc22_ttfR5y30:flixel%2Ffonts%2Fnokiafc22.ttfR6tgoR2i29724R3R64R65y36:__ASSET__flixel_fonts_monsterrat_ttfR5y31:flixel%2Ffonts%2Fmonsterrat.ttfR6tgoR0y33:flixel%2Fimages%2Fui%2Fbutton.pngR2i519R3R11R5R70R6tgoR0y36:flixel%2Fimages%2Flogo%2Fdefault.pngR2i3280R3R11R5R71R6tgh\",\"rootPath\":null,\"version\":2,\"libraryArgs\":[],\"libraryType\":null}";
+	var data = "{\"name\":null,\"assets\":\"aoy4:pathy34:assets%2Fdata%2Fdata-goes-here.txty4:sizezy4:typey4:TEXTy2:idR1y7:preloadtgoR0y29:assets%2Fdata%2Flevel-00.jsonR2i3406R3R4R5R7R6tgoR0y29:assets%2Fdata%2Flevel-01.jsonR2i30547R3R4R5R8R6tgoR0y34:assets%2Fdata%2Fshoot-to-kill.ogmoR2i22589R3R4R5R9R6tgoR0y41:assets%2Fimages%2Fbackground%2FGround.pngR2i41944R3y5:IMAGER5R10R6tgoR0y44:assets%2Fimages%2Fbackground%2FMountains.pngR2i23037R3R11R5R12R6tgoR0y46:assets%2Fimages%2Fbackground%2FMountainsFG.pngR2i21570R3R11R5R13R6tgoR0y38:assets%2Fimages%2Fbackground%2FSky.pngR2i5660R3R11R5R14R6tgoR0y38:assets%2Fimages%2Fbackground%2FSun.pngR2i9906R3R11R5R15R6tgoR0y37:assets%2Fimages%2Fbreakable-block.pngR2i444R3R11R5R16R6tgoR0y27:assets%2Fimages%2FBrick.pngR2i274R3R11R5R17R6tgoR0y28:assets%2Fimages%2FBullet.pngR2i141R3R11R5R18R6tgoR0y32:assets%2Fimages%2FbulletUI_0.pngR2i201R3R11R5R19R6tgoR0y32:assets%2Fimages%2FbulletUI_1.pngR2i202R3R11R5R20R6tgoR0y41:assets%2Fimages%2Fcowboy-5405230_1280.pngR2i55768R3R11R5R21R6tgoR0y27:assets%2Fimages%2Fenemy.pngR2i1479R3R11R5R22R6tgoR0y36:assets%2Fimages%2Fimages-go-here.txtR2zR3R4R5R23R6tgoR0y41:assets%2Fimages%2FOutlaw-sprite-sheet.pngR2i13449R3R11R5R24R6tgoR0y49:assets%2Fimages%2Fpowerups%2Fdouble_jump_icon.pngR2i456R3R11R5R25R6tgoR0y47:assets%2Fimages%2Fpowerups%2Fjump_shot_icon.pngR2i465R3R11R5R26R6tgoR0y56:assets%2Fimages%2Fsarah-lachise-88vFFj0xXxk-unsplash.jpgR2i1055308R3R11R5R27R6tgoR0y43:assets%2Fimages%2FSherriff_sprite_sheet.pngR2i4482R3R11R5R28R6tgoR0y28:assets%2Fimages%2Fspikes.pngR2i386R3R11R5R29R6tgoR0y32:assets%2Fimages%2Fsteak_drop.pngR2i408R3R11R5R30R6tgoR0y31:assets%2Fimages%2FTilesheet.pngR2i7500R3R11R5R31R6tgoR0y38:assets%2Fimages%2Ftnt-sprite-sheet.pngR2i2181R3R11R5R32R6tgoR0y46:assets%2Fimages%2FTownsPeople-sprite-sheet.pngR2i10038R3R11R5R33R6tgoR2i3483631R3y5:MUSICR5y40:assets%2Fmusic%2Fbackground_ambience.oggy9:pathGroupaR35hR6tgoR2i3554312R3R34R5y43:assets%2Fmusic%2Fboss_defeated_ambience.oggR36aR37hR6tgoR2i3654011R3R34R5y40:assets%2Fmusic%2Fboss_fight_ambience.oggR36aR38hR6tgoR2i4680553R3R34R5y36:assets%2Fmusic%2Fgame_over_music.oggR36aR39hR6tgoR2i3959601R3R34R5y31:assets%2Fmusic%2Fmenu_music.oggR36aR40hR6tgoR0y36:assets%2Fmusic%2Fmusic-goes-here.txtR2zR3R4R5R41R6tgoR2i48512R3y5:SOUNDR5y118:assets%2Fsounds%2FBeefy-Desert-Eagle-.50-AE-Close-Single-Gunshot-A-www.fesliyanstudios.com-www.fesliyanstudios.com.oggR36aR43hR6tgoR2i41780R3R42R5y27:assets%2Fsounds%2Fdeath.oggR36aR44hR6tgoR2i55007R3R42R5y31:assets%2Fsounds%2Fexplosion.oggR36aR45hR6tgoR2i9443R3R42R5y26:assets%2Fsounds%2Fjump.oggR36aR46hR6tgoR2i6122R3R42R5y31:assets%2Fsounds%2Fjump_land.wavR36aR47hR6tgoR2i36912R3R42R5y32:assets%2Fsounds%2Fjump_start.wavR36aR48hR6tgoR2i23092R3R42R5y26:assets%2Fsounds%2Fland.oggR36aR49hR6tgoR2i57388R3R42R5y32:assets%2Fsounds%2FLanding_01.wavR36aR50hR6tgoR2i199147R3R42R5y72:assets%2Fsounds%2FLoading-and-chambering-gun-www.fesliyanstudios.com.oggR36aR51hR6tgoR2i182316R3R42R5y35:assets%2Fsounds%2FMale_Death_04.wavR36aR52hR6tgoR2i90156R3R42R5y34:assets%2Fsounds%2FMale_Hurt_02.wavR36aR53hR6tgoR2i53292R3R42R5y34:assets%2Fsounds%2FMale_Jump_01.wavR36aR54hR6tgoR2i31219R3R42R5y26:assets%2Fsounds%2Fpain.oggR36aR55hR6tgoR2i204939R3R42R5y63:assets%2Fsounds%2FRifle-Reloading-A-www.fesliyanstudios.com.oggR36aR56hR6tgoR2i51262R3R42R5y36:assets%2Fsounds%2Frifle_shooting.oggR36aR57hR6tgoR2i443215R3R42R5y63:assets%2Fsounds%2FRunning-on-Gravel-www.fesliyanstudios.com.oggR36aR58hR6tgoR2i57218R3R42R5y34:assets%2Fsounds%2Fshotgun-shot.oggR36aR59hR6tgoR0y36:assets%2Fsounds%2Fsounds-go-here.txtR2zR3R4R5R60R6tgoR2i11604R3R42R5y77:assets%2Fsounds%2FVideo-Game-Unlock-Sound-A1-8bit-www.fesliyanstudios.com.oggR36aR61hR6tgoR2i696763R3R42R5y73:assets%2Fsounds%2FWalking-on-Gravel--Slow--A2-www.fesliyanstudios.com.oggR36aR62hR6tgoR2i2114R3R34R5y26:flixel%2Fsounds%2Fbeep.mp3R36aR63y26:flixel%2Fsounds%2Fbeep.ogghR6tgoR2i39706R3R34R5y28:flixel%2Fsounds%2Fflixel.mp3R36aR65y28:flixel%2Fsounds%2Fflixel.ogghR6tgoR2i5794R3R42R5R64R36aR63R64hgoR2i33629R3R42R5R66R36aR65R66hgoR2i15744R3y4:FONTy9:classNamey35:__ASSET__flixel_fonts_nokiafc22_ttfR5y30:flixel%2Ffonts%2Fnokiafc22.ttfR6tgoR2i29724R3R67R68y36:__ASSET__flixel_fonts_monsterrat_ttfR5y31:flixel%2Ffonts%2Fmonsterrat.ttfR6tgoR0y33:flixel%2Fimages%2Fui%2Fbutton.pngR2i519R3R11R5R73R6tgoR0y36:flixel%2Fimages%2Flogo%2Fdefault.pngR2i3280R3R11R5R74R6tgh\",\"rootPath\":null,\"version\":2,\"libraryArgs\":[],\"libraryType\":null}";
 	var manifest = lime_utils_AssetManifest.parse(data,ManifestResources.rootPath);
 	var library = lime_utils_AssetLibrary.fromManifest(manifest);
 	lime_utils_Assets.registerLibrary("default",library);
@@ -5497,6 +5497,7 @@ PlayState.prototype = $extend(flixel_FlxState.prototype,{
 	player: null
 	,hud: null
 	,enemies: null
+	,boss: null
 	,breakableBlocks: null
 	,levelGoalBlocks: null
 	,spikes: null
@@ -5507,6 +5508,8 @@ PlayState.prototype = $extend(flixel_FlxState.prototype,{
 	,levelGoal: null
 	,message: null
 	,messageTimer: null
+	,bossWayPointsTemp: null
+	,bossBattleTrigger: null
 	,levelLoader: null
 	,map: null
 	,pauseMenuSubState: null
@@ -5517,12 +5520,14 @@ PlayState.prototype = $extend(flixel_FlxState.prototype,{
 		this.setupCamera();
 		flixel_FlxG.mouse.set_visible(false);
 		this.hud = new ui_Hud(this.player,PlayState.HUD_OFFSET_X,PlayState.HUD_OFFSET_Y);
-		actors_enemies_RangedVillager.BULLETS = new flixel_group_FlxTypedGroup();
+		actors_enemies_stats_StatFactory.BULLETS = new flixel_group_FlxTypedGroup();
 		this.message = new flixel_text_FlxText(0,0,0,"message",24);
 		this.message.set_alignment("center");
 		this.message.screenCenter();
 		this.message.set_visible(false);
 		this.message.scrollFactor.set(0,0);
+		this.boss.onKillEvent.add($bind(this,this.onBossDeath));
+		this.player.onDeathEvent.add($bind(this,this.gameOver));
 		this.ambienceTrack = flixel_FlxG.sound.load("assets/music/background_ambience.ogg",0.15);
 		if(this.ambienceTrack != null) {
 			this.ambienceTrack.looped = true;
@@ -5580,9 +5585,9 @@ PlayState.prototype = $extend(flixel_FlxState.prototype,{
 		flixel_FlxG.overlap(this.player.tnt,this.map,null,flixel_FlxObject.separate);
 		flixel_FlxG.overlap(this.player,this.allExplodables,null,flixel_FlxObject.separate);
 		flixel_FlxG.overlap(this.player.tnt,this.allExplodables,null,flixel_FlxObject.separate);
-		flixel_FlxG.overlap(this.player,actors_enemies_RangedVillager.BULLETS,items_Bullet.doDamage);
+		flixel_FlxG.overlap(this.player,actors_enemies_stats_StatFactory.BULLETS,items_Bullet.doDamage);
 		flixel_FlxG.overlap(this.enemies,this.player.bullets,items_Bullet.doDamage);
-		flixel_FlxG.overlap(actors_enemies_RangedVillager.BULLETS,this.map,function(bullet,map) {
+		flixel_FlxG.overlap(actors_enemies_stats_StatFactory.BULLETS,this.map,function(bullet,map) {
 			bullet.kill();
 		},flixel_FlxObject.separate);
 		flixel_FlxG.overlap(this.player.bullets,this.map,function(bullet,map) {
@@ -5612,6 +5617,52 @@ PlayState.prototype = $extend(flixel_FlxState.prototype,{
 			_gthis.message.set_visible(true);
 			_gthis.messageTimer = 1;
 		});
+		flixel_FlxG.overlap(this.player,this.bossBattleTrigger,function(player,trigger) {
+			_gthis.levelGoalBlocks.forEach(function(block) {
+				block.activate();
+			});
+			_gthis.boss.activate();
+			_gthis.bossBattleTrigger.kill();
+			_gthis.boss.target = player;
+			var _this = _gthis.ambienceTrack;
+			_this.cleanup(_this.autoDestroy,true);
+			_gthis.ambienceTrack = flixel_FlxG.sound.load("assets/music/boss_fight_ambience.ogg",0.25);
+			if(_gthis.ambienceTrack != null) {
+				_gthis.ambienceTrack.looped = true;
+				_gthis.ambienceTrack.play();
+				var _this = _gthis.ambienceTrack;
+				var Duration = 1;
+				var From = 0;
+				var To = 0.25;
+				if(To == null) {
+					To = 1;
+				}
+				if(From == null) {
+					From = 0;
+				}
+				if(Duration == null) {
+					Duration = 1;
+				}
+				if(_this._channel == null) {
+					_this.play();
+				}
+				if(_this.fadeTween != null) {
+					_this.fadeTween.cancel();
+				}
+				_this.fadeTween = flixel_tweens_FlxTween.num(From,To,Duration,{ onComplete : null},$bind(_this,_this.volumeTween));
+			}
+		});
+		flixel_FlxG.overlap(this.player,actors_enemies_Enemy.DROPS,function(player,itemPickup) {
+			itemPickup.pickup(player);
+			if(((itemPickup) instanceof items_SteakPickup)) {
+				_gthis.message.set_text(itemPickup.itemData.pickupMessage);
+			}
+			_gthis.message.set_visible(true);
+			_gthis.messageTimer = 1;
+		});
+		flixel_FlxG.overlap(this.player,this.levelGoalBlocks,null,flixel_FlxObject.separate);
+		flixel_FlxG.overlap(this.enemies,this.levelGoalBlocks,null,flixel_FlxObject.separate);
+		flixel_FlxG.overlap(actors_enemies_Enemy.DROPS,this.map,null,flixel_FlxObject.separate);
 	}
 	,setupCamera: function() {
 		flixel_FlxG.camera.fade(-16777216,2,true);
@@ -5639,14 +5690,17 @@ PlayState.prototype = $extend(flixel_FlxState.prototype,{
 		this.add(this.breakableBlocks);
 		this.add(this.levelGoalBlocks);
 		this.add(this.allPowerUps);
-		this.add(actors_enemies_RangedVillager.BULLETS);
+		this.add(actors_enemies_stats_StatFactory.BULLETS);
 		this.add(this.player.bullets);
 		this.add(this.player.tnt);
 		this.add(this.player);
 		this.add(this.enemies);
+		this.add(actors_enemies_Enemy.DROPS);
 		this.add(this.itemPickups);
 		this.add(this.hud);
 		this.add(this.message);
+		this.add(this.boss);
+		this.add(this.bossBattleTrigger);
 	}
 	,setupLevel: function(projectPath,projectJson) {
 		this.levelLoader = new flixel_addons_editors_ogmo_FlxOgmo3Loader(projectPath,projectJson);
@@ -5676,9 +5730,16 @@ PlayState.prototype = $extend(flixel_FlxState.prototype,{
 		this.allPowerUps = new flixel_group_FlxTypedGroup();
 		this.allExplodables = new flixel_group_FlxTypedGroup();
 		this.itemPickups = new flixel_group_FlxTypedGroup();
+		this.bossWayPointsTemp = [];
 		this.levelLoader.loadEntities($bind(this,this.placeEntities),"entities");
 		actors_player_Player.OBSTRUCTIONS = actors_enemies_Enemy.OBSTRUCTIONS = this.map;
 		items_Tnt.EXPLODABLES = this.allExplodables;
+		var _g = 0;
+		var _g1 = this.bossWayPointsTemp.length;
+		while(_g < _g1) {
+			var i = _g++;
+			this.boss.addWayPoint(this.bossWayPointsTemp[i]);
+		}
 	}
 	,placeEntities: function(entityData) {
 		if(entityData.name == "player") {
@@ -5707,6 +5768,13 @@ PlayState.prototype = $extend(flixel_FlxState.prototype,{
 			this.itemPickups.add(new items_TntPickup(entityData.x - entityData.originX,entityData.y - entityData.originY,1));
 		} else if(entityData.name == "triple-bomb-pickup") {
 			this.itemPickups.add(new items_TntPickup(entityData.x - entityData.originX,entityData.y - entityData.originY,3));
+		} else if(entityData.name == "boss-path-trigger") {
+			this.bossWayPointsTemp.push(new flixel_math_FlxPoint(entityData.x - entityData.originX,entityData.y - entityData.originY));
+		} else if(entityData.name == "boss") {
+			this.boss = new actors_enemies_boss_Boss(entityData.x - entityData.originX,entityData.y - entityData.originY,"assets/images/Sherriff_sprite_sheet.png",this.player,"boss01",22,60,48);
+			this.enemies.add(this.boss);
+		} else if(entityData.name == "boss-battle-trigger") {
+			this.bossBattleTrigger = new environment_HitBox(entityData.x - entityData.originX,entityData.y - entityData.originY,32,96);
 		}
 	}
 	,destroy: function() {
@@ -5721,6 +5789,46 @@ PlayState.prototype = $extend(flixel_FlxState.prototype,{
 		environment_background_Parallax.addElement("mountains","assets/images/background/Mountains.png",974,800,0,54,0.03125,0.010869565217391304);
 		environment_background_Parallax.addElement("mountains-fg","assets/images/background/MountainsFG.png",974,800,0,70,0.0625,0.020833333333333332);
 		environment_background_Parallax.addElement("ground","assets/images/background/Ground.png",974,800,0,136,0.125,0.0625);
+	}
+	,onBossDeath: function() {
+		this.levelGoalBlocks.forEach(function(block) {
+			block.explode();
+		});
+		var _this = this.ambienceTrack;
+		_this.cleanup(_this.autoDestroy,true);
+		this.ambienceTrack = flixel_FlxG.sound.load("assets/music/boss_defeated_ambience.ogg",0.15);
+		if(this.ambienceTrack != null) {
+			this.ambienceTrack.looped = true;
+			this.ambienceTrack.play();
+			var _this = this.ambienceTrack;
+			var Duration = 1;
+			var From = 0;
+			var To = 0.15;
+			if(To == null) {
+				To = 1;
+			}
+			if(From == null) {
+				From = 0;
+			}
+			if(Duration == null) {
+				Duration = 1;
+			}
+			if(_this._channel == null) {
+				_this.play();
+			}
+			if(_this.fadeTween != null) {
+				_this.fadeTween.cancel();
+			}
+			_this.fadeTween = flixel_tweens_FlxTween.num(From,To,Duration,{ onComplete : null},$bind(_this,_this.volumeTween));
+		}
+	}
+	,gameOver: function() {
+		flixel_FlxG.camera.fade(-16777216,0.5,false,function() {
+			var nextState = new states_GameOverState(false,0);
+			if(flixel_FlxG.game._state.switchTo(nextState)) {
+				flixel_FlxG.game._requestedState = nextState;
+			}
+		});
 	}
 	,__class__: PlayState
 });
@@ -8888,14 +8996,13 @@ flixel_FlxSprite.prototype = $extend(flixel_FlxObject.prototype,{
 	,__class__: flixel_FlxSprite
 	,__properties__: $extend(flixel_FlxObject.prototype.__properties__,{set_clipRect:"set_clipRect",set_color:"set_color",set_blend:"set_blend",set_flipY:"set_flipY",set_flipX:"set_flipX",set_facing:"set_facing",set_alpha:"set_alpha",set_graphic:"set_graphic",set_frames:"set_frames",set_frame:"set_frame",set_pixels:"set_pixels",get_pixels:"get_pixels",set_antialiasing:"set_antialiasing",set_useFramePixels:"set_useFramePixels"})
 });
-var actors_enemies_Enemy = function(X,Y,graphic,player,statsString) {
+var actors_enemies_Enemy = function(X,Y,graphic,player,statsString,width,height,graphicSize) {
 	if(Y == null) {
 		Y = 0;
 	}
 	if(X == null) {
 		X = 0;
 	}
-	this.states = new Array(4);
 	flixel_FlxSprite.call(this,X,Y);
 	this.acceleration.set_y(actors_enemies_Enemy.GRAVITY);
 	this.maxVelocity.set(actors_enemies_Enemy.SPEED,0);
@@ -8911,12 +9018,21 @@ var actors_enemies_Enemy = function(X,Y,graphic,player,statsString) {
 	if(actors_enemies_Enemy.TARGETS.indexOf(player) == -1) {
 		actors_enemies_Enemy.TARGETS.push(player);
 	}
-	this.loadGraphic(graphic,true,actors_enemies_Enemy.SPRITE_SIZE,actors_enemies_Enemy.SPRITE_SIZE);
-	this.setGraphicSize(actors_enemies_Enemy.SPRITE_SIZE * 2,actors_enemies_Enemy.SPRITE_SIZE * 2);
+	if(graphicSize == null) {
+		graphicSize = actors_enemies_Enemy.SPRITE_SIZE;
+	}
+	if(width == null) {
+		width = actors_enemies_Enemy.WIDTH;
+	}
+	if(height == null) {
+		height = actors_enemies_Enemy.HEIGHT;
+	}
+	this.loadGraphic(graphic,true,graphicSize,graphicSize);
+	this.setGraphicSize(graphicSize * 2,graphicSize * 2);
 	this.updateHitbox();
-	this.offset.set(actors_enemies_Enemy.OFFSET_X,actors_enemies_Enemy.OFFSET_Y);
-	this.set_width(actors_enemies_Enemy.WIDTH);
-	this.set_height(actors_enemies_Enemy.HEIGHT);
+	this.offset.set((graphicSize - width) / 2,height - graphicSize);
+	this.set_width(width);
+	this.set_height(height);
 	this.touching = 4096;
 };
 $hxClasses["actors.enemies.Enemy"] = actors_enemies_Enemy;
@@ -8948,6 +9064,8 @@ actors_enemies_Enemy.prototype = $extend(flixel_FlxSprite.prototype,{
 		flixel_FlxG.game._state.add(this.healthBar);
 	}
 	,initStates: function() {
+		var this1 = new Array(4);
+		this.states = this1;
 		this.states[actors_enemies_fsm_EnemyStates.IDLE._hx_index] = new actors_enemies_fsm_states_IdleState(this);
 		this.states[actors_enemies_fsm_EnemyStates.WALK._hx_index] = new actors_enemies_fsm_states_WalkState(this);
 		this.states[actors_enemies_fsm_EnemyStates.ATTACK._hx_index] = this.get_stats().get_attackRange() > 50 ? new actors_enemies_fsm_states_RangedAttackState(this) : new actors_enemies_fsm_states_MeleeAttackState(this);
@@ -8985,6 +9103,11 @@ actors_enemies_Enemy.prototype = $extend(flixel_FlxSprite.prototype,{
 		this.enemySfx.h[actors_enemies_Enemy.DEATH_SOUND].play(true);
 		flixel_FlxSprite.prototype.kill.call(this);
 		this.healthBar.kill();
+		if(flixel_FlxG.random.float(0,1,[0]) <= 0.5) {
+			var drop = actors_enemies_Enemy.DROPS.recycle(items_SteakPickup);
+			drop.reset(this.x,this.y);
+			drop.acceleration.set_y(actors_enemies_Enemy.GRAVITY);
+		}
 	}
 	,checkAggro: function(target) {
 		var targetMid = target.getMidpoint();
@@ -9012,8 +9135,8 @@ var actors_enemies_RangedVillager = function(X,Y,player) {
 		X = 0;
 	}
 	actors_enemies_Enemy.call(this,X,Y,"assets/images/TownsPeople-sprite-sheet.png",player,"rangedVillager");
-	if(actors_enemies_RangedVillager.BULLETS == null) {
-		actors_enemies_RangedVillager.BULLETS = new flixel_group_FlxTypedGroup();
+	if(actors_enemies_stats_StatFactory.BULLETS == null) {
+		actors_enemies_stats_StatFactory.BULLETS = new flixel_group_FlxTypedGroup();
 	}
 	this.initAnimations();
 	this.initStates();
@@ -9023,9 +9146,8 @@ var actors_enemies_RangedVillager = function(X,Y,player) {
 };
 $hxClasses["actors.enemies.RangedVillager"] = actors_enemies_RangedVillager;
 actors_enemies_RangedVillager.__name__ = "actors.enemies.RangedVillager";
-actors_enemies_RangedVillager.BULLETS = null;
 actors_enemies_RangedVillager.addBullets = function() {
-	flixel_FlxG.game._state.add(actors_enemies_RangedVillager.BULLETS);
+	flixel_FlxG.game._state.add(actors_enemies_stats_StatFactory.BULLETS);
 };
 actors_enemies_RangedVillager.__super__ = actors_enemies_Enemy;
 actors_enemies_RangedVillager.prototype = $extend(actors_enemies_Enemy.prototype,{
@@ -9037,18 +9159,150 @@ actors_enemies_RangedVillager.prototype = $extend(actors_enemies_Enemy.prototype
 		this.animation.add(actors_enemies_Enemy.HURT_ANIMATION,[11 * colorVariation,33,34,33,11 * colorVariation],6,false);
 	}
 	,attack: function() {
-		var bullet = actors_enemies_RangedVillager.BULLETS.recycle(items_Bullet);
+		var bullet = actors_enemies_stats_StatFactory.BULLETS.recycle(items_Bullet);
 		if(this.facing == 16) {
 			bullet.setPosition(this.x + actors_enemies_Enemy.SPRITE_SIZE + actors_enemies_RangedVillager.BULLET_SPAWN_OFFSET_X,this.y + actors_enemies_RangedVillager.BULLET_SPAWN_OFFSET_Y);
-			bullet.setParams(actors_enemies_RangedVillager.BULLET_SPEED,1,actors_enemies_RangedVillager.BULLET_RANGE,actors_enemies_RangedVillager.BULLET_DAMAGE);
+			bullet.setParams(actors_enemies_RangedVillager.BULLET_SPEED,1,actors_enemies_RangedVillager.BULLET_RANGE,this.get_stats().get_rangedAttackDamage());
 		} else {
 			bullet.setPosition(this.x - actors_enemies_RangedVillager.BULLET_SPAWN_OFFSET_X,this.y + actors_enemies_RangedVillager.BULLET_SPAWN_OFFSET_Y);
-			bullet.setParams(actors_enemies_RangedVillager.BULLET_SPEED,-1,actors_enemies_RangedVillager.BULLET_RANGE,actors_enemies_RangedVillager.BULLET_DAMAGE);
+			bullet.setParams(actors_enemies_RangedVillager.BULLET_SPEED,-1,actors_enemies_RangedVillager.BULLET_RANGE,this.get_stats().get_rangedAttackDamage());
 		}
 		this.enemySfx.h[actors_enemies_Enemy.ATTACK_SOUND].play(true);
 		bullet.fire();
 	}
+	,update: function(elapsed) {
+		var _gthis = this;
+		var _g = 0;
+		var _g1 = actors_enemies_Enemy.TARGETS.length;
+		while(_g < _g1) {
+			var i = _g++;
+			flixel_FlxG.overlap(actors_enemies_Enemy.TARGETS[i],this,function(obj1,obj2) {
+				obj1.hurt(_gthis.get_stats().get_meleeAttackDamage());
+			});
+		}
+		actors_enemies_Enemy.prototype.update.call(this,elapsed);
+	}
 	,__class__: actors_enemies_RangedVillager
+});
+var actors_enemies_boss_Boss = function(X,Y,graphicPath,player,statsString,width,height,graphicSize) {
+	if(Y == null) {
+		Y = 0;
+	}
+	if(X == null) {
+		X = 0;
+	}
+	this.inBattle = false;
+	this.isInvincible = false;
+	this.currentWayPointIndex = 0;
+	if(graphicSize == null) {
+		graphicSize = actors_enemies_boss_Boss.SPRITE_SIZE;
+	}
+	if(width == null) {
+		width = actors_enemies_boss_Boss.WIDTH;
+	}
+	if(height == null) {
+		height = actors_enemies_boss_Boss.HEIGHT;
+	}
+	actors_enemies_Enemy.call(this,X,Y,graphicPath,player,statsString,width,height,graphicSize);
+	this.maxVelocity.set(actors_enemies_boss_Boss.CHARGE_SPEED,actors_enemies_boss_Boss.MAX_Y_SPEED);
+	this.wayPoints = [];
+	this.onKillEvent = new utilities_DelegateEvent();
+	this.buildAnimations();
+	this.buildSoundMap();
+	this.initStates();
+	this.acceleration.set_y(0);
+};
+$hxClasses["actors.enemies.boss.Boss"] = actors_enemies_boss_Boss;
+actors_enemies_boss_Boss.__name__ = "actors.enemies.boss.Boss";
+actors_enemies_boss_Boss.__super__ = actors_enemies_Enemy;
+actors_enemies_boss_Boss.prototype = $extend(actors_enemies_Enemy.prototype,{
+	wayPoints: null
+	,currentWayPointIndex: null
+	,target: null
+	,isInvincible: null
+	,inBattle: null
+	,onKillEvent: null
+	,buildSoundMap: function() {
+		var this1 = this.enemySfx;
+		var v = flixel_FlxG.sound.load("assets/sounds/shotgun-shot.ogg",0.25);
+		this1.h[actors_enemies_boss_Boss.RANGED_ATTACK] = v;
+		var this1 = this.enemySfx;
+		var v = flixel_FlxG.sound.load("assets/sounds/Running-on-Gravel-www.fesliyanstudios.com.ogg",0.25);
+		this1.h[actors_enemies_boss_Boss.MELEE_ATTACK] = v;
+	}
+	,buildAnimations: function() {
+		this.animation.add(actors_enemies_boss_Boss.IDLE,[0],1,false);
+		this.animation.add(actors_enemies_boss_Boss.WALK,[1,2,3,1,4,5],6);
+		this.animation.add(actors_enemies_boss_Boss.RANGED_ATTACK,[0,6,7,8],15,false);
+		this.animation.add(actors_enemies_boss_Boss.MELEE_ATTACK,[1,2,3,1,4,5],10);
+		this.animation.add(actors_enemies_Enemy.HURT_ANIMATION,[0,9,10,9,0],6,false);
+	}
+	,activate: function() {
+		this.inBattle = true;
+	}
+	,addWayPoint: function(point) {
+		if(this.wayPoints.indexOf(point) == -1) {
+			this.wayPoints.push(point);
+		}
+	}
+	,initStates: function() {
+		var this1 = new Array(5);
+		this.states = this1;
+		this.states[actors_enemies_boss_fsm_BossStates.IDLE._hx_index] = new actors_enemies_boss_fsm_states_B_$IdleState(this);
+		this.states[actors_enemies_boss_fsm_BossStates.WALK._hx_index] = new actors_enemies_boss_fsm_states_B_$WalkState(this);
+		this.states[actors_enemies_boss_fsm_BossStates.RANGED_ATTACK._hx_index] = new actors_enemies_boss_fsm_states_B_$RangedAttackState(this);
+		this.states[actors_enemies_boss_fsm_BossStates.MELEE_ATTACK._hx_index] = new actors_enemies_boss_fsm_states_B_$MeleeAttackState(this);
+		this.state = this.states[actors_enemies_boss_fsm_BossStates.IDLE._hx_index];
+		this.state.transitionIn();
+	}
+	,hurt: function(damage) {
+		if(!this.isInvincible) {
+			this.knockBack();
+			actors_enemies_Enemy.prototype.hurt.call(this,damage);
+		}
+	}
+	,knockBack: function() {
+		var facingDirection = this.facing == 16 ? 1 : -1;
+		this.velocity.set_x(5 * -facingDirection);
+		this.velocity.set_y(actors_enemies_boss_Boss.JUMP_VELOCITY / 4);
+	}
+	,attack: function() {
+	}
+	,setNextWayPoint: function() {
+		this.currentWayPointIndex = flixel_FlxG.random.int(0,this.wayPoints.length - 1,[this.currentWayPointIndex]);
+	}
+	,getTargetWaypoint: function() {
+		return this.wayPoints[this.currentWayPointIndex];
+	}
+	,handleStateTransitions: function() {
+		var nextState;
+		while(true) {
+			nextState = this.state.getNextState();
+			if(nextState != actors_enemies_boss_fsm_BossStates.NO_CHANGE._hx_index) {
+				this.state.transitionOut();
+				this.state = this.states[nextState];
+				this.state.transitionIn();
+			}
+			if(!(nextState != actors_enemies_boss_fsm_BossStates.NO_CHANGE._hx_index)) {
+				break;
+			}
+		}
+	}
+	,kill: function() {
+		if(this.onKillEvent != null) {
+			this.onKillEvent.invoke();
+		}
+		actors_enemies_Enemy.prototype.kill.call(this);
+	}
+	,update: function(elapsed) {
+		if((this.touching & 4096) > 0) {
+			this.acceleration.set_y(0);
+		} else if((this.touching & 4096) <= 0) {
+			this.acceleration.set_y(actors_enemies_boss_Boss.GRAVITY);
+		}
+		actors_enemies_Enemy.prototype.update.call(this,elapsed);
+	}
+	,__class__: actors_enemies_boss_Boss
 });
 var actors_enemies_fsm_State = function() { };
 $hxClasses["actors.enemies.fsm.State"] = actors_enemies_fsm_State;
@@ -9061,6 +9315,239 @@ actors_enemies_fsm_State.prototype = {
 	,transitionOut: null
 	,__class__: actors_enemies_fsm_State
 };
+var actors_enemies_boss_fsm_BossState = function(entity) {
+	this.managedEntity = entity;
+};
+$hxClasses["actors.enemies.boss.fsm.BossState"] = actors_enemies_boss_fsm_BossState;
+actors_enemies_boss_fsm_BossState.__name__ = "actors.enemies.boss.fsm.BossState";
+actors_enemies_boss_fsm_BossState.__interfaces__ = [actors_enemies_fsm_State];
+actors_enemies_boss_fsm_BossState.prototype = {
+	managedEntity: null
+	,getNextState: function() {
+		return actors_enemies_boss_fsm_BossStates.NO_CHANGE._hx_index;
+	}
+	,update: function(elapsed) {
+	}
+	,transitionIn: function() {
+	}
+	,transitionOut: function() {
+	}
+	,__class__: actors_enemies_boss_fsm_BossState
+};
+var actors_enemies_boss_fsm_BossStates = $hxEnums["actors.enemies.boss.fsm.BossStates"] = { __ename__ : "actors.enemies.boss.fsm.BossStates", __constructs__ : ["NO_CHANGE","IDLE","WALK","RANGED_ATTACK","MELEE_ATTACK"]
+	,NO_CHANGE: {_hx_index:0,__enum__:"actors.enemies.boss.fsm.BossStates",toString:$estr}
+	,IDLE: {_hx_index:1,__enum__:"actors.enemies.boss.fsm.BossStates",toString:$estr}
+	,WALK: {_hx_index:2,__enum__:"actors.enemies.boss.fsm.BossStates",toString:$estr}
+	,RANGED_ATTACK: {_hx_index:3,__enum__:"actors.enemies.boss.fsm.BossStates",toString:$estr}
+	,MELEE_ATTACK: {_hx_index:4,__enum__:"actors.enemies.boss.fsm.BossStates",toString:$estr}
+};
+var actors_enemies_boss_fsm_states_B_$IdleState = function(entity) {
+	actors_enemies_boss_fsm_BossState.call(this,entity);
+};
+$hxClasses["actors.enemies.boss.fsm.states.B_IdleState"] = actors_enemies_boss_fsm_states_B_$IdleState;
+actors_enemies_boss_fsm_states_B_$IdleState.__name__ = "actors.enemies.boss.fsm.states.B_IdleState";
+actors_enemies_boss_fsm_states_B_$IdleState.__super__ = actors_enemies_boss_fsm_BossState;
+actors_enemies_boss_fsm_states_B_$IdleState.prototype = $extend(actors_enemies_boss_fsm_BossState.prototype,{
+	idleTimer: null
+	,getNextState: function() {
+		if(this.idleTimer <= 0 && this.managedEntity.inBattle) {
+			return actors_enemies_boss_fsm_BossStates.WALK._hx_index;
+		}
+		return actors_enemies_boss_fsm_BossState.prototype.getNextState.call(this);
+	}
+	,transitionIn: function() {
+		this.idleTimer = flixel_FlxG.random.float(2,3.5);
+		this.managedEntity.velocity.set_x(0);
+		if(this.managedEntity.animation.get_finished() || this.managedEntity.animation._curAnim.looped) {
+			this.managedEntity.animation.play(actors_enemies_boss_Boss.IDLE);
+		}
+	}
+	,transitionOut: function() {
+		this.idleTimer = 0;
+		this.managedEntity.setNextWayPoint();
+	}
+	,update: function(elapsed) {
+		if(this.managedEntity.animation.get_finished() && this.managedEntity.animation.get_name() != actors_enemies_boss_Boss.IDLE) {
+			this.managedEntity.animation.play(actors_enemies_boss_Boss.IDLE);
+		}
+		this.idleTimer -= elapsed;
+	}
+	,__class__: actors_enemies_boss_fsm_states_B_$IdleState
+});
+var actors_enemies_boss_fsm_states_B_$MeleeAttackState = function(entity) {
+	this.damagedTarget = false;
+	this.movementDirection = 0;
+	actors_enemies_boss_fsm_BossState.call(this,entity);
+	this.endPoint = new flixel_math_FlxPoint();
+};
+$hxClasses["actors.enemies.boss.fsm.states.B_MeleeAttackState"] = actors_enemies_boss_fsm_states_B_$MeleeAttackState;
+actors_enemies_boss_fsm_states_B_$MeleeAttackState.__name__ = "actors.enemies.boss.fsm.states.B_MeleeAttackState";
+actors_enemies_boss_fsm_states_B_$MeleeAttackState.__super__ = actors_enemies_boss_fsm_BossState;
+actors_enemies_boss_fsm_states_B_$MeleeAttackState.prototype = $extend(actors_enemies_boss_fsm_BossState.prototype,{
+	movementDirection: null
+	,startPoint: null
+	,endPoint: null
+	,damagedTarget: null
+	,getNextState: function() {
+		if(Math.abs(this.startPoint.distanceTo(this.managedEntity.getMidpoint())) >= this.managedEntity.get_stats().get_aggroRange()) {
+			return actors_enemies_boss_fsm_BossStates.IDLE._hx_index;
+		}
+		if((this.managedEntity.touching & 16) > 0 || (this.managedEntity.touching & 1) > 0 || this.damagedTarget) {
+			return actors_enemies_boss_fsm_BossStates.IDLE._hx_index;
+		}
+		return actors_enemies_boss_fsm_BossState.prototype.getNextState.call(this);
+	}
+	,transitionIn: function() {
+		this.managedEntity.isInvincible = true;
+		this.managedEntity.velocity.set_x(0);
+		if(this.managedEntity.target.x > this.managedEntity.x) {
+			this.movementDirection = 1;
+		} else {
+			this.movementDirection = -1;
+		}
+		this.managedEntity.set_facing(this.movementDirection == 1 ? 16 : 1);
+		this.managedEntity.set_flipX(this.managedEntity.facing == 1);
+		this.managedEntity.enemySfx.h[actors_enemies_boss_Boss.MELEE_ATTACK].play(true);
+		this.managedEntity.animation.play(actors_enemies_boss_Boss.MELEE_ATTACK);
+		this.startPoint = this.managedEntity.getMidpoint();
+		flixel_FlxG.camera.shake(0.001,1.5);
+		this.damagedTarget = false;
+	}
+	,transitionOut: function() {
+		this.managedEntity.isInvincible = false;
+		var _this = this.managedEntity.enemySfx.h[actors_enemies_boss_Boss.MELEE_ATTACK];
+		_this.cleanup(_this.autoDestroy,true);
+		this.managedEntity.animation.stop();
+	}
+	,update: function(elapsed) {
+		var _gthis = this;
+		this.managedEntity.velocity.set_x(actors_enemies_boss_Boss.CHARGE_SPEED * this.movementDirection);
+		flixel_FlxG.overlap(this.managedEntity.target,this.managedEntity,function(obj1,obj2) {
+			obj1.hurt(_gthis.managedEntity.get_stats().get_meleeAttackDamage());
+			_gthis.damagedTarget = true;
+		},flixel_FlxObject.separate);
+	}
+	,__class__: actors_enemies_boss_fsm_states_B_$MeleeAttackState
+});
+var actors_enemies_boss_fsm_states_B_$RangedAttackState = function(entity) {
+	this.attackTimer = 0;
+	this.attacksLeft = 3;
+	actors_enemies_boss_fsm_BossState.call(this,entity);
+};
+$hxClasses["actors.enemies.boss.fsm.states.B_RangedAttackState"] = actors_enemies_boss_fsm_states_B_$RangedAttackState;
+actors_enemies_boss_fsm_states_B_$RangedAttackState.__name__ = "actors.enemies.boss.fsm.states.B_RangedAttackState";
+actors_enemies_boss_fsm_states_B_$RangedAttackState.__super__ = actors_enemies_boss_fsm_BossState;
+actors_enemies_boss_fsm_states_B_$RangedAttackState.prototype = $extend(actors_enemies_boss_fsm_BossState.prototype,{
+	attacksLeft: null
+	,attackTimer: null
+	,getNextState: function() {
+		if(this.attacksLeft == 0) {
+			return actors_enemies_boss_fsm_BossStates.IDLE._hx_index;
+		}
+		return actors_enemies_boss_fsm_BossState.prototype.getNextState.call(this);
+	}
+	,transitionIn: function() {
+		this.attacksLeft = 3;
+		this.attackTimer = 0;
+		this.managedEntity.velocity.set_x(0);
+		this.managedEntity.isInvincible = true;
+		this.managedEntity.set_facing(this.managedEntity.target.x > this.managedEntity.x ? 16 : 1);
+		this.managedEntity.set_flipX(this.managedEntity.facing == 1);
+	}
+	,transitionOut: function() {
+		this.managedEntity.isInvincible = false;
+	}
+	,update: function(elapsed) {
+		if(this.attackTimer <= 0) {
+			this.fireShots();
+			this.attacksLeft--;
+			this.attackTimer = 1.75;
+		} else {
+			this.attackTimer -= elapsed;
+		}
+	}
+	,fireShots: function() {
+		this.managedEntity.animation.play(actors_enemies_boss_Boss.RANGED_ATTACK);
+		var bullet1 = actors_enemies_stats_StatFactory.BULLETS.recycle(items_Bullet);
+		var bullet2 = actors_enemies_stats_StatFactory.BULLETS.recycle(items_Bullet);
+		var bullet3 = actors_enemies_stats_StatFactory.BULLETS.recycle(items_Bullet);
+		var angle1 = 15;
+		var angle2 = 345;
+		if(this.managedEntity.facing == 16) {
+			bullet1.setPosition(this.managedEntity.x + actors_enemies_boss_Boss.SPRITE_SIZE + actors_enemies_boss_Boss.BULLET_SPAWN_OFFSET_X,this.managedEntity.y + actors_enemies_boss_Boss.BULLET_SPAWN_OFFSET_Y);
+			bullet2.setPosition(this.managedEntity.x + actors_enemies_boss_Boss.SPRITE_SIZE + actors_enemies_boss_Boss.BULLET_SPAWN_OFFSET_X,this.managedEntity.y + actors_enemies_boss_Boss.BULLET_SPAWN_OFFSET_Y);
+			bullet3.setPosition(this.managedEntity.x + actors_enemies_boss_Boss.SPRITE_SIZE + actors_enemies_boss_Boss.BULLET_SPAWN_OFFSET_X,this.managedEntity.y + actors_enemies_boss_Boss.BULLET_SPAWN_OFFSET_Y);
+			bullet1.setParams(actors_enemies_boss_Boss.BULLET_SPEED,1,this.managedEntity.get_stats().get_attackRange(),this.managedEntity.get_stats().get_rangedAttackDamage());
+			bullet2.setParams(actors_enemies_boss_Boss.BULLET_SPEED,1,this.managedEntity.get_stats().get_attackRange(),this.managedEntity.get_stats().get_rangedAttackDamage());
+			bullet3.setParams(actors_enemies_boss_Boss.BULLET_SPEED,1,this.managedEntity.get_stats().get_attackRange(),this.managedEntity.get_stats().get_rangedAttackDamage());
+		} else {
+			bullet1.setPosition(this.managedEntity.x - actors_enemies_boss_Boss.BULLET_SPAWN_OFFSET_X,this.managedEntity.y + actors_enemies_boss_Boss.BULLET_SPAWN_OFFSET_Y);
+			bullet2.setPosition(this.managedEntity.x - actors_enemies_boss_Boss.BULLET_SPAWN_OFFSET_X,this.managedEntity.y + actors_enemies_boss_Boss.BULLET_SPAWN_OFFSET_Y);
+			bullet3.setPosition(this.managedEntity.x - actors_enemies_boss_Boss.BULLET_SPAWN_OFFSET_X,this.managedEntity.y + actors_enemies_boss_Boss.BULLET_SPAWN_OFFSET_Y);
+			bullet1.setParams(actors_enemies_boss_Boss.BULLET_SPEED,-1,this.managedEntity.get_stats().get_attackRange(),this.managedEntity.get_stats().get_rangedAttackDamage());
+			bullet2.setParams(actors_enemies_boss_Boss.BULLET_SPEED,-1,this.managedEntity.get_stats().get_attackRange(),this.managedEntity.get_stats().get_rangedAttackDamage());
+			bullet3.setParams(actors_enemies_boss_Boss.BULLET_SPEED,-1,this.managedEntity.get_stats().get_attackRange(),this.managedEntity.get_stats().get_rangedAttackDamage());
+		}
+		this.managedEntity.enemySfx.h[actors_enemies_boss_Boss.RANGED_ATTACK].play(true);
+		bullet1.fireAngle(angle1);
+		bullet2.fire();
+		bullet3.fireAngle(angle2);
+	}
+	,__class__: actors_enemies_boss_fsm_states_B_$RangedAttackState
+});
+var actors_enemies_boss_fsm_states_B_$WalkState = function(entity) {
+	this.hasReachedDestination = false;
+	actors_enemies_boss_fsm_BossState.call(this,entity);
+};
+$hxClasses["actors.enemies.boss.fsm.states.B_WalkState"] = actors_enemies_boss_fsm_states_B_$WalkState;
+actors_enemies_boss_fsm_states_B_$WalkState.__name__ = "actors.enemies.boss.fsm.states.B_WalkState";
+actors_enemies_boss_fsm_states_B_$WalkState.__super__ = actors_enemies_boss_fsm_BossState;
+actors_enemies_boss_fsm_states_B_$WalkState.prototype = $extend(actors_enemies_boss_fsm_BossState.prototype,{
+	hasReachedDestination: null
+	,direction: null
+	,isJumping: null
+	,getNextState: function() {
+		if(this.hasReachedDestination) {
+			if(flixel_FlxG.random.int(-1,1,[0]) == 1) {
+				return actors_enemies_boss_fsm_BossStates.RANGED_ATTACK._hx_index;
+			} else {
+				return actors_enemies_boss_fsm_BossStates.MELEE_ATTACK._hx_index;
+			}
+		}
+		return actors_enemies_boss_fsm_BossState.prototype.getNextState.call(this);
+	}
+	,transitionIn: function() {
+		this.hasReachedDestination = false;
+		if(this.managedEntity.getTargetWaypoint().x > this.managedEntity.x) {
+			this.direction = 1;
+		} else {
+			this.direction = -1;
+		}
+		this.isJumping = false;
+		this.managedEntity.set_facing(this.direction == 1 ? 16 : 1);
+		this.managedEntity.set_flipX(this.managedEntity.facing == 1);
+		this.managedEntity.animation.play(actors_enemies_boss_Boss.WALK);
+	}
+	,transitionOut: function() {
+		if(this.managedEntity.animation._curAnim.looped) {
+			this.managedEntity.animation.stop();
+		}
+	}
+	,update: function(elapsed) {
+		if(this.managedEntity.x >= this.managedEntity.getTargetWaypoint().x - 30 && this.managedEntity.x <= this.managedEntity.getTargetWaypoint().x + 30) {
+			this.hasReachedDestination = true;
+			this.direction = 0;
+			this.managedEntity.animation.play(actors_enemies_boss_Boss.IDLE);
+		}
+		if(this.managedEntity.animation.get_finished() && this.managedEntity.animation.get_name() != actors_enemies_boss_Boss.WALK) {
+			this.managedEntity.animation.play(actors_enemies_boss_Boss.WALK);
+		}
+		if(this.managedEntity.animation.get_name() == actors_enemies_boss_Boss.WALK) {
+			this.managedEntity.velocity.set_x(actors_enemies_boss_Boss.SPEED * this.direction);
+		}
+	}
+	,__class__: actors_enemies_boss_fsm_states_B_$WalkState
+});
 var actors_enemies_fsm_EnemyState = function(entity) {
 	this.managedEntity = entity;
 };
@@ -9333,12 +9820,18 @@ actors_enemies_fsm_states_WalkState.prototype = $extend(actors_enemies_fsm_Enemy
 	}
 	,__class__: actors_enemies_fsm_states_WalkState
 });
-var actors_enemies_stats_EnemyStats = function(maxHealth,aggroRange,attackSpeed,attackRange,reloadTime,rounds) {
+var actors_enemies_stats_EnemyStats = function(maxHealth,aggroRange,attackSpeed,attackRange,meleeAttackDamage,rangedAttackDamage,reloadTime,rounds) {
 	if(rounds == null) {
 		rounds = 0;
 	}
 	if(reloadTime == null) {
 		reloadTime = 0;
+	}
+	if(rangedAttackDamage == null) {
+		rangedAttackDamage = 0;
+	}
+	if(meleeAttackDamage == null) {
+		meleeAttackDamage = 0;
 	}
 	this.maxHealth = maxHealth;
 	this.aggroRange = aggroRange;
@@ -9346,6 +9839,8 @@ var actors_enemies_stats_EnemyStats = function(maxHealth,aggroRange,attackSpeed,
 	this.attackRange = attackRange;
 	this.reloadTime = reloadTime;
 	this.rounds = rounds;
+	this.meleeAttackDamage = meleeAttackDamage;
+	this.rangedAttackDamage = rangedAttackDamage;
 };
 $hxClasses["actors.enemies.stats.EnemyStats"] = actors_enemies_stats_EnemyStats;
 actors_enemies_stats_EnemyStats.__name__ = "actors.enemies.stats.EnemyStats";
@@ -9356,6 +9851,8 @@ actors_enemies_stats_EnemyStats.prototype = {
 	,reloadTime: null
 	,rounds: null
 	,attackRange: null
+	,rangedAttackDamage: null
+	,meleeAttackDamage: null
 	,get_maxHealth: function() {
 		return this.maxHealth;
 	}
@@ -9374,8 +9871,14 @@ actors_enemies_stats_EnemyStats.prototype = {
 	,get_attackRange: function() {
 		return this.attackRange;
 	}
+	,get_rangedAttackDamage: function() {
+		return this.rangedAttackDamage;
+	}
+	,get_meleeAttackDamage: function() {
+		return this.meleeAttackDamage;
+	}
 	,__class__: actors_enemies_stats_EnemyStats
-	,__properties__: {get_attackRange:"get_attackRange",get_rounds:"get_rounds",get_reloadTime:"get_reloadTime",get_attackSpeed:"get_attackSpeed",get_aggroRange:"get_aggroRange",get_maxHealth:"get_maxHealth"}
+	,__properties__: {get_meleeAttackDamage:"get_meleeAttackDamage",get_rangedAttackDamage:"get_rangedAttackDamage",get_attackRange:"get_attackRange",get_rounds:"get_rounds",get_reloadTime:"get_reloadTime",get_attackSpeed:"get_attackSpeed",get_aggroRange:"get_aggroRange",get_maxHealth:"get_maxHealth"}
 };
 var actors_enemies_stats_StatFactory = function() { };
 $hxClasses["actors.enemies.stats.StatFactory"] = actors_enemies_stats_StatFactory;
@@ -9383,13 +9886,19 @@ actors_enemies_stats_StatFactory.__name__ = "actors.enemies.stats.StatFactory";
 actors_enemies_stats_StatFactory.getStats = function(statType) {
 	var stats = actors_enemies_stats_StatFactory.STATS.h[statType];
 	if(stats == null) {
-		if(statType == "rangedVillager") {
-			stats = new actors_enemies_stats_EnemyStats(actors_enemies_RangedVillager.MAX_HEALTH,actors_enemies_RangedVillager.RANGED_VILLAGER_AGGRO_RANGE,actors_enemies_RangedVillager.ATTACK_SPEED,actors_enemies_RangedVillager.ATTACK_RANGE,actors_enemies_RangedVillager.RELOAD_TIME,actors_enemies_RangedVillager.ROUNDS);
+		switch(statType) {
+		case "boss01":
+			stats = new actors_enemies_stats_EnemyStats(200,400,0,300,8,12,0,0);
+			break;
+		case "rangedVillager":
+			stats = new actors_enemies_stats_EnemyStats(actors_enemies_RangedVillager.MAX_HEALTH,actors_enemies_RangedVillager.RANGED_VILLAGER_AGGRO_RANGE,actors_enemies_RangedVillager.ATTACK_SPEED,actors_enemies_RangedVillager.ATTACK_RANGE,4,10,actors_enemies_RangedVillager.RELOAD_TIME,actors_enemies_RangedVillager.ROUNDS);
+			break;
 		}
 		actors_enemies_stats_StatFactory.STATS.h[statType] = stats;
 	}
 	return stats;
 };
+actors_enemies_stats_StatFactory.BULLETS = null;
 var actors_player_Input = function() {
 	this.reloadJustPressed = false;
 	this.useBombJustPressed = false;
@@ -9461,6 +9970,7 @@ var actors_player_Player = function(X,Y) {
 	this.health = this.get_maxHealth();
 	this.airJumps = 1;
 	this.touching = 4096;
+	this.onDeathEvent = new utilities_DelegateEvent();
 	this.initGraphic();
 	this.initCollections();
 	this.buildAnimations();
@@ -9482,6 +9992,7 @@ actors_player_Player.prototype = $extend(flixel_FlxSprite.prototype,{
 	,tntCount: null
 	,bullets: null
 	,tnt: null
+	,onDeathEvent: null
 	,powerUps: null
 	,maxAirJumps: null
 	,playerSfx: null
@@ -9766,16 +10277,22 @@ actors_player_Player.prototype = $extend(flixel_FlxSprite.prototype,{
 			color &= 16777215;
 			color |= (Alpha1 > 255 ? 255 : Alpha1 < 0 ? 0 : Alpha1) << 24;
 			tmp.flash(color,0.5);
+			this.knockBack();
 		}
+	}
+	,heal: function(amount) {
+		flixel_FlxSprite.prototype.hurt.call(this,-amount);
+	}
+	,knockBack: function() {
+		var facingDirection = this.facing == 16 ? 1 : -1;
+		this.velocity.set_x(600 * -facingDirection);
+		this.velocity.set_y(actors_player_Player.JUMP_VELOCITY / 3);
 	}
 	,kill: function() {
 		this.playerSfx.h[actors_player_Player.DEATH_SOUND].play(true);
-		flixel_FlxG.camera.fade(-16777216,0.5,false,function() {
-			var nextState = new states_GameOverState(false,0);
-			if(flixel_FlxG.game._state.switchTo(nextState)) {
-				flixel_FlxG.game._requestedState = nextState;
-			}
-		});
+		if(this.onDeathEvent != null) {
+			this.onDeathEvent.invoke();
+		}
 		flixel_FlxSprite.prototype.kill.call(this);
 	}
 	,addPowerUp: function(powerUp) {
@@ -10389,9 +10906,7 @@ var environment_BreakableBlock = function(x,y) {
 		x = 0;
 	}
 	environment_Explodable.call(this,x,y);
-	this.loadGraphic("assets/images/Tilesheet.png",true,environment_BreakableBlock.SPRITE_SIZE,environment_BreakableBlock.SPRITE_SIZE);
-	this.animation.add(environment_BreakableBlock.IDLE_ANIMATION,[15],1,false);
-	this.animation.add(environment_BreakableBlock.BREAKING_ANIMATION,[16,17,18],6,false);
+	this.initGraphics();
 	this.set_immovable(true);
 	this.animation.play(environment_BreakableBlock.IDLE_ANIMATION);
 };
@@ -10407,6 +10922,11 @@ environment_BreakableBlock.prototype = $extend(environment_Explodable.prototype,
 		if(this.animation.get_name() == environment_BreakableBlock.BREAKING_ANIMATION && this.animation.get_finished()) {
 			this.kill();
 		}
+	}
+	,initGraphics: function() {
+		this.loadGraphic("assets/images/Tilesheet.png",true,environment_BreakableBlock.SPRITE_SIZE,environment_BreakableBlock.SPRITE_SIZE);
+		this.animation.add(environment_BreakableBlock.IDLE_ANIMATION,[15],1,false);
+		this.animation.add(environment_BreakableBlock.BREAKING_ANIMATION,[16,17,18],6,false);
 	}
 	,__class__: environment_BreakableBlock
 });
@@ -10491,12 +11011,25 @@ var environment_LevelGoalBlock = function(x,y) {
 		x = 0;
 	}
 	environment_BreakableBlock.call(this,x,y);
+	this.set_visible(false);
+	this.set_active(false);
+	this.set_allowCollisions(0);
 };
 $hxClasses["environment.LevelGoalBlock"] = environment_LevelGoalBlock;
 environment_LevelGoalBlock.__name__ = "environment.LevelGoalBlock";
 environment_LevelGoalBlock.__super__ = environment_BreakableBlock;
 environment_LevelGoalBlock.prototype = $extend(environment_BreakableBlock.prototype,{
-	__class__: environment_LevelGoalBlock
+	activate: function() {
+		this.set_visible(true);
+		this.set_active(true);
+		this.set_allowCollisions(4369);
+	}
+	,initGraphics: function() {
+		this.loadGraphic("assets/images/Tilesheet.png",true,environment_BreakableBlock.SPRITE_SIZE,environment_BreakableBlock.SPRITE_SIZE);
+		this.animation.add(environment_BreakableBlock.IDLE_ANIMATION,[19],1,false);
+		this.animation.add(environment_BreakableBlock.BREAKING_ANIMATION,[20,21,22],6,false);
+	}
+	,__class__: environment_LevelGoalBlock
 });
 var environment_Spike = function(x,y) {
 	if(y == null) {
@@ -59209,9 +59742,52 @@ items_Bullet.prototype = $extend(flixel_FlxSprite.prototype,{
 		}
 	}
 	,fire: function() {
+		this.set_angle(0);
 		if(this.direction != 0) {
 			this.velocity.set(this.speed * this.direction,0);
 		}
+	}
+	,fireAngle: function(angle) {
+		var x = this.direction;
+		var y = 0;
+		if(y == null) {
+			y = 0;
+		}
+		if(x == null) {
+			x = 0;
+		}
+		var X = x;
+		var Y = y;
+		if(Y == null) {
+			Y = 0;
+		}
+		if(X == null) {
+			X = 0;
+		}
+		var X1 = X;
+		var Y1 = Y;
+		if(Y1 == null) {
+			Y1 = 0;
+		}
+		if(X1 == null) {
+			X1 = 0;
+		}
+		var point = flixel_math_FlxPoint._pool.get().set(X1,Y1);
+		point._inPool = false;
+		var point1 = point;
+		point1._weak = true;
+		var directionVector = point1;
+		var rads = angle * (Math.PI / 180);
+		var s = Math.sin(rads);
+		var c = Math.cos(rads);
+		var tempX = directionVector.x;
+		directionVector.set_x(tempX * c - directionVector.y * s);
+		directionVector.set_y(tempX * s + directionVector.y * c);
+		flixel_math_FlxVector.normalize(directionVector);
+		this.set_angle(angle);
+		this.velocity = directionVector.scale(this.speed);
+		this.velocity.set_x(Math.floor(this.velocity.x));
+		this.velocity.set_y(Math.floor(this.velocity.y));
 	}
 	,setParams: function(speed,direction,range,damage) {
 		this.speed = speed;
@@ -59230,9 +59806,15 @@ items_ItemFactory.__name__ = "items.ItemFactory";
 items_ItemFactory.getItemData = function(name) {
 	var data = items_ItemFactory.ITEMS.h[name];
 	if(data == null) {
-		if(name == "tnt") {
+		switch(name) {
+		case "steak":
+			data = new items_ItemData("steak","assets/images/steak_drop.png","Steak restored some health.");
+			items_ItemFactory.ITEMS.h[name] = data;
+			break;
+		case "tnt":
 			data = new items_ItemData("tnt","assets/images/tnt-sprite-sheet.png"," pack(s) of TNT found.");
 			items_ItemFactory.ITEMS.h[name] = data;
+			break;
 		}
 	}
 	return data;
@@ -59325,6 +59907,33 @@ items_PowerUpFactory.getPowerUpData = function(name) {
 	}
 	return data;
 };
+var items_SteakPickup = function(X,Y) {
+	if(Y == null) {
+		Y = 0;
+	}
+	if(X == null) {
+		X = 0;
+	}
+	items_ItemPickup.call(this,X,Y,"steak",1);
+	this.animation.add(items_ItemPickup.IDLE_ANIMATION,[0],1,false);
+};
+$hxClasses["items.SteakPickup"] = items_SteakPickup;
+items_SteakPickup.__name__ = "items.SteakPickup";
+items_SteakPickup.__super__ = items_ItemPickup;
+items_SteakPickup.prototype = $extend(items_ItemPickup.prototype,{
+	pickup: function(player) {
+		player.heal(flixel_FlxG.random.int(10,30));
+		flixel_FlxG.sound.play("assets/sounds/Video-Game-Unlock-Sound-A1-8bit-www.fesliyanstudios.com.ogg",0.5);
+		this.kill();
+	}
+	,update: function(elapsed) {
+		if((this.touching & 4096) > 0) {
+			this.acceleration.set_y(0);
+		}
+		items_ItemPickup.prototype.update.call(this,elapsed);
+	}
+	,__class__: items_SteakPickup
+});
 var items_I_$UsableItem = function() { };
 $hxClasses["items.I_UsableItem"] = items_I_$UsableItem;
 items_I_$UsableItem.__name__ = "items.I_UsableItem";
@@ -74946,7 +75555,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 686504;
+	this.version = 755130;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = "lime.utils.AssetCache";
@@ -117690,6 +118299,29 @@ ui_Hud.prototype = $extend(flixel_group_FlxTypedGroup.prototype,{
 	}
 	,__class__: ui_Hud
 });
+var utilities_DelegateEvent = function() {
+	this.funcs = [];
+};
+$hxClasses["utilities.DelegateEvent"] = utilities_DelegateEvent;
+utilities_DelegateEvent.__name__ = "utilities.DelegateEvent";
+utilities_DelegateEvent.prototype = {
+	funcs: null
+	,add: function(func) {
+		this.funcs.push(func);
+	}
+	,invoke: function() {
+		var _g = 0;
+		var _g1 = this.funcs.length;
+		while(_g < _g1) {
+			var i = _g++;
+			this.funcs[i]();
+		}
+	}
+	,remove: function(func) {
+		HxOverrides.remove(this.funcs,func);
+	}
+	,__class__: utilities_DelegateEvent
+};
 function $getIterator(o) { if( o instanceof Array ) return new haxe_iterators_ArrayIterator(o); else return o.iterator(); }
 function $bind(o,m) { if( m == null ) return null; if( m.__id__ == null ) m.__id__ = $global.$haxeUID++; var f; if( o.hx__closures__ == null ) o.hx__closures__ = {}; else f = o.hx__closures__[m.__id__]; if( f == null ) { f = m.bind(o); o.hx__closures__[m.__id__] = f; } return f; }
 $global.$haxeUID |= 0;
@@ -117794,11 +118426,14 @@ AssetPaths.Outlaw_sprite_sheet__png = "assets/images/Outlaw-sprite-sheet.png";
 AssetPaths.double_jump_icon__png = "assets/images/powerups/double_jump_icon.png";
 AssetPaths.jump_shot_icon__png = "assets/images/powerups/jump_shot_icon.png";
 AssetPaths.sarah_lachise_88vFFj0xXxk_unsplash__jpg = "assets/images/sarah-lachise-88vFFj0xXxk-unsplash.jpg";
+AssetPaths.Sherriff_sprite_sheet__png = "assets/images/Sherriff_sprite_sheet.png";
 AssetPaths.spikes__png = "assets/images/spikes.png";
+AssetPaths.steak_drop__png = "assets/images/steak_drop.png";
 AssetPaths.Tilesheet__png = "assets/images/Tilesheet.png";
 AssetPaths.tnt_sprite_sheet__png = "assets/images/tnt-sprite-sheet.png";
 AssetPaths.TownsPeople_sprite_sheet__png = "assets/images/TownsPeople-sprite-sheet.png";
 AssetPaths.background_ambience__ogg = "assets/music/background_ambience.ogg";
+AssetPaths.boss_defeated_ambience__ogg = "assets/music/boss_defeated_ambience.ogg";
 AssetPaths.boss_fight_ambience__ogg = "assets/music/boss_fight_ambience.ogg";
 AssetPaths.game_over_music__ogg = "assets/music/game_over_music.ogg";
 AssetPaths.menu_music__ogg = "assets/music/menu_music.ogg";
@@ -117819,6 +118454,7 @@ AssetPaths.pain__ogg = "assets/sounds/pain.ogg";
 AssetPaths.Rifle_Reloading_A_www__fesliyanstudios__com__ogg = "assets/sounds/Rifle-Reloading-A-www.fesliyanstudios.com.ogg";
 AssetPaths.rifle_shooting__ogg = "assets/sounds/rifle_shooting.ogg";
 AssetPaths.Running_on_Gravel_www__fesliyanstudios__com__ogg = "assets/sounds/Running-on-Gravel-www.fesliyanstudios.com.ogg";
+AssetPaths.shotgun_shot__ogg = "assets/sounds/shotgun-shot.ogg";
 AssetPaths.sounds_go_here__txt = "assets/sounds/sounds-go-here.txt";
 AssetPaths.Video_Game_Unlock_Sound_A1_8bit_www__fesliyanstudios__com__ogg = "assets/sounds/Video-Game-Unlock-Sound-A1-8bit-www.fesliyanstudios.com.ogg";
 AssetPaths.Walking_on_Gravel__Slow__A2_www__fesliyanstudios__com__ogg = "assets/sounds/Walking-on-Gravel--Slow--A2-www.fesliyanstudios.com.ogg";
@@ -117904,14 +118540,13 @@ flixel_FlxObject._secondSeparateFlxRect = (function($this) {
 actors_enemies_Enemy.SPEED = 40;
 actors_enemies_Enemy.DECELERATION = 700;
 actors_enemies_Enemy.GRAVITY = 400;
-actors_enemies_Enemy.OFFSET_X = 14;
-actors_enemies_Enemy.OFFSET_Y = 12;
 actors_enemies_Enemy.WIDTH = 20;
 actors_enemies_Enemy.HEIGHT = 60;
 actors_enemies_Enemy.SPRITE_SIZE = 48;
 actors_enemies_Enemy.HEALTH_BAR_OFFSET_X = 0;
 actors_enemies_Enemy.HEALTH_BAR_OFFSET_Y = -20;
 actors_enemies_Enemy.TARGETS = [];
+actors_enemies_Enemy.DROPS = new flixel_group_FlxTypedGroup();
 actors_enemies_Enemy.IDLE_ANIMATION = "idle";
 actors_enemies_Enemy.WALK_ANIMATION = "walk";
 actors_enemies_Enemy.HURT_ANIMATION = "hurt";
@@ -117930,6 +118565,22 @@ actors_enemies_RangedVillager.BULLET_SPAWN_OFFSET_Y = 21;
 actors_enemies_RangedVillager.BULLET_SPEED = 150;
 actors_enemies_RangedVillager.BULLET_RANGE = 400;
 actors_enemies_RangedVillager.BULLET_DAMAGE = 10;
+actors_enemies_boss_Boss.WIDTH = 20;
+actors_enemies_boss_Boss.HEIGHT = 60;
+actors_enemies_boss_Boss.SPRITE_SIZE = 48;
+actors_enemies_boss_Boss.SPEED = 80;
+actors_enemies_boss_Boss.CHARGE_SPEED = 170;
+actors_enemies_boss_Boss.JUMP_VELOCITY = -275;
+actors_enemies_boss_Boss.MAX_Y_SPEED = 300;
+actors_enemies_boss_Boss.GRAVITY = 450;
+actors_enemies_boss_Boss.INVINCIBLE_TIME = 1;
+actors_enemies_boss_Boss.BULLET_SPAWN_OFFSET_X = -5;
+actors_enemies_boss_Boss.BULLET_SPAWN_OFFSET_Y = 21;
+actors_enemies_boss_Boss.BULLET_SPEED = 150;
+actors_enemies_boss_Boss.RANGED_ATTACK = "rangedAttack";
+actors_enemies_boss_Boss.MELEE_ATTACK = "meleeAttack";
+actors_enemies_boss_Boss.IDLE = "idle";
+actors_enemies_boss_Boss.WALK = "walk";
 actors_enemies_stats_StatFactory.STATS = new haxe_ds_StringMap();
 actors_player_Player.HIT_BOX_WIDTH = 22;
 actors_player_Player.HIT_BOX_HEIGHT = 60;
