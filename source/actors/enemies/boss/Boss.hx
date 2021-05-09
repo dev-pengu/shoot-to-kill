@@ -75,8 +75,9 @@ class Boss extends Enemy {
     private function buildAnimations():Void {
 		animation.add(IDLE, [0], 1, false);
 		animation.add(WALK, [1, 2, 3, 1, 4, 5], 6);
-		animation.add(RANGED_ATTACK, [0, 15, 16, 17, 18], 15, false);
-		animation.add(MELEE_ATTACK, [1, 2, 3, 1, 4, 5], 8);
+		animation.add(RANGED_ATTACK, [0, 6, 7, 8], 15, false);
+		animation.add(MELEE_ATTACK, [1, 2, 3, 1, 4, 5], 10);
+        animation.add(Enemy.HURT_ANIMATION, [0, 9, 10, 9, 0], 6, false);
     }
 
     public function activate():Void {
@@ -101,8 +102,15 @@ class Boss extends Enemy {
 
     override public function hurt(damage:Float) {
         if (!isInvincible) {
+            knockBack();
             super.hurt(damage);
         }
+    }
+
+    private function knockBack():Void {
+		var facingDirection:Int = this.facing == FlxObject.RIGHT ? 1 : -1;
+		velocity.x = 5 * -facingDirection;
+		velocity.y = JUMP_VELOCITY / 4;
     }
 
     override public function attack():Void { }

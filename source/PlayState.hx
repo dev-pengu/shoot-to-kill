@@ -271,7 +271,7 @@ class PlayState extends FlxState
 		} else if (entityData.name == "boss-path-trigger") {
 			bossWayPointsTemp.push(new FlxPoint(entityData.x - entityData.originX, entityData.y - entityData.originY));
 		} else if (entityData.name == "boss") {
-			boss = new Boss(entityData.x - entityData.originX, entityData.y - entityData.originY, AssetPaths.Outlaw_sprite_sheet__png, player, "boss01", 22, 60, 48);
+			boss = new Boss(entityData.x - entityData.originX, entityData.y - entityData.originY, AssetPaths.Sherriff_sprite_sheet__png, player, "boss01", 22, 60, 48);
 			enemies.add(boss);
 		} else if (entityData.name == "boss-battle-trigger") {
 			bossBattleTrigger = new HitBox(entityData.x - entityData.originX, entityData.y - entityData.originY, 32, 96);
