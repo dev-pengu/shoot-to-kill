@@ -893,7 +893,7 @@ ApplicationMain.main = function() {
 ApplicationMain.create = function(config) {
 	var app = new openfl_display_Application();
 	ManifestResources.init(config);
-	app.meta.h["build"] = "58";
+	app.meta.h["build"] = "68";
 	app.meta.h["company"] = "HaxeFlixel";
 	app.meta.h["file"] = "shoot-to-kill";
 	app.meta.h["name"] = "shoot-to-kill";
@@ -5751,6 +5751,7 @@ PlayState.prototype = $extend(flixel_FlxState.prototype,{
 		this.levelLoader.loadEntities($bind(this,this.placeEntities),"entities");
 		actors_player_Player.OBSTRUCTIONS = actors_enemies_Enemy.OBSTRUCTIONS = this.map;
 		items_Tnt.EXPLODABLES = this.allExplodables;
+		items_Tnt.ENEMIES = this.enemies;
 		var _g = 0;
 		var _g1 = this.bossWayPointsTemp.length;
 		while(_g < _g1) {
@@ -59992,6 +59993,7 @@ var items_Tnt = function(X,Y) {
 $hxClasses["items.Tnt"] = items_Tnt;
 items_Tnt.__name__ = "items.Tnt";
 items_Tnt.__interfaces__ = [items_I_$UsableItem];
+items_Tnt.ENEMIES = null;
 items_Tnt.__super__ = flixel_FlxSprite;
 items_Tnt.prototype = $extend(flixel_FlxSprite.prototype,{
 	data: null
@@ -60011,7 +60013,7 @@ items_Tnt.prototype = $extend(flixel_FlxSprite.prototype,{
 			this.explode();
 		}
 		if(this.animation.get_name() == items_Tnt.EXPLODE_ANIMATION && this.animation.get_finished()) {
-			haxe_Log.trace("i should be disappearing now",{ fileName : "source/items/Tnt.hx", lineNumber : 61, className : "items.Tnt", methodName : "update"});
+			haxe_Log.trace("i should be disappearing now",{ fileName : "source/items/Tnt.hx", lineNumber : 65, className : "items.Tnt", methodName : "update"});
 			this.kill();
 		}
 	}
@@ -60022,7 +60024,11 @@ items_Tnt.prototype = $extend(flixel_FlxSprite.prototype,{
 		this.explosionTimer = 2;
 		this.ignited = true;
 		this.owner.tntCount--;
-		this.set_y(this.owner.y + actors_player_Player.BULLET_SPAWN_OFFSET_Y + 4);
+		if(this.owner.get_height() == actors_player_Player.CROUCH_HEIGHT) {
+			this.set_y(this.owner.y + 4);
+		} else {
+			this.set_y(this.owner.y + actors_player_Player.BULLET_SPAWN_OFFSET_Y + 4);
+		}
 		this.set_x(this.owner.x);
 		this.set_width(items_Tnt.WIDTH);
 		this.set_height(items_Tnt.HEIGHT);
@@ -60036,6 +60042,9 @@ items_Tnt.prototype = $extend(flixel_FlxSprite.prototype,{
 		flixel_FlxG.sound.play("assets/sounds/explosion.ogg",0.25,false);
 		flixel_FlxG.overlap(this.hitBox,items_Tnt.EXPLODABLES,function(tnt,explodable) {
 			explodable.explode();
+		});
+		flixel_FlxG.overlap(this.hitBox,items_Tnt.ENEMIES,function(tnt,enemy) {
+			enemy.hurt(items_Tnt.DAMAGE_TO_ENEMIES);
 		});
 	}
 	,__class__: items_Tnt
@@ -75584,7 +75593,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 705006;
+	this.version = 595840;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = "lime.utils.AssetCache";
@@ -119813,6 +119822,7 @@ items_Tnt.GRAVITY = 400;
 items_Tnt.WIDTH = 20;
 items_Tnt.HEIGHT = 20;
 items_Tnt.SPRITE_SIZE = 32;
+items_Tnt.DAMAGE_TO_ENEMIES = 8;
 lime__$internal_backend_html5_HTML5HTTPRequest.OPTION_REVOKE_URL = 1;
 lime__$internal_backend_html5_HTML5HTTPRequest.activeRequests = 0;
 lime__$internal_backend_html5_HTML5HTTPRequest.requestLimit = 17;
