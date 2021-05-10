@@ -1,4 +1,4 @@
-# shoot-to-kill
+# Shoot To Kill
 This is a 2D platformer game created by Lippelman515 / Matt L., a student at Missouri State University.
 
 The main purpose of this project was to learn [HaxeFlixel](http://www.haxeflixel.com) and make a playable game.
