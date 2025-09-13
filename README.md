@@ -1,5 +1,5 @@
 # Shoot To Kill
-This is a 2D platformer game created by Lippelman515 / Matt L., a student at Missouri State University.
+This is a 2D platformer game created by dev-pengu / Matt L., a student at Missouri State University.
 
 The main purpose of this project was to learn [HaxeFlixel](http://www.haxeflixel.com) and make a playable game.
 
@@ -9,7 +9,7 @@ Shoot to Kill is a 2D platformer with a Western setting. The player plays as an 
 
 ![Shoot To Kill Screenshot](/screenshots/gameplay.png?raw=true)
 
-Version 1.0 - [Try Me!](https://lippelman515.github.io/shoot-to-kill/)
+Version 1.0 - [Try Me!](https://dev-pengu.github.io/shoot-to-kill)
 
 ## Getting Started
 
@@ -89,4 +89,4 @@ If player health reaches 0, a Game Over window will appear and the option is giv
 
 ## Attributions
 * Sound Effects and Music were attained through [FesliyanStudios](https://www.fesliyanstudios.com).
-* Graphics were produced by Lippelman515.
+* Graphics were produced by dev-pengu.
